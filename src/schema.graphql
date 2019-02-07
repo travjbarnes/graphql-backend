@@ -1,0 +1,65 @@
+type Query {
+  groups: [Group]
+  group(id: ID!): Group
+  me: Person
+}
+
+type Mutation {
+  signup(email: String!, password: String!, name: String!): AuthPayload!
+  login(email: String!, password: String!): AuthPayload!
+
+  createGroup(name: String!, description: String): Group!
+  joinGroup(groupId: ID!): JoinGroupResponse!
+  leaveGroup(groupId: ID!): MutationResponse!
+
+  createThread(groupId: ID!, title: String!, content: String!): Thread!
+  editThread(threadId: ID!, title: String, content: String): Thread!
+  deleteThread(threadId: ID!): MutationResponse!
+
+  createPost(threadId: ID!, content: String!): Post!
+  editPost(postId: ID!, content: String!): Post!
+  deletePost(postId: ID!): MutationResponse!
+}
+
+type Person {
+    id: ID!
+    name: String!
+    email: String!
+    groups: [Group!]!
+}
+
+type Group {
+    id: ID!
+    name: String!
+    description: String
+    members: [Person!]!
+    threads: [Thread!]!
+}
+
+type Thread {
+    id: ID!
+    title: String!
+    posts: [Post!]!
+}
+
+type Post {
+    id: ID!
+    author: Person!
+    content: String!
+}
+
+type JoinGroupResponse implements MutationResponse {
+    success: Boolean!
+    message: String
+    group: Group!
+}
+
+interface MutationResponse {
+    success: Boolean!
+    message: String
+}
+
+type AuthPayload {
+  token: String!
+  user: User!
+}
