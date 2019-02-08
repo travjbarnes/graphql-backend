@@ -1,17 +1,21 @@
 import { Query } from './Query'
-import { Subscription } from './Subscription'
-import { auth } from './Mutation/auth'
-import { post } from './Mutation/post'
-import { User } from './User'
+import { Mutation } from './Mutation'
+import { Person } from './Person'
+import { Group } from './Group'
+import { Thread } from './Thread'
 import { Post } from './Post'
+import {AuthPayload} from './AuthPayload'
+import {DeletionResponse} from './DeletionResponse'
+import { Resolvers } from '../generated/graphqlgen';
 
-export default {
+const resolvers: Resolvers = {
   Query,
-  Mutation: {
-    ...auth,
-    ...post,
-  },
-  Subscription,
-  User,
+  Mutation,
+  Person,
+  Group,
+  Thread,
   Post,
+  AuthPayload,
+  DeletionResponse
 }
+export default resolvers;

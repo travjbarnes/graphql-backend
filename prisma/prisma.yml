@@ -1,5 +1,6 @@
 # Specifies the HTTP endpoint of your Prisma API (deployed to a Prisma Demo server).
-endpoint: https://eu1.prisma.sh/public-bluesage-988/graphql-backend/dev
+# endpoint: https://eu1.prisma.sh/public-bluesage-988/graphql-backend/dev
+endpoint: https://eu1.prisma.sh/tao-bojlen/hello-world/dev
 
 # Defines your models, each model is mapped to the database as a table.
 datamodel: datamodel.prisma

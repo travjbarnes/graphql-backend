@@ -1,43 +1,76 @@
-import { getUserId, Context } from '../../utils'
+import { getPersonId, AuthError } from '../../utils';
+import { MutationResolvers } from '../../generated/graphqlgen';
 
-export const post = {
-  async createDraft(parent, { title, content }, ctx: Context, info) {
-    const userId = getUserId(ctx)
+export const post: Pick<MutationResolvers.Type, "createPost" | "editPost" | "deletePost"> = {
+  createPost: async (parent, {threadId, content }, ctx, info) => {
+    const userId = getPersonId(ctx)
+    const isGroupMember = await ctx.prisma.$exists.group({
+        members_some: {
+            id: userId
+        },
+        threads_some: {
+            id: threadId
+        }
+    })
+    if (!isGroupMember) {
+        throw new AuthError()
+    }
+
     return ctx.prisma.createPost({
-      title,
       content,
       author: {
-        connect: { id: userId },
+        connect: {
+          id: userId
+        }
       },
+      thread: {
+        connect: {
+          id: threadId
+        }
+      }
     })
   },
 
-  async publish(parent, { id }, ctx: Context, info) {
-    const userId = getUserId(ctx)
-    const postExists = await ctx.prisma.$exists.post({
-      id,
-      author: { id: userId },
+  editPost: async (parent, {postId, content}, ctx, info) => {
+    const userId = getPersonId(ctx)
+    const isAuthor = await ctx.prisma.$exists.post({
+      id: postId,
+      author: {
+        id: userId
+      }
     })
-    if (!postExists) {
-      throw new Error(`Post not found or you're not the author`)
+    if (!isAuthor) {
+      throw new AuthError()
     }
-
-    return ctx.prisma.updatePost({
-      where: { id },
-      data: { published: true },
+    return await ctx.prisma.updatePost({
+      where: {
+        id: postId
+      },
+      data: {
+        content
+      }
     })
   },
 
-  async deletePost(parent, { id }, ctx: Context, info) {
-    const userId = getUserId(ctx)
-    const postExists = await ctx.prisma.$exists.post({
-      id,
-      author: { id: userId },
+  deletePost: async (parent, {postId}, ctx, info) => {
+    const userId = getPersonId(ctx)
+    const isAuthor = await ctx.prisma.$exists.post({
+      id: postId,
+      author: {
+        id: userId
+      }
     })
-    if (!postExists) {
-      throw new Error(`Post not found or you're not the author`)
+    if (!isAuthor) {
+      throw new AuthError()
     }
+    const post = await ctx.prisma.deletePost({
+      id: postId
+    })
 
-    return ctx.prisma.deletePost({ id })
-  },
+    return {
+      id: postId,
+      success: true,
+      message: `Successfully deleted post`
+    }
+  }
 }

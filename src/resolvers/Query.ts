@@ -1,29 +1,17 @@
-import { getUserId, Context } from '../utils'
+import { getPersonId } from '../utils'
+import { QueryResolvers } from '../generated/graphqlgen';
 
-export const Query = {
-  feed(parent, args, ctx: Context) {
-    return ctx.prisma.posts({ where: { published: true } })
+export const Query: QueryResolvers.Type = {
+  ...QueryResolvers.defaultResolvers,
+  groups: (parent, args, ctx) => {
+    const id = getPersonId(ctx)
+    return ctx.prisma.person({id}).groups()
   },
-
-  drafts(parent, args, ctx: Context) {
-    const id = getUserId(ctx)
-
-    const where = {
-      published: false,
-      author: {
-        id,
-      },
-    }
-
-    return ctx.prisma.posts({ where })
+  group: (parent, {id}, ctx) => {
+    return ctx.prisma.group({id})
   },
-
-  post(parent, { id }, ctx: Context) {
-    return ctx.prisma.post({ id })
-  },
-
-  me(parent, args, ctx: Context) {
-    const id = getUserId(ctx)
-    return ctx.prisma.user({ id })
-  },
+  me: (parent, args, ctx) => {
+    const id = getPersonId(ctx)
+    return ctx.prisma.person({ id })
+  }
 }

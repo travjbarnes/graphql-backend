@@ -1,17 +1,33 @@
-type Post {
-  id: ID! @unique
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  published: Boolean! @default(value: "false")
-  title: String!
-  content: String!
-  author: User!
+type Person {
+    id: ID! @unique
+    email: String! @unique
+    createdAt: DateTime!
+    password: String!
+    name: String!
+    groups: [Group!]
 }
 
-type User {
-  id: ID! @unique
-  email: String! @unique
-  password: String!
-  name: String!
-  posts: [Post!]!
+type Group {
+    id: ID! @unique
+    name: String! @unique
+    createdAt: DateTime!
+    description: String
+    members: [Person!]
+    threads: [Thread!]
+}
+
+type Thread {
+    id: ID! @unique
+    createdAt: DateTime!
+    title: String!
+    posts: [Post!]!
+    group: Group!
+}
+
+type Post {
+    id: ID! @unique
+    createdAt: DateTime!
+    author: Person!
+    content: String!
+    thread: Thread!
 }

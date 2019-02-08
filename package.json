@@ -17,6 +17,7 @@
     "@types/bcryptjs": "2.4.2",
     "@types/node": "10.12.21",
     "dotenv-cli": "1.4.0",
+    "graphqlgen": "^0.6.0-rc6",
     "nodemon": "1.18.9",
     "prisma": "1.26.3",
     "rimraf": "2.6.3",

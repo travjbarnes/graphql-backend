@@ -1,7 +1,11 @@
-import { Context } from '../utils'
+import { PostResolvers } from "../generated/graphqlgen";
 
-export const Post = {
-  author: ({ id }, args, ctx: Context) => {
-    return ctx.prisma.post({ id }).author()
-  },
+export const Post: PostResolvers.Type = {
+  ...PostResolvers.defaultResolvers,
+  author: (parent, args, ctx) => ctx.prisma.post({
+    id: parent.id
+  }).author(),
+  thread: (parent, args, ctx) => ctx.prisma.post({
+    id: parent.id
+  }).thread()
 }

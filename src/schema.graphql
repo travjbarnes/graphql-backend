@@ -9,57 +9,60 @@ type Mutation {
   login(email: String!, password: String!): AuthPayload!
 
   createGroup(name: String!, description: String): Group!
-  joinGroup(groupId: ID!): JoinGroupResponse!
-  leaveGroup(groupId: ID!): MutationResponse!
+  joinGroup(groupId: ID!): Group!
+  leaveGroup(groupId: ID!): DeletionResponse!
 
   createThread(groupId: ID!, title: String!, content: String!): Thread!
-  editThread(threadId: ID!, title: String, content: String): Thread!
-  deleteThread(threadId: ID!): MutationResponse!
+  editThread(threadId: ID!, title: String): Thread!
+  deleteThread(threadId: ID!): DeletionResponse!
 
   createPost(threadId: ID!, content: String!): Post!
   editPost(postId: ID!, content: String!): Post!
-  deletePost(postId: ID!): MutationResponse!
+  deletePost(postId: ID!): DeletionResponse!
 }
 
 type Person {
     id: ID!
+    createdAt: DateTime!
     name: String!
     email: String!
-    groups: [Group!]!
+    groups: [Group!]
 }
 
 type Group {
     id: ID!
+    createdAt: DateTime!
     name: String!
     description: String
-    members: [Person!]!
-    threads: [Thread!]!
+    members: [Person!]
+    threads: [Thread!]
 }
 
 type Thread {
     id: ID!
+    createdAt: DateTime!
     title: String!
     posts: [Post!]!
+    group: Group!
 }
 
 type Post {
     id: ID!
+    createdAt: DateTime!
     author: Person!
     content: String!
+    thread: Thread!
 }
 
-type JoinGroupResponse implements MutationResponse {
-    success: Boolean!
-    message: String
-    group: Group!
-}
-
-interface MutationResponse {
+type DeletionResponse {
+    id: ID!
     success: Boolean!
     message: String
 }
 
 type AuthPayload {
   token: String!
-  user: User!
+  person: Person!
 }
+
+scalar DateTime
