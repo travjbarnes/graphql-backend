@@ -9,6 +9,6 @@
     "lib": [
       "esnext", "dom"
     ],
-    // "strict": true
+    "strict": true
   }
 }

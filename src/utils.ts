@@ -3,9 +3,9 @@ import { Context } from 'graphql-yoga/dist/types';
 
 export function getPersonId(ctx: Context) {
   const Authorization = ctx.request.get('Authorization')
-  if (Authorization) {
-    const token = Authorization.replace('Bearer ', '')
-    const { userId: personId } = jwt.verify(token, process.env.APP_SECRET) as { userId: string }
+  if (Authorization && process.env.APP_SECRET) {
+    const token: string = Authorization.replace('Bearer ', '')
+    const { personId } = jwt.verify(token, process.env.APP_SECRET) as { personId: string }
     return personId
   }
 

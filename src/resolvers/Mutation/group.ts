@@ -7,7 +7,7 @@ export const group: Pick <MutationResolvers.Type, "createGroup" | "joinGroup" | 
     const userId = getPersonId(ctx)
     return ctx.prisma.createGroup({
       name,
-      description,
+      description: description as string | undefined,
       members: {
         connect: {id: userId}
       }

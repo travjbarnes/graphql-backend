@@ -36,7 +36,7 @@ export const thread: Pick<MutationResolvers.Type, "createThread" | "editThread" 
         id: threadId
       },
       data: {
-        title
+        title: title as string | undefined
       }
     })
   },

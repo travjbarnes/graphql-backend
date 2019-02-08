@@ -7,8 +7,12 @@ export const auth: Pick<MutationResolvers.Type, "signup" | "login"> = {
     const password = await bcrypt.hash(args.password, 10)
     const person = await ctx.prisma.createPerson({ ...args, password })
 
+    if (!process.env.APP_SECRET) {
+      throw new Error("Server error")
+    }
+
     return {
-      token: jwt.sign({ userId: person.id }, process.env.APP_SECRET),
+      token: jwt.sign({ personId: person.id }, process.env.APP_SECRET),
       person,
     }
   },
@@ -22,6 +26,10 @@ export const auth: Pick<MutationResolvers.Type, "signup" | "login"> = {
     const valid = await bcrypt.compare(password, person.password)
     if (!valid) {
       throw new Error('Invalid password')
+    }
+
+    if (!process.env.APP_SECRET) {
+      throw new Error("Server error")
     }
 
     return {
