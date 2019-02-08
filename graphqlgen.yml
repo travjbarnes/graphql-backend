@@ -1,6 +1,6 @@
 language: typescript
 schema: ./src/schema.graphql
-context: ./src/types.ts:Context
+context: ./src/types.ts:IContext
 output: ./src/generated/graphqlgen.ts
 models:
   files:

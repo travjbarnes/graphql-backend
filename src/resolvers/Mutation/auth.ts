@@ -1,40 +1,41 @@
-import * as bcrypt from 'bcryptjs'
-import * as jwt from 'jsonwebtoken'
-import { MutationResolvers } from '../../generated/graphqlgen';
+import * as bcrypt from "bcryptjs";
+import * as jwt from "jsonwebtoken";
+
+import { MutationResolvers } from "../../generated/graphqlgen";
 
 export const auth: Pick<MutationResolvers.Type, "signup" | "login"> = {
   signup: async (parent, args, ctx) => {
-    const password = await bcrypt.hash(args.password, 10)
-    const person = await ctx.prisma.createPerson({ ...args, password })
+    const password = await bcrypt.hash(args.password, 10);
+    const person = await ctx.prisma.createPerson({ ...args, password });
 
     if (!process.env.APP_SECRET) {
-      throw new Error("Server error")
+      throw new Error("Server error");
     }
 
     return {
       token: jwt.sign({ personId: person.id }, process.env.APP_SECRET),
-      person,
-    }
+      person
+    };
   },
 
   login: async (parent, { email, password }, ctx) => {
-    const person = await ctx.prisma.person({ email })
+    const person = await ctx.prisma.person({ email });
     if (!person) {
-      throw new Error(`No such user found for email: ${email}`)
+      throw new Error(`No such user found for email: ${email}`);
     }
 
-    const valid = await bcrypt.compare(password, person.password)
+    const valid = await bcrypt.compare(password, person.password);
     if (!valid) {
-      throw new Error('Invalid password')
+      throw new Error("Invalid password");
     }
 
     if (!process.env.APP_SECRET) {
-      throw new Error("Server error")
+      throw new Error("Server error");
     }
 
     return {
       token: jwt.sign({ userId: person.id }, process.env.APP_SECRET),
-      person,
-    }
-  },
-}
+      person
+    };
+  }
+};

@@ -1,17 +1,19 @@
-import { Prisma, Person } from "./generated/prisma-client";
+import { Person, Prisma } from "./generated/prisma-client";
 
-export interface Context {
-  prisma: Prisma
-  request: any
+export interface IContext {
+  prisma: Prisma;
+  request: any;
 }
 
+// tslint:disable-next-line:interface-name
 export interface AuthPayload {
-  token: string
-  person: Person
+  token: string;
+  person: Person;
 }
 
+// tslint:disable-next-line:interface-name
 export interface DeletionResponse {
-  id: string
-  success: boolean
-  message: string | null
+  id: string;
+  success: boolean;
+  message: string | null;
 }

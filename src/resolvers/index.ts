@@ -1,12 +1,13 @@
-import { Query } from './Query'
-import { Mutation } from './Mutation'
-import { Person } from './Person'
-import { Group } from './Group'
-import { Thread } from './Thread'
-import { Post } from './Post'
-import {AuthPayload} from './AuthPayload'
-import {DeletionResponse} from './DeletionResponse'
-import { Resolvers } from '../generated/graphqlgen';
+import { Resolvers } from "../generated/graphqlgen";
+
+import { AuthPayload } from "./AuthPayload";
+import { DeletionResponse } from "./DeletionResponse";
+import { Group } from "./Group";
+import { Mutation } from "./Mutation";
+import { Person } from "./Person";
+import { Post } from "./Post";
+import { Query } from "./Query";
+import { Thread } from "./Thread";
 
 const resolvers: Resolvers = {
   Query,
@@ -17,5 +18,5 @@ const resolvers: Resolvers = {
   Post,
   AuthPayload,
   DeletionResponse
-}
+};
 export default resolvers;

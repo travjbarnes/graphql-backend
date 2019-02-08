@@ -1,5 +1,5 @@
-import { DeletionResponseResolvers} from "../generated/graphqlgen"
+import { DeletionResponseResolvers } from "../generated/graphqlgen";
 
-export const DeletionResponse​​: DeletionResponseResolvers.Type = {
-    ...DeletionResponseResolvers.defaultResolvers
-}
+export const DeletionResponse: DeletionResponseResolvers.Type = {
+  ...DeletionResponseResolvers.defaultResolvers
+};
