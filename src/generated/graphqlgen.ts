@@ -887,6 +887,12 @@ export namespace MutationResolvers {
     password: string;
   }
 
+  export interface ArgsUpdatePerson {
+    email?: string | null;
+    password?: string | null;
+    name?: string | null;
+  }
+
   export interface ArgsCreateGroup {
     name: string;
     description?: string | null;
@@ -961,6 +967,23 @@ export namespace MutationResolvers {
           ctx: IContext,
           info: GraphQLResolveInfo
         ) => AuthPayload | Promise<AuthPayload>;
+      };
+
+  export type UpdatePersonResolver =
+    | ((
+        parent: undefined,
+        args: ArgsUpdatePerson,
+        ctx: IContext,
+        info: GraphQLResolveInfo
+      ) => Person | Promise<Person>)
+    | {
+        fragment: string;
+        resolve: (
+          parent: undefined,
+          args: ArgsUpdatePerson,
+          ctx: IContext,
+          info: GraphQLResolveInfo
+        ) => Person | Promise<Person>;
       };
 
   export type CreateGroupResolver =
@@ -1149,6 +1172,23 @@ export namespace MutationResolvers {
             ctx: IContext,
             info: GraphQLResolveInfo
           ) => AuthPayload | Promise<AuthPayload>;
+        };
+
+    updatePerson:
+      | ((
+          parent: undefined,
+          args: ArgsUpdatePerson,
+          ctx: IContext,
+          info: GraphQLResolveInfo
+        ) => Person | Promise<Person>)
+      | {
+          fragment: string;
+          resolve: (
+            parent: undefined,
+            args: ArgsUpdatePerson,
+            ctx: IContext,
+            info: GraphQLResolveInfo
+          ) => Person | Promise<Person>;
         };
 
     createGroup:

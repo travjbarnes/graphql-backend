@@ -6,10 +6,10 @@ export const post: Pick<
   "createPost" | "editPost" | "deletePost"
 > = {
   createPost: async (parent, { threadId, content }, ctx, info) => {
-    const userId = getPersonId(ctx);
+    const personId = getPersonId(ctx);
     const isGroupMember = await ctx.prisma.$exists.group({
       members_some: {
-        id: userId
+        id: personId
       },
       threads_some: {
         id: threadId
@@ -23,7 +23,7 @@ export const post: Pick<
       content,
       author: {
         connect: {
-          id: userId
+          id: personId
         }
       },
       thread: {
@@ -35,11 +35,11 @@ export const post: Pick<
   },
 
   editPost: async (parent, { postId, content }, ctx, info) => {
-    const userId = getPersonId(ctx);
+    const personId = getPersonId(ctx);
     const isAuthor = await ctx.prisma.$exists.post({
       id: postId,
       author: {
-        id: userId
+        id: personId
       }
     });
     if (!isAuthor) {
@@ -56,11 +56,11 @@ export const post: Pick<
   },
 
   deletePost: async (parent, { postId }, ctx, info) => {
-    const userId = getPersonId(ctx);
+    const personId = getPersonId(ctx);
     const isAuthor = await ctx.prisma.$exists.post({
       id: postId,
       author: {
-        id: userId
+        id: personId
       }
     });
     if (!isAuthor) {

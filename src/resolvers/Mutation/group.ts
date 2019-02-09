@@ -6,22 +6,22 @@ export const group: Pick<
   "createGroup" | "joinGroup" | "leaveGroup"
 > = {
   createGroup: (parent, { name, description }, ctx, info) => {
-    const userId = getPersonId(ctx);
+    const personId = getPersonId(ctx);
     return ctx.prisma.createGroup({
       name,
       description: description as string | undefined,
       members: {
-        connect: { id: userId }
+        connect: { id: personId }
       }
     });
   },
 
   joinGroup: (parent, { groupId }, ctx, info) => {
-    const userId = getPersonId(ctx);
+    const personId = getPersonId(ctx);
     return ctx.prisma.updateGroup({
       data: {
         members: {
-          connect: { id: userId }
+          connect: { id: personId }
         }
       },
       where: {
@@ -31,7 +31,7 @@ export const group: Pick<
   },
 
   leaveGroup: async (parent, { groupId }, ctx, info) => {
-    const userId = getPersonId(ctx);
+    const personId = getPersonId(ctx);
     checkGroupMembership(ctx, groupId);
 
     const leftGroup = await ctx.prisma.updateGroup({
@@ -39,7 +39,7 @@ export const group: Pick<
       data: {
         members: {
           disconnect: {
-            id: userId
+            id: personId
           }
         }
       }

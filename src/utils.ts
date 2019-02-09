@@ -1,3 +1,4 @@
+import * as bcrypt from "bcryptjs";
 import { Context } from "graphql-yoga/dist/types";
 import * as jwt from "jsonwebtoken";
 
@@ -22,16 +23,22 @@ export async function checkGroupMembership(
   ctx: Context,
   groupId: string
 ): Promise<void> {
-  const userId = getPersonId(ctx);
+  const personId = getPersonId(ctx);
   const isMember = await ctx.prisma.$exists.group({
     id: groupId,
     members_some: {
-      id: userId
+      id: personId
     }
   });
   if (!isMember) {
     throw new AuthError();
   }
+}
+
+export async function getPasswordHash(password: string) {
+  // Auto-generates a salt, then hashes it with the password.
+  // bcrypt is made specifically for password hashing.
+  return await bcrypt.hash(password, 10);
 }
 
 export class AuthError extends Error {

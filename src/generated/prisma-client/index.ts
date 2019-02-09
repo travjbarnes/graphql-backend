@@ -40,81 +40,97 @@ export interface Prisma {
    */
 
   group: (where: GroupWhereUniqueInput) => GroupPromise;
-  groups: (args?: {
-    where?: GroupWhereInput;
-    orderBy?: GroupOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => FragmentableArray<Group>;
-  groupsConnection: (args?: {
-    where?: GroupWhereInput;
-    orderBy?: GroupOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => GroupConnectionPromise;
+  groups: (
+    args?: {
+      where?: GroupWhereInput;
+      orderBy?: GroupOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<Group>;
+  groupsConnection: (
+    args?: {
+      where?: GroupWhereInput;
+      orderBy?: GroupOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => GroupConnectionPromise;
   person: (where: PersonWhereUniqueInput) => PersonPromise;
-  persons: (args?: {
-    where?: PersonWhereInput;
-    orderBy?: PersonOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => FragmentableArray<Person>;
-  personsConnection: (args?: {
-    where?: PersonWhereInput;
-    orderBy?: PersonOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => PersonConnectionPromise;
+  persons: (
+    args?: {
+      where?: PersonWhereInput;
+      orderBy?: PersonOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<Person>;
+  personsConnection: (
+    args?: {
+      where?: PersonWhereInput;
+      orderBy?: PersonOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => PersonConnectionPromise;
   post: (where: PostWhereUniqueInput) => PostPromise;
-  posts: (args?: {
-    where?: PostWhereInput;
-    orderBy?: PostOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => FragmentableArray<Post>;
-  postsConnection: (args?: {
-    where?: PostWhereInput;
-    orderBy?: PostOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => PostConnectionPromise;
+  posts: (
+    args?: {
+      where?: PostWhereInput;
+      orderBy?: PostOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<Post>;
+  postsConnection: (
+    args?: {
+      where?: PostWhereInput;
+      orderBy?: PostOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => PostConnectionPromise;
   thread: (where: ThreadWhereUniqueInput) => ThreadPromise;
-  threads: (args?: {
-    where?: ThreadWhereInput;
-    orderBy?: ThreadOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => FragmentableArray<Thread>;
-  threadsConnection: (args?: {
-    where?: ThreadWhereInput;
-    orderBy?: ThreadOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => ThreadConnectionPromise;
+  threads: (
+    args?: {
+      where?: ThreadWhereInput;
+      orderBy?: ThreadOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<Thread>;
+  threadsConnection: (
+    args?: {
+      where?: ThreadWhereInput;
+      orderBy?: ThreadOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => ThreadConnectionPromise;
   node: (args: { id: ID_Output }) => Node;
 
   /**
@@ -122,67 +138,67 @@ export interface Prisma {
    */
 
   createGroup: (data: GroupCreateInput) => GroupPromise;
-  updateGroup: (args: {
-    data: GroupUpdateInput;
-    where: GroupWhereUniqueInput;
-  }) => GroupPromise;
-  updateManyGroups: (args: {
-    data: GroupUpdateManyMutationInput;
-    where?: GroupWhereInput;
-  }) => BatchPayloadPromise;
-  upsertGroup: (args: {
-    where: GroupWhereUniqueInput;
-    create: GroupCreateInput;
-    update: GroupUpdateInput;
-  }) => GroupPromise;
+  updateGroup: (
+    args: { data: GroupUpdateInput; where: GroupWhereUniqueInput }
+  ) => GroupPromise;
+  updateManyGroups: (
+    args: { data: GroupUpdateManyMutationInput; where?: GroupWhereInput }
+  ) => BatchPayloadPromise;
+  upsertGroup: (
+    args: {
+      where: GroupWhereUniqueInput;
+      create: GroupCreateInput;
+      update: GroupUpdateInput;
+    }
+  ) => GroupPromise;
   deleteGroup: (where: GroupWhereUniqueInput) => GroupPromise;
   deleteManyGroups: (where?: GroupWhereInput) => BatchPayloadPromise;
   createPerson: (data: PersonCreateInput) => PersonPromise;
-  updatePerson: (args: {
-    data: PersonUpdateInput;
-    where: PersonWhereUniqueInput;
-  }) => PersonPromise;
-  updateManyPersons: (args: {
-    data: PersonUpdateManyMutationInput;
-    where?: PersonWhereInput;
-  }) => BatchPayloadPromise;
-  upsertPerson: (args: {
-    where: PersonWhereUniqueInput;
-    create: PersonCreateInput;
-    update: PersonUpdateInput;
-  }) => PersonPromise;
+  updatePerson: (
+    args: { data: PersonUpdateInput; where: PersonWhereUniqueInput }
+  ) => PersonPromise;
+  updateManyPersons: (
+    args: { data: PersonUpdateManyMutationInput; where?: PersonWhereInput }
+  ) => BatchPayloadPromise;
+  upsertPerson: (
+    args: {
+      where: PersonWhereUniqueInput;
+      create: PersonCreateInput;
+      update: PersonUpdateInput;
+    }
+  ) => PersonPromise;
   deletePerson: (where: PersonWhereUniqueInput) => PersonPromise;
   deleteManyPersons: (where?: PersonWhereInput) => BatchPayloadPromise;
   createPost: (data: PostCreateInput) => PostPromise;
-  updatePost: (args: {
-    data: PostUpdateInput;
-    where: PostWhereUniqueInput;
-  }) => PostPromise;
-  updateManyPosts: (args: {
-    data: PostUpdateManyMutationInput;
-    where?: PostWhereInput;
-  }) => BatchPayloadPromise;
-  upsertPost: (args: {
-    where: PostWhereUniqueInput;
-    create: PostCreateInput;
-    update: PostUpdateInput;
-  }) => PostPromise;
+  updatePost: (
+    args: { data: PostUpdateInput; where: PostWhereUniqueInput }
+  ) => PostPromise;
+  updateManyPosts: (
+    args: { data: PostUpdateManyMutationInput; where?: PostWhereInput }
+  ) => BatchPayloadPromise;
+  upsertPost: (
+    args: {
+      where: PostWhereUniqueInput;
+      create: PostCreateInput;
+      update: PostUpdateInput;
+    }
+  ) => PostPromise;
   deletePost: (where: PostWhereUniqueInput) => PostPromise;
   deleteManyPosts: (where?: PostWhereInput) => BatchPayloadPromise;
   createThread: (data: ThreadCreateInput) => ThreadPromise;
-  updateThread: (args: {
-    data: ThreadUpdateInput;
-    where: ThreadWhereUniqueInput;
-  }) => ThreadPromise;
-  updateManyThreads: (args: {
-    data: ThreadUpdateManyMutationInput;
-    where?: ThreadWhereInput;
-  }) => BatchPayloadPromise;
-  upsertThread: (args: {
-    where: ThreadWhereUniqueInput;
-    create: ThreadCreateInput;
-    update: ThreadUpdateInput;
-  }) => ThreadPromise;
+  updateThread: (
+    args: { data: ThreadUpdateInput; where: ThreadWhereUniqueInput }
+  ) => ThreadPromise;
+  updateManyThreads: (
+    args: { data: ThreadUpdateManyMutationInput; where?: ThreadWhereInput }
+  ) => BatchPayloadPromise;
+  upsertThread: (
+    args: {
+      where: ThreadWhereUniqueInput;
+      create: ThreadCreateInput;
+      update: ThreadUpdateInput;
+    }
+  ) => ThreadPromise;
   deleteThread: (where: ThreadWhereUniqueInput) => ThreadPromise;
   deleteManyThreads: (where?: ThreadWhereInput) => BatchPayloadPromise;
 
@@ -1183,15 +1199,17 @@ export interface ThreadPromise extends Promise<Thread>, Fragmentable {
   id: () => Promise<ID_Output>;
   createdAt: () => Promise<DateTimeOutput>;
   title: () => Promise<String>;
-  posts: <T = FragmentableArray<Post>>(args?: {
-    where?: PostWhereInput;
-    orderBy?: PostOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  posts: <T = FragmentableArray<Post>>(
+    args?: {
+      where?: PostWhereInput;
+      orderBy?: PostOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
   group: <T = GroupPromise>() => T;
 }
 
@@ -1201,15 +1219,17 @@ export interface ThreadSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   title: () => Promise<AsyncIterator<String>>;
-  posts: <T = Promise<AsyncIterator<PostSubscription>>>(args?: {
-    where?: PostWhereInput;
-    orderBy?: PostOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  posts: <T = Promise<AsyncIterator<PostSubscription>>>(
+    args?: {
+      where?: PostWhereInput;
+      orderBy?: PostOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
   group: <T = GroupSubscription>() => T;
 }
 
@@ -1244,15 +1264,17 @@ export interface PersonPromise extends Promise<Person>, Fragmentable {
   createdAt: () => Promise<DateTimeOutput>;
   password: () => Promise<String>;
   name: () => Promise<String>;
-  groups: <T = FragmentableArray<Group>>(args?: {
-    where?: GroupWhereInput;
-    orderBy?: GroupOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  groups: <T = FragmentableArray<Group>>(
+    args?: {
+      where?: GroupWhereInput;
+      orderBy?: GroupOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
 }
 
 export interface PersonSubscription
@@ -1263,15 +1285,17 @@ export interface PersonSubscription
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   password: () => Promise<AsyncIterator<String>>;
   name: () => Promise<AsyncIterator<String>>;
-  groups: <T = Promise<AsyncIterator<GroupSubscription>>>(args?: {
-    where?: GroupWhereInput;
-    orderBy?: GroupOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  groups: <T = Promise<AsyncIterator<GroupSubscription>>>(
+    args?: {
+      where?: GroupWhereInput;
+      orderBy?: GroupOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
 }
 
 export interface BatchPayload {
@@ -1612,24 +1636,28 @@ export interface GroupPromise extends Promise<Group>, Fragmentable {
   name: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
   description: () => Promise<String>;
-  members: <T = FragmentableArray<Person>>(args?: {
-    where?: PersonWhereInput;
-    orderBy?: PersonOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  threads: <T = FragmentableArray<Thread>>(args?: {
-    where?: ThreadWhereInput;
-    orderBy?: ThreadOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  members: <T = FragmentableArray<Person>>(
+    args?: {
+      where?: PersonWhereInput;
+      orderBy?: PersonOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  threads: <T = FragmentableArray<Thread>>(
+    args?: {
+      where?: ThreadWhereInput;
+      orderBy?: ThreadOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
 }
 
 export interface GroupSubscription
@@ -1639,24 +1667,28 @@ export interface GroupSubscription
   name: () => Promise<AsyncIterator<String>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   description: () => Promise<AsyncIterator<String>>;
-  members: <T = Promise<AsyncIterator<PersonSubscription>>>(args?: {
-    where?: PersonWhereInput;
-    orderBy?: PersonOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  threads: <T = Promise<AsyncIterator<ThreadSubscription>>>(args?: {
-    where?: ThreadWhereInput;
-    orderBy?: ThreadOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  members: <T = Promise<AsyncIterator<PersonSubscription>>>(
+    args?: {
+      where?: PersonWhereInput;
+      orderBy?: PersonOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  threads: <T = Promise<AsyncIterator<ThreadSubscription>>>(
+    args?: {
+      where?: ThreadWhereInput;
+      orderBy?: ThreadOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
 }
 
 export interface GroupPreviousValues {

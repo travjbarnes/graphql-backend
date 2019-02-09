@@ -8,6 +8,8 @@ type Mutation {
   signup(email: String!, password: String!, name: String!): AuthPayload!
   login(email: String!, password: String!): AuthPayload!
 
+  updatePerson(email: String, password: String, name: String): Person!
+
   createGroup(name: String!, description: String): Group!
   joinGroup(groupId: ID!): Group!
   leaveGroup(groupId: ID!): DeletionResponse!

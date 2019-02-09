@@ -6,7 +6,7 @@ export const thread: Pick<
   "createThread" | "editThread" | "deleteThread"
 > = {
   createThread: (parent, { groupId, title, content }, ctx, info) => {
-    const userId = getPersonId(ctx);
+    const personId = getPersonId(ctx);
     checkGroupMembership(ctx, groupId);
 
     return ctx.prisma.createThread({
@@ -15,7 +15,7 @@ export const thread: Pick<
         create: {
           author: {
             connect: {
-              id: userId
+              id: personId
             }
           },
           content
