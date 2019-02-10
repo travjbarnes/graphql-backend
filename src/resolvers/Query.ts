@@ -1,5 +1,5 @@
 import { QueryResolvers } from "../generated/graphqlgen";
-import { getPersonId } from "../utils";
+import { checkPersonExists, getPersonId } from "../utils";
 
 export const Query: QueryResolvers.Type = {
   ...QueryResolvers.defaultResolvers,
@@ -13,5 +13,13 @@ export const Query: QueryResolvers.Type = {
   me: (parent, args, ctx) => {
     const id = getPersonId(ctx);
     return ctx.prisma.person({ id });
+  },
+  searchGroups: (parent, { searchQuery }, ctx) => {
+    checkPersonExists(ctx);
+    return ctx.prisma.groups({
+      where: {
+        name_contains: searchQuery
+      }
+    });
   }
 };

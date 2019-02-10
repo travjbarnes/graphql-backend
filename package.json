@@ -9,7 +9,8 @@
     "build": "rimraf dist && tsc",
     "pretty": "prettier --write \"src/**/*.{ts,tsx}\"",
     "lint": "tslint -p tsconfig.json -c tslint.json \"src/**/*.{ts,tsx}\"",
-    "lint:fix": "tslint -p tsconfig.json -c tslint.json --fix \"src/**/*.{ts,tsx}\""
+    "lint:fix": "tslint -p tsconfig.json -c tslint.json --fix \"src/**/*.{ts,tsx}\"",
+    "codegen": "yarn run gg"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx,json}": [

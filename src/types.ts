@@ -5,13 +5,13 @@ export interface IContext {
   request: any;
 }
 
-// tslint:disable-next-line:interface-name
+/* Types for GraphQLgen */
+
+// tslint:disable:interface-name
 export interface AuthPayload {
   token: string;
   person: Person;
 }
-
-// tslint:disable-next-line:interface-name
 export interface DeletionResponse {
   id: string;
   success: boolean;

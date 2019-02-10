@@ -6,6 +6,7 @@ export const group: Pick<
   "createGroup" | "joinGroup" | "leaveGroup"
 > = {
   createGroup: (parent, { name, description }, ctx, info) => {
+    // TODO: more descriptive error if name already exists
     const personId = getPersonId(ctx);
     return ctx.prisma.createGroup({
       name,

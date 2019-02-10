@@ -7,6 +7,10 @@ import { AuthPayload, DeletionResponse, IContext } from "../types";
 export namespace QueryResolvers {
   export const defaultResolvers = {};
 
+  export interface ArgsSearchGroups {
+    searchQuery: string;
+  }
+
   export interface ArgsGroup {
     id: string;
   }
@@ -17,7 +21,7 @@ export namespace QueryResolvers {
         args: {},
         ctx: IContext,
         info: GraphQLResolveInfo
-      ) => Array<Group | null> | null | Promise<Array<Group | null> | null>)
+      ) => Group[] | null | Promise<Group[] | null>)
     | {
         fragment: string;
         resolve: (
@@ -25,7 +29,24 @@ export namespace QueryResolvers {
           args: {},
           ctx: IContext,
           info: GraphQLResolveInfo
-        ) => Array<Group | null> | null | Promise<Array<Group | null> | null>;
+        ) => Group[] | null | Promise<Group[] | null>;
+      };
+
+  export type SearchGroupsResolver =
+    | ((
+        parent: undefined,
+        args: ArgsSearchGroups,
+        ctx: IContext,
+        info: GraphQLResolveInfo
+      ) => Group[] | null | Promise<Group[] | null>)
+    | {
+        fragment: string;
+        resolve: (
+          parent: undefined,
+          args: ArgsSearchGroups,
+          ctx: IContext,
+          info: GraphQLResolveInfo
+        ) => Group[] | null | Promise<Group[] | null>;
       };
 
   export type GroupResolver =
@@ -69,7 +90,7 @@ export namespace QueryResolvers {
           args: {},
           ctx: IContext,
           info: GraphQLResolveInfo
-        ) => Array<Group | null> | null | Promise<Array<Group | null> | null>)
+        ) => Group[] | null | Promise<Group[] | null>)
       | {
           fragment: string;
           resolve: (
@@ -77,7 +98,24 @@ export namespace QueryResolvers {
             args: {},
             ctx: IContext,
             info: GraphQLResolveInfo
-          ) => Array<Group | null> | null | Promise<Array<Group | null> | null>;
+          ) => Group[] | null | Promise<Group[] | null>;
+        };
+
+    searchGroups:
+      | ((
+          parent: undefined,
+          args: ArgsSearchGroups,
+          ctx: IContext,
+          info: GraphQLResolveInfo
+        ) => Group[] | null | Promise<Group[] | null>)
+      | {
+          fragment: string;
+          resolve: (
+            parent: undefined,
+            args: ArgsSearchGroups,
+            ctx: IContext,
+            info: GraphQLResolveInfo
+          ) => Group[] | null | Promise<Group[] | null>;
         };
 
     group:

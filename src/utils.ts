@@ -1,8 +1,9 @@
 import * as bcrypt from "bcryptjs";
-import { Context } from "graphql-yoga/dist/types";
 import * as jwt from "jsonwebtoken";
 
-export function getPersonId(ctx: Context) {
+import { IContext } from "./types";
+
+export function getPersonId(ctx: IContext) {
   const Authorization = ctx.request.get("Authorization");
   if (Authorization && process.env.APP_SECRET) {
     const token: string = Authorization.replace("Bearer ", "");
@@ -15,12 +16,22 @@ export function getPersonId(ctx: Context) {
   throw new AuthError();
 }
 
+export async function checkPersonExists(ctx: IContext) {
+  const personId = getPersonId(ctx);
+  const personExists = ctx.prisma.$exists.person({
+    id: personId
+  });
+  if (!personExists) {
+    throw new AuthError();
+  }
+}
+
 /**
  * Verifies that the user is a member of the group with `groupId`.
  * If not, throws an `AuthError`.
  */
 export async function checkGroupMembership(
-  ctx: Context,
+  ctx: IContext,
   groupId: string
 ): Promise<void> {
   const personId = getPersonId(ctx);

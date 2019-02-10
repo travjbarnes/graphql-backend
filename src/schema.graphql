@@ -1,5 +1,6 @@
 type Query {
-  groups: [Group]
+  groups: [Group!]
+  searchGroups(searchQuery: String!): [Group!]
   group(id: ID!): Group
   me: Person
 }
@@ -24,42 +25,42 @@ type Mutation {
 }
 
 type Person {
-    id: ID!
-    createdAt: DateTime!
-    name: String!
-    email: String!
-    groups: [Group!]
+  id: ID!
+  createdAt: DateTime!
+  name: String!
+  email: String!
+  groups: [Group!]
 }
 
 type Group {
-    id: ID!
-    createdAt: DateTime!
-    name: String!
-    description: String
-    members: [Person!]
-    threads: [Thread!]
+  id: ID!
+  createdAt: DateTime!
+  name: String!
+  description: String
+  members: [Person!]
+  threads: [Thread!]
 }
 
 type Thread {
-    id: ID!
-    createdAt: DateTime!
-    title: String!
-    posts: [Post!]!
-    group: Group!
+  id: ID!
+  createdAt: DateTime!
+  title: String!
+  posts: [Post!]!
+  group: Group!
 }
 
 type Post {
-    id: ID!
-    createdAt: DateTime!
-    author: Person!
-    content: String!
-    thread: Thread!
+  id: ID!
+  createdAt: DateTime!
+  author: Person!
+  content: String!
+  thread: Thread!
 }
 
 type DeletionResponse {
-    id: ID!
-    success: Boolean!
-    message: String
+  id: ID!
+  success: Boolean!
+  message: String
 }
 
 type AuthPayload {
