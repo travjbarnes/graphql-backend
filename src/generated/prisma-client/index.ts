@@ -1849,6 +1849,7 @@ export const models: Model[] = [
 export const Prisma = makePrismaClientClass<ClientConstructor<Prisma>>({
   typeDefs,
   models,
-  endpoint: `https://eu1.prisma.sh/tao-bojlen/hello-world/dev`
+  endpoint: `https://wobbly-backend-0e6ba1a99c.herokuapp.com/wobbly-backend/dev`,
+  secret: `${process.env["PRISMA_SECRET"]}`
 });
 export const prisma = new Prisma();
