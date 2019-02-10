@@ -15,6 +15,14 @@ export namespace QueryResolvers {
     id: string;
   }
 
+  export interface ArgsThreads {
+    groupId: string;
+  }
+
+  export interface ArgsPosts {
+    threadId: string;
+  }
+
   export type GroupsResolver =
     | ((
         parent: undefined,
@@ -64,6 +72,40 @@ export namespace QueryResolvers {
           ctx: IContext,
           info: GraphQLResolveInfo
         ) => Group | null | Promise<Group | null>;
+      };
+
+  export type ThreadsResolver =
+    | ((
+        parent: undefined,
+        args: ArgsThreads,
+        ctx: IContext,
+        info: GraphQLResolveInfo
+      ) => Thread[] | null | Promise<Thread[] | null>)
+    | {
+        fragment: string;
+        resolve: (
+          parent: undefined,
+          args: ArgsThreads,
+          ctx: IContext,
+          info: GraphQLResolveInfo
+        ) => Thread[] | null | Promise<Thread[] | null>;
+      };
+
+  export type PostsResolver =
+    | ((
+        parent: undefined,
+        args: ArgsPosts,
+        ctx: IContext,
+        info: GraphQLResolveInfo
+      ) => Post[] | Promise<Post[]>)
+    | {
+        fragment: string;
+        resolve: (
+          parent: undefined,
+          args: ArgsPosts,
+          ctx: IContext,
+          info: GraphQLResolveInfo
+        ) => Post[] | Promise<Post[]>;
       };
 
   export type MeResolver =
@@ -133,6 +175,40 @@ export namespace QueryResolvers {
             ctx: IContext,
             info: GraphQLResolveInfo
           ) => Group | null | Promise<Group | null>;
+        };
+
+    threads:
+      | ((
+          parent: undefined,
+          args: ArgsThreads,
+          ctx: IContext,
+          info: GraphQLResolveInfo
+        ) => Thread[] | null | Promise<Thread[] | null>)
+      | {
+          fragment: string;
+          resolve: (
+            parent: undefined,
+            args: ArgsThreads,
+            ctx: IContext,
+            info: GraphQLResolveInfo
+          ) => Thread[] | null | Promise<Thread[] | null>;
+        };
+
+    posts:
+      | ((
+          parent: undefined,
+          args: ArgsPosts,
+          ctx: IContext,
+          info: GraphQLResolveInfo
+        ) => Post[] | Promise<Post[]>)
+      | {
+          fragment: string;
+          resolve: (
+            parent: undefined,
+            args: ArgsPosts,
+            ctx: IContext,
+            info: GraphQLResolveInfo
+          ) => Post[] | Promise<Post[]>;
         };
 
     me:
@@ -558,6 +634,10 @@ export namespace ThreadResolvers {
     title: (parent: Thread) => parent.title
   };
 
+  export interface ArgsPosts {
+    first?: number | null;
+  }
+
   export type IdResolver =
     | ((
         parent: Thread,
@@ -612,7 +692,7 @@ export namespace ThreadResolvers {
   export type PostsResolver =
     | ((
         parent: Thread,
-        args: {},
+        args: ArgsPosts,
         ctx: IContext,
         info: GraphQLResolveInfo
       ) => Post[] | Promise<Post[]>)
@@ -620,7 +700,7 @@ export namespace ThreadResolvers {
         fragment: string;
         resolve: (
           parent: Thread,
-          args: {},
+          args: ArgsPosts,
           ctx: IContext,
           info: GraphQLResolveInfo
         ) => Post[] | Promise<Post[]>;
@@ -698,7 +778,7 @@ export namespace ThreadResolvers {
     posts:
       | ((
           parent: Thread,
-          args: {},
+          args: ArgsPosts,
           ctx: IContext,
           info: GraphQLResolveInfo
         ) => Post[] | Promise<Post[]>)
@@ -706,7 +786,7 @@ export namespace ThreadResolvers {
           fragment: string;
           resolve: (
             parent: Thread,
-            args: {},
+            args: ArgsPosts,
             ctx: IContext,
             info: GraphQLResolveInfo
           ) => Post[] | Promise<Post[]>;

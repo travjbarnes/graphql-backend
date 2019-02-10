@@ -2,6 +2,8 @@ type Query {
   groups: [Group!]
   searchGroups(searchQuery: String!): [Group!]
   group(id: ID!): Group
+  threads(groupId: ID!): [Thread!]
+  posts(threadId: ID!): [Post!]!
   me: Person
 }
 
@@ -45,7 +47,7 @@ type Thread {
   id: ID!
   createdAt: DateTime!
   title: String!
-  posts: [Post!]!
+  posts(first: Int): [Post!]!
   group: Group!
 }
 
