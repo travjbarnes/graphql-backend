@@ -1,4 +1,4 @@
-<h1 align="center"><strong>Wobbly</strong></h1>
+<h1 align="center"><strong>Wobbly backend</strong></h1>
 
 <br />
 
