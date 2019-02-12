@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "start": "node dist/index.js",
-    "start-dev": "dotenv -- nodemon -e ts,graphql -x ts-node src/index.ts",
+    "dev": "dotenv -- nodemon -e ts,graphql -x ts-node src/index.ts",
     "debug": "dotenv -- nodemon -e ts,graphql -x ts-node --inspect src/index.ts",
     "build": "rimraf dist && tsc",
     "pretty": "prettier --write \"src/**/*.{ts,tsx}\"",

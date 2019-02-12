@@ -1,81 +1,68 @@
-<h1 align="center"><strong>Boilerplate for an Advanced GraphQL Server w/ TypeScript</strong></h1>
+<h1 align="center"><strong>Wobbly</strong></h1>
 
 <br />
 
 <div align="center"><img src="https://imgur.com/1MfnLVl.png" /></div>
 
-<div align="center"><strong>🚀 Bootstrap your GraphQL server within seconds</strong></div>
-<div align="center">Advanced starter kit for a flexible GraphQL server for TypeScript - based on best practices from the GraphQL community.</div>
-
-*Note: to generate typescript types, run `yarn gg`.*
+<div align="center">The GraphQL backend server for <a href="https://wobbly.app">Wobbly</a>, written in TypeScript and based on graphql-yoga.</div>
 
 ## Features
 
 - **Scalable GraphQL server:** The server uses [`graphql-yoga`](https://github.com/prisma/graphql-yoga) which is based on Apollo Server & Express
 - **Static type generation**: TypeScript types for GraphQL queries & mutations are generated in a build step
-- **Authentication**: Signup and login workflows are ready to use for your users
-- **GraphQL database:** Includes GraphQL database binding to [Prisma](https://www.prismagraphql.com) (running on MySQL)
+- **GraphQL database:** Includes GraphQL database binding to [Prisma](https://www.prismagraphql.com) (running on Postgres)
 - **Tooling**: Out-of-the-box support for [GraphQL Playground](https://github.com/prisma/graphql-playground) & [query performance tracing](https://github.com/apollographql/apollo-tracing)
-- **Extensible**: Simple and flexible [data model](./database/datamodel.graphql) – easy to adjust and extend
-- **No configuration overhead**: Preconfigured [`graphql-config`](https://github.com/prisma/graphql-config) setup
+- **Extensible**: Simple and flexible [data model](./prisma/datamodel.prisma) – easy to adjust and extend
 - **Realtime updates**: Support for GraphQL subscriptions
 
-Read more about the idea behind GraphQL boilerplates [here](https://blog.graph.cool/graphql-boilerplates-graphql-create-how-to-setup-a-graphql-project-6428be2f3a5).
+## Structure
 
-## Requirements
+![img](diagram.png)
 
-You need to have the [GraphQL CLI](https://github.com/graphql-cli/graphql-cli) installed to bootstrap your GraphQL server using `graphql create`:
+[Prisma](https://www.prisma.io/) is a GraphQL ORM ([object-relational mapping](https://en.wikipedia.org/wiki/Object-relational_mapping)). It gives us a way to interact with the raw data in our database through GraphQL -- but note that this is not the same GraphQL API that is exposed to front-end clients. Our prisma code lives in the [`prisma/` directory](./prisma/). The [Prisma datamodel](./prisma/datamodel.prisma) defines the tables in our database.
 
-```sh
-npm install -g graphql-cli
-```
+Instead, we use [`graphql-yoga`](https://github.com/prisma/graphql-yoga) as our "main" backend server. This is where we implement the resolvers for our own GraphQL API. The code for this lives in the [`src/` directory](./src/). This is also where you'll find the [schema](./src/schema.graphql) for our public API.
+
+The Prisma server and our backend server can live on different machines, or the same.
 
 ## Getting started
 
-```sh
-# 1. Bootstrap GraphQL server in directory `my-app`, based on `typescript-advanced` boilerplate
-graphql create my-app --boilerplate typescript-advanced
+### Requirements
 
-# 2. When prompted, deploy the Prisma service to a _public cluster_
+- TypeScript
+- Docker
+- docker-compose
 
-# 3. Navigate to the new project
-cd my-app
+### Steps
 
-# 4. Start server (runs on http://localhost:4000) and open GraphQL Playground
-yarn start
-```
+- `cp example.env .env`.
+  - `ENGINE_API_KEY` is the API key for [Apollo Engine](https://engine.apollographql.com), the cloud service we use for schema management. Don't worry if you don't have this API key; you don't need it.
+  - `PORT` is the port that exposes the public API.
+  - `PRISMA_ENDPOINT` is where the Prisma server lives. It's a URL of the format `http://domain:port/service/stage`. `service` is the name of the service and `stage` is e.g. `dev`, `staging`, `production` or such. If you're running Prisma locally with docker, this should be `http://localhost:4466/wobbly-backend/dev`.
+  - `PRISMA_SECRET` should be a long, secret string for authenticating against Prisma when using the GraphQL playground in the browser.
+  - `PRISMA_MANAGEMENT_API_SECRET`
+  - `DB_USER` and `DB_PASSWORD` are the credentials to connect to the Postgres database.
+  - `APP_SECRET` is the secret we use to sign user [JWTs](https://en.wikipedia.org/wiki/JSON_Web_Token).
+- `docker-compose up -d` starts the Prisma server.
+- `yarn dev` runs the backend server locally.
 
-![](https://imgur.com/hElq68i.png)
+## Development workflows
+
+### Updating the datamodel
+
+- `yarn prisma generate` takes the Prisma datamodel and generates the code to interact with our DB (i.e. the code that lives in `./src/generated/prisma-client/`).
+- `yarn prisma deploy` deploys the updated datamodel on the Prisma server (and also calls `prisma generate`).
+- You can visit `$PRISMA_ENDPOINT` to interact with the Prisma API through the GraphQL playground. Note that you'll need to run `yarn prisma token` to get an authorization token to access this endpoint. Then set a header like `Authorization: Bearer $TOKEN`.
+
+### Updating the public schema
+
+- After updating `schema.graphql`, run `yarn codegen` to generate the types for our resolvers. This runs [graphqlgen](https://github.com/prisma/graphqlgen).
+- Write your resolvers.
+- If you've set the `ENGINE_API_KEY` environment variable, run `apollo service:push --endpoint=http://localhost:4000` to push the new schema to Apollo Engine (while the local server is running).
 
 ## Documentation
 
 ### Commands
 
-* `yarn start` starts GraphQL server on `http://localhost:4000`
-* `yarn prisma <subcommand>` gives access to local version of Prisma CLI (e.g. `yarn prisma deploy`)
-
-> **Note**: We recommend that you're using `yarn dev` during development as it will give you access to the GraphQL API or your server (defined by the [application schema](./src/schema.graphql)) as well as to the Prisma API directly (defined by the [Prisma database schema](./generated/prisma.graphql)). If you're starting the server with `yarn start`, you'll only be able to access the API of the application schema.
-
-### Project structure
-
-![](https://imgur.com/95faUsa.png)
-
-| File name 　　　　　　　　　　　　　　| Description 　　　　　　　　<br><br>|
-| :--  | :--         |
-| `├── .env` | Defines environment variables |
-| `├── .graphqlconfig.yml` | Configuration file based on [`graphql-config`](https://github.com/prisma/graphql-config) (e.g. used by GraphQL Playground).|
-| `└── database ` (_directory_) | _Contains all files that are related to the Prisma database service_ |\
-| `　　├── prisma.yml` | The root configuration file for your Prisma database service ([docs](https://www.prismagraphql.com/docs/reference/prisma.yml/overview-and-example-foatho8aip)) |
-| `　　└── datamodel.graphql` | Defines your data model (written in [GraphQL SDL](https://blog.graph.cool/graphql-sdl-schema-definition-language-6755bcb9ce51)) |
-| `└── src ` (_directory_) | _Contains the source files for your GraphQL server_ |
-| `　　├── index.ts` | The entry point for your GraphQL server |
-| `　　├── schema.graphql` | The **application schema** defining the API exposed to client applications  |
-| `　　├── resolvers` (_directory_) | _Contains the implementation of the resolvers for the application schema_ |
-| `　　└── generated` (_directory_) | _Contains generated files_ |
-| `　　　　└── prisma-client` (_directory_) | The generated Prisma client |
-
-## Contributing
-
-The GraphQL boilerplates are maintained by the GraphQL community, with official support from the [Apollo](https://www.apollographql.com/) & [Prisma](https://www.prisma.io) teams.
-
-Your feedback is **very helpful**, please share your opinion and thoughts! If you have any questions or want to contribute yourself, join the `#graphql-boilerplate` channel on our [Slack](https://slack.prisma.io/).
+- `yarn dev` starts GraphQL server on `http://localhost:4000`
+- `yarn prisma <subcommand>` gives access to local version of Prisma CLI (e.g. `yarn prisma deploy`)
