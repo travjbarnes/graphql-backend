@@ -1,5 +1,7 @@
 import * as bcrypt from "bcryptjs";
 import * as crypto from "crypto";
+import { inflect } from "inflection";
+import * as Joi from "joi";
 import * as jwt from "jsonwebtoken";
 
 import { IContext } from "./types";
@@ -63,10 +65,13 @@ export class AuthError extends Error {
  * Checks Pwned Passwords, a database of passwords that have been exposed in data breaches.
  * Sends the first 5 characters of the SHA-1 hash to a remote server and receives a list of breached
  * hashes that start with those 5 characters.
+ *
+ * Throws an error if the password has been seen in a data breach.
+ *
  * See more: https://haveibeenpwned.com/API/v2#PwnedPasswords
  * @param password the password to check
  */
-export async function isPwnedPassword(password: string): Promise<number> {
+export async function checkForPwnedPassword(password: string) {
   const hasher = crypto.createHash("sha1");
   hasher.update(password);
   const hash = hasher.digest("hex");
@@ -81,5 +86,42 @@ export async function isPwnedPassword(password: string): Promise<number> {
   });
 
   const count = suffixes[hash.toUpperCase().slice(5)] || 0;
-  return count;
+  // tslint:disable-next-line:no-string-literal
+  if (process.env["NODE_ENV"] !== "dev") {
+    if (count > 0) {
+      throw new Error(
+        `This password has been seen ${count} ${inflect(
+          "time",
+          count
+        )} in data breaches. Please choose a more secure one.`
+      );
+    }
+  }
+}
+
+/**
+ * Validates the Person fields. If invalid, throws an error.
+ */
+export function validatePersonFields(
+  email: string,
+  name: string,
+  password: string
+) {
+  const schema = Joi.object().keys({
+    email: Joi.string()
+      .email({ minDomainAtoms: 2 })
+      .required(),
+    name: Joi.string()
+      .min(3)
+      .max(50)
+      .required(),
+    password: Joi.string()
+      .min(10)
+      .required()
+  });
+  Joi.validate({ email, name, password }, schema, (err, value) => {
+    if (err) {
+      throw new Error(err.details.map(d => d.message).join("\n"));
+    }
+  });
 }
