@@ -636,6 +636,7 @@ export namespace ThreadResolvers {
 
   export interface ArgsPosts {
     first?: number | null;
+    last?: number | null;
   }
 
   export type IdResolver =

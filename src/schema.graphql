@@ -47,7 +47,7 @@ type Thread {
   id: ID!
   createdAt: DateTime!
   title: String!
-  posts(first: Int): [Post!]!
+  posts(first: Int, last: Int): [Post!]!
   group: Group!
 }
 
