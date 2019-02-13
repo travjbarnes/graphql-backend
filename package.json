@@ -11,7 +11,8 @@
     "pretty": "prettier --write \"src/**/*.{ts,tsx}\"",
     "lint": "tslint -p tsconfig.json -c tslint.json \"src/**/*.{ts,tsx}\"",
     "lint:fix": "tslint -p tsconfig.json -c tslint.json --fix \"src/**/*.{ts,tsx}\"",
-    "codegen": "yarn run gg"
+    "codegen": "yarn run gg",
+    "heroku-postbuild": "yarn run build"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx,json}": [
@@ -52,5 +53,6 @@
     "tslint-config-prettier": "^1.18.0",
     "tslint-eslint-rules": "^5.4.0",
     "typescript": "3.2.2"
-  }
+  },
+  "heroku-run-build-script": true
 }
