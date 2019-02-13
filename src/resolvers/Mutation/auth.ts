@@ -1,18 +1,43 @@
 import * as bcrypt from "bcryptjs";
+import { inflect } from "inflection";
 import * as jwt from "jsonwebtoken";
 
 import { MutationResolvers } from "../../generated/graphqlgen";
-import { getPasswordHash } from "../../utils";
+import { getPasswordHash, isPwnedPassword } from "../../utils";
 
 export const auth: Pick<MutationResolvers.Type, "signup" | "login"> = {
-  signup: async (parent, args, ctx) => {
-    const password = await getPasswordHash(args.password);
+  signup: async (parent, { email, name, password }, ctx) => {
+    const hashedPassword = await getPasswordHash(password);
+
+    if (password.length < 10) {
+      throw new Error("Password must be at least 10 characters");
+    }
+
+    // tslint:disable-next-line:no-string-literal
+    if (process.env["NODE_ENV"] !== "dev") {
+      const count = await isPwnedPassword(password);
+      if (count > 0) {
+        throw new Error(
+          `This password has been seen ${count} ${inflect(
+            "time",
+            count
+          )} in data breaches. Please choose a more secure one.`
+        );
+      }
+    }
+
+    if (await ctx.prisma.$exists.person({ email })) {
+      throw new Error("Email unavailable");
+    }
+
     // TODO:
-    // * check if the email is in use and if so, give a descriptive error message
-    // * verify password complexity
     // * verify that the email is real
     // * verify that the name is valid (not too long)
-    const person = await ctx.prisma.createPerson({ ...args, password });
+    const person = await ctx.prisma.createPerson({
+      email,
+      name,
+      password: hashedPassword
+    });
 
     if (!process.env.APP_SECRET) {
       throw new Error("Server error");
