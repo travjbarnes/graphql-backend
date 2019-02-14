@@ -22,7 +22,7 @@ export const port =
 const playground = process.env.NODE_ENV === "dev" ? "/" : false;
 
 export const startServer = async () => {
-  if (process.env.ENGINE_API_KEY) {
+  if (process.env.ENGINE_API_KEY && process.env.NODE_ENV === "production") {
     const engine = new ApolloEngine({
       apiKey: process.env.ENGINE_API_KEY
     });
