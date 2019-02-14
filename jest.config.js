@@ -3,5 +3,7 @@ module.exports = {
   testEnvironment: 'node',
   modulePathIgnorePatterns: [
     '<rootDir>/dist/'
-  ]
+  ],
+  coverageDirectory: "./coverage/",
+  collectCoverage: true
 };
