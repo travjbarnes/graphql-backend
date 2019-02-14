@@ -41,7 +41,7 @@
     "@types/jest": "^24.0.4",
     "@types/joi": "^14.3.1",
     "@types/jsonwebtoken": "^8.3.0",
-    "@types/node": "^10.12.23",
+    "@types/node": "^11.9.3",
     "dotenv-cli": "1.4.0",
     "graphql-request": "^1.8.2",
     "graphqlgen": "^0.6.0-rc6",
