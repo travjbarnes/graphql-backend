@@ -6,8 +6,13 @@ export const group: Pick<
   "createGroup" | "joinGroup" | "leaveGroup"
 > = {
   createGroup: async (parent, { name, description }, ctx, info) => {
-    // TODO: more descriptive error if name already exists
     const personId = getPersonId(ctx);
+
+    const groupExists = await ctx.prisma.$exists.group({ name });
+    if (groupExists) {
+      throw new Error("A group with that name already exists");
+    }
+
     const dummyAuthor = await ctx.prisma.upsertPerson({
       where: {
         email: "wobbly@wobbly.app"
