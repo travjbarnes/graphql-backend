@@ -1665,3 +1665,8 @@ export interface Resolvers {
   AuthPayload: AuthPayloadResolvers.Type;
   DeletionResponse: DeletionResponseResolvers.Type;
 }
+
+// @ts-ignore
+declare module "graphql-tools" {
+  interface IResolvers extends Resolvers {}
+}

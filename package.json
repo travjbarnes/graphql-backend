@@ -14,6 +14,12 @@
     "codegen": "yarn run gg",
     "heroku-postbuild": "yarn run build"
   },
+  "codegen": {
+    "src/generated/**/*.{ts,tsx}": [
+      "yarn codegen",
+      "git add"
+    ]
+  },
   "lint-staged": {
     "src/**/*.{ts,tsx,json}": [
       "yarn pretty",
@@ -23,7 +29,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged && yarn run codegen",
+      "post-merge": "yarn install"
     }
   },
   "dependencies": {
