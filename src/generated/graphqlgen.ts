@@ -341,6 +341,23 @@ export namespace GroupResolvers {
         ) => Thread[] | null | Promise<Thread[] | null>;
       };
 
+  export type MemberCountResolver =
+    | ((
+        parent: Group,
+        args: {},
+        ctx: IContext,
+        info: GraphQLResolveInfo
+      ) => number | Promise<number>)
+    | {
+        fragment: string;
+        resolve: (
+          parent: Group,
+          args: {},
+          ctx: IContext,
+          info: GraphQLResolveInfo
+        ) => number | Promise<number>;
+      };
+
   export interface Type {
     id:
       | ((
@@ -442,6 +459,23 @@ export namespace GroupResolvers {
             ctx: IContext,
             info: GraphQLResolveInfo
           ) => Thread[] | null | Promise<Thread[] | null>;
+        };
+
+    memberCount:
+      | ((
+          parent: Group,
+          args: {},
+          ctx: IContext,
+          info: GraphQLResolveInfo
+        ) => number | Promise<number>)
+      | {
+          fragment: string;
+          resolve: (
+            parent: Group,
+            args: {},
+            ctx: IContext,
+            info: GraphQLResolveInfo
+          ) => number | Promise<number>;
         };
   }
 }

@@ -14,5 +14,10 @@ export const Group: GroupResolvers.Type = {
       .group({
         id: parent.id
       })
-      .threads()
+      .threads(),
+  memberCount: async (parent, args, ctx) =>
+    ctx.prisma
+      .groupsConnection({ where: { id: parent.id } })
+      .aggregate()
+      .count()
 };

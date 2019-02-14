@@ -41,6 +41,7 @@ type Group {
   description: String
   members: [Person!]
   threads: [Thread!]
+  memberCount: Int!
 }
 
 type Thread {

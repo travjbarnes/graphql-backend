@@ -22,8 +22,9 @@ export const Query: QueryResolvers.Type = {
       }
     });
   },
+  // One day it'd be nice to order these by most recent thread.
+  // It's not supported by Prisma at the moment so we do it client-side.
   threads: (parent, { groupId }, ctx) => {
-    // TODO: order by most recent post
     return ctx.prisma.threads({
       where: {
         group: {
