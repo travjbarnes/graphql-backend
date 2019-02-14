@@ -1,10 +1,6 @@
-<h1 align="center"><strong>Wobbly backend</strong></h1>
+# Wobbly backend [![Build Status](https://travis-ci.com/Wobbly-App/graphql-backend.svg?branch=develop)](https://travis-ci.com/Wobbly-App/graphql-backend)
 
-<br />
-
-<div align="center"><img src="https://imgur.com/1MfnLVl.png" /></div>
-
-<div align="center">The GraphQL backend server for <a href="https://wobbly.app">Wobbly</a>, written in TypeScript and based on graphql-yoga.</div>
+The GraphQL backend server for [Wobbly](https://wobbly.app), written in TypeScript and based on graphql-yoga.
 
 ## Features
 
