@@ -55,9 +55,16 @@ export async function getPasswordHash(password: string) {
   return await bcrypt.hash(password, 10);
 }
 
+// tslint:disable:max-classes-per-file
 export class AuthError extends Error {
   constructor() {
     super("Not authorized");
+  }
+}
+
+export class InvalidLoginError extends Error {
+  constructor() {
+    super("Incorrect email or password");
   }
 }
 

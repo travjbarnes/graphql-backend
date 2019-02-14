@@ -5,13 +5,14 @@ import { MutationResolvers } from "../../generated/graphqlgen";
 import {
   checkForPwnedPassword,
   getPasswordHash,
+  InvalidLoginError,
   validatePersonFields
 } from "../../utils";
 
 export const auth: Pick<MutationResolvers.Type, "signup" | "login"> = {
   signup: async (parent, { email, name, password }, ctx) => {
     if (!process.env.APP_SECRET) {
-      throw new Error("Server error");
+      throw new Error("Server authentication error");
     }
 
     validatePersonFields(email, name, password);
@@ -34,18 +35,18 @@ export const auth: Pick<MutationResolvers.Type, "signup" | "login"> = {
   },
 
   login: async (parent, { email, password }, ctx) => {
+    if (!process.env.APP_SECRET) {
+      throw new Error("Server authentication error");
+    }
+
     const person = await ctx.prisma.person({ email });
     if (!person) {
-      throw new Error(`No such person found for email: ${email}`);
+      throw new InvalidLoginError();
     }
 
     const valid = await bcrypt.compare(password, person.password);
     if (!valid) {
-      throw new Error("Invalid password");
-    }
-
-    if (!process.env.APP_SECRET) {
-      throw new Error("Server error");
+      throw new InvalidLoginError();
     }
 
     return {
