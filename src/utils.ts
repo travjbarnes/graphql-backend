@@ -87,7 +87,7 @@ export async function checkForPwnedPassword(password: string) {
 
   const count = suffixes[hash.toUpperCase().slice(5)] || 0;
   // tslint:disable-next-line:no-string-literal
-  if (process.env["NODE_ENV"] !== "dev") {
+  if (process.env.NODE_ENV !== "dev") {
     if (count > 0) {
       throw new Error(
         `This password has been seen ${count} ${inflect(

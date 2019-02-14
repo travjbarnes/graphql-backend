@@ -14,6 +14,7 @@ const server = new GraphQLServer({
 });
 
 const port = parseInt(process.env.PORT || "4000", 10) || 4000;
+const playground = process.env.NODE_ENV === "dev" ? "/" : false;
 
 if (process.env.ENGINE_API_KEY) {
   const engine = new ApolloEngine({
@@ -21,7 +22,8 @@ if (process.env.ENGINE_API_KEY) {
   });
   const httpServer = server.createHttpServer({
     tracing: true,
-    cacheControl: true
+    cacheControl: true,
+    playground
   });
 
   engine.listen(
@@ -39,7 +41,8 @@ if (process.env.ENGINE_API_KEY) {
 } else {
   server.start(
     {
-      port
+      port,
+      playground
     },
     // tslint:disable-next-line:no-console
     () => console.log(`Server is running on http://localhost:${port}`)
