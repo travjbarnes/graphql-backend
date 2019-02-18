@@ -38,6 +38,7 @@ type WikiPage {
     createdAt: DateTime!
     content: [WikiPageContent!]
     group: Group!
+    mainPage: Boolean!
 }
 
 type WikiPageContent {

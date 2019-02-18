@@ -4,6 +4,7 @@ type Query {
   group(id: ID!): Group
   threads(groupId: ID!): [Thread!]
   posts(threadId: ID!): [Post!]!
+  wikiPage(pageId: ID!): WikiPage!
   wikiPages(groupId: ID!): [WikiPage!]
   me: Person
 }
@@ -47,6 +48,7 @@ type Group {
   members: [Person!]
   threads: [Thread!]
   memberCount: Int!
+  mainWikiPageId: ID!
 }
 
 type Thread {

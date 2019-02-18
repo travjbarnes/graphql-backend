@@ -14,6 +14,7 @@ export const wikiPage: Pick<
           id: groupId
         }
       },
+      mainPage: false,
       content: {
         create: {
           title,
@@ -62,6 +63,12 @@ export const wikiPage: Pick<
       .group()
       .id();
     await checkGroupMembership(ctx, groupId);
+
+    const page = await ctx.prisma.wikiPage({ id: pageId });
+    if (page.mainPage) {
+      throw new Error("Cannot delete main page");
+    }
+
     const prevPage = await ctx.prisma
       .wikiPage({ id: pageId })
       .content({ orderBy: "createdAt_DESC", first: 1 })
@@ -86,9 +93,9 @@ export const wikiPage: Pick<
           }
         }
       })
-      .then(page => {
+      .then(response => {
         return {
-          id: page.id,
+          id: response.id,
           success: true,
           message: `Deleted page ${prevPage.title}`
         };

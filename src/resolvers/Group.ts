@@ -15,9 +15,21 @@ export const Group: GroupResolvers.Type = {
         id: parent.id
       })
       .threads(),
-  memberCount: async (parent, args, ctx) =>
+  memberCount: (parent, args, ctx) =>
     ctx.prisma
       .groupsConnection({ where: { id: parent.id } })
       .aggregate()
-      .count()
+      .count(),
+  mainWikiPageId: (parent, args, ctx) =>
+    ctx.prisma
+      .wikiPages({
+        where: {
+          group: {
+            id: parent.id
+          },
+          mainPage: true
+        },
+        first: 1
+      })
+      .then(pages => pages[0].id) // there's only ever one main page
 };

@@ -37,6 +37,7 @@ export const group: Pick<
       },
       wikiPages: {
         create: {
+          mainPage: true,
           content: {
             create: {
               title: "Main page",

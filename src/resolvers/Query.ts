@@ -48,6 +48,14 @@ export const Query: QueryResolvers.Type = {
       orderBy: "createdAt_DESC"
     });
   },
+  wikiPage: async (parent, { pageId }, ctx) => {
+    const groupId = await ctx.prisma
+      .wikiPage({ id: pageId! })
+      .group()
+      .id();
+    await checkGroupMembership(ctx, groupId!);
+    return ctx.prisma.wikiPage({ id: pageId });
+  },
   wikiPages: async (parent, { groupId }, ctx) => {
     await checkGroupMembership(ctx, groupId);
     return ctx.prisma.wikiPages({
