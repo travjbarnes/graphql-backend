@@ -4,6 +4,7 @@ type Query {
   group(id: ID!): Group
   threads(groupId: ID!): [Thread!]
   posts(threadId: ID!): [Post!]!
+  wikiPages(groupId: ID!): [WikiPage!]
   me: Person
 }
 
@@ -24,6 +25,10 @@ type Mutation {
   createPost(threadId: ID!, content: String!): Post!
   editPost(postId: ID!, content: String!): Post!
   deletePost(postId: ID!): DeletionResponse!
+
+  createWikiPage(groupId: ID!, title: String!, content: String!): WikiPage!
+  editWikiPage(pageId: ID!, title: String!, content: String!): WikiPage!
+  deleteWikiPage(pageId: ID!): DeletionResponse!
 }
 
 type Person {
@@ -58,6 +63,14 @@ type Post {
   author: Person!
   content: String!
   thread: Thread!
+}
+
+type WikiPage {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  title: String!
+  content: String!
 }
 
 type DeletionResponse {

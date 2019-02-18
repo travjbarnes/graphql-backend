@@ -8,6 +8,7 @@ import { Person } from "./Person";
 import { Post } from "./Post";
 import { Query } from "./Query";
 import { Thread } from "./Thread";
+import { WikiPage } from "./WikiPage";
 
 const resolvers: Resolvers = {
   Query,
@@ -17,6 +18,7 @@ const resolvers: Resolvers = {
   Thread,
   Post,
   AuthPayload,
+  WikiPage,
   DeletionResponse
 };
 export default resolvers;

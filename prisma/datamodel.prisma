@@ -31,3 +31,20 @@ type Post {
     content: String!
     thread: Thread!
 }
+
+type WikiPage {
+    id: ID! @unique
+    createdAt: DateTime!
+    content: [WikiPageContent!]
+    group: Group!
+}
+
+type WikiPageContent {
+    id: ID! @unique
+    createdAt: DateTime!
+    page: WikiPage!
+    title: String!
+    content: String!
+    author: Person!
+    deleted: Boolean!
+}
