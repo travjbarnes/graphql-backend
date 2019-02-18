@@ -1,23 +1,9 @@
 import { request } from "graphql-request";
 
 import { port, startServer, stopServer } from "../server";
+import { getSignupMutation } from "../testutils";
 
 const HOST = `http://localhost:${port}`;
-
-const getSignupMutation = (
-  mutationEmail: string,
-  mutationName: string,
-  mutationPass: string
-) => `
-  mutation {
-      signup(email: "${mutationEmail}", password: "${mutationPass}", name: "${mutationName}") {
-          token
-          person {
-              id
-          }
-      }
-  }
-`;
 
 beforeAll(async () => {
   await startServer();
