@@ -11,7 +11,7 @@
     "pretty": "prettier --write \"src/**/*.{ts,tsx}\"",
     "lint": "tslint -p tsconfig.json -c tslint.json \"src/**/*.{ts,tsx}\"",
     "lint:fix": "tslint -p tsconfig.json -c tslint.json --fix \"src/**/*.{ts,tsx}\"",
-    "codegen": "yarn run gg",
+    "codegen": "yarn prisma generate && yarn gg",
     "heroku-postbuild": "yarn run build"
   },
   "codegen": {
@@ -29,7 +29,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && yarn run codegen",
+      "pre-commit": "lint-staged",
       "post-merge": "yarn install"
     }
   },
