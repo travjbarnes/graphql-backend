@@ -344,6 +344,14 @@ export type PostOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
+export type WikiPageOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
 export type WikiPageContentOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -355,14 +363,6 @@ export type WikiPageContentOrderByInput =
   | "content_DESC"
   | "deleted_ASC"
   | "deleted_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC";
-
-export type WikiPageOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
@@ -378,12 +378,31 @@ export type GroupWhereUniqueInput = AtLeastOne<{
   name?: String;
 }>;
 
-export interface GroupUpdateManyDataInput {
-  name?: String;
-  description?: String;
+export interface WikiPageContentUpdateManyWithoutPageInput {
+  create?:
+    | WikiPageContentCreateWithoutPageInput[]
+    | WikiPageContentCreateWithoutPageInput;
+  delete?: WikiPageContentWhereUniqueInput[] | WikiPageContentWhereUniqueInput;
+  connect?: WikiPageContentWhereUniqueInput[] | WikiPageContentWhereUniqueInput;
+  set?: WikiPageContentWhereUniqueInput[] | WikiPageContentWhereUniqueInput;
+  disconnect?:
+    | WikiPageContentWhereUniqueInput[]
+    | WikiPageContentWhereUniqueInput;
+  update?:
+    | WikiPageContentUpdateWithWhereUniqueWithoutPageInput[]
+    | WikiPageContentUpdateWithWhereUniqueWithoutPageInput;
+  upsert?:
+    | WikiPageContentUpsertWithWhereUniqueWithoutPageInput[]
+    | WikiPageContentUpsertWithWhereUniqueWithoutPageInput;
+  deleteMany?:
+    | WikiPageContentScalarWhereInput[]
+    | WikiPageContentScalarWhereInput;
+  updateMany?:
+    | WikiPageContentUpdateManyWithWhereNestedInput[]
+    | WikiPageContentUpdateManyWithWhereNestedInput;
 }
 
-export interface PostWhereInput {
+export interface WikiPageWhereInput {
   id?: ID_Input;
   id_not?: ID_Input;
   id_in?: ID_Input[] | ID_Input;
@@ -406,25 +425,13 @@ export interface PostWhereInput {
   createdAt_lte?: DateTimeInput;
   createdAt_gt?: DateTimeInput;
   createdAt_gte?: DateTimeInput;
-  author?: PersonWhereInput;
-  content?: String;
-  content_not?: String;
-  content_in?: String[] | String;
-  content_not_in?: String[] | String;
-  content_lt?: String;
-  content_lte?: String;
-  content_gt?: String;
-  content_gte?: String;
-  content_contains?: String;
-  content_not_contains?: String;
-  content_starts_with?: String;
-  content_not_starts_with?: String;
-  content_ends_with?: String;
-  content_not_ends_with?: String;
-  thread?: ThreadWhereInput;
-  AND?: PostWhereInput[] | PostWhereInput;
-  OR?: PostWhereInput[] | PostWhereInput;
-  NOT?: PostWhereInput[] | PostWhereInput;
+  content_every?: WikiPageContentWhereInput;
+  content_some?: WikiPageContentWhereInput;
+  content_none?: WikiPageContentWhereInput;
+  group?: GroupWhereInput;
+  AND?: WikiPageWhereInput[] | WikiPageWhereInput;
+  OR?: WikiPageWhereInput[] | WikiPageWhereInput;
+  NOT?: WikiPageWhereInput[] | WikiPageWhereInput;
 }
 
 export interface PersonUpdateWithWhereUniqueWithoutGroupsInput {
@@ -432,10 +439,11 @@ export interface PersonUpdateWithWhereUniqueWithoutGroupsInput {
   data: PersonUpdateWithoutGroupsDataInput;
 }
 
-export interface ThreadUpdateInput {
-  title?: String;
-  posts?: PostUpdateManyWithoutThreadInput;
-  group?: GroupUpdateOneRequiredWithoutThreadsInput;
+export interface ThreadUpdateOneRequiredWithoutPostsInput {
+  create?: ThreadCreateWithoutPostsInput;
+  update?: ThreadUpdateWithoutPostsDataInput;
+  upsert?: ThreadUpsertWithoutPostsInput;
+  connect?: ThreadWhereUniqueInput;
 }
 
 export interface PersonUpdateWithoutGroupsDataInput {
@@ -444,9 +452,9 @@ export interface PersonUpdateWithoutGroupsDataInput {
   name?: String;
 }
 
-export interface PersonUpsertNestedInput {
-  update: PersonUpdateDataInput;
-  create: PersonCreateInput;
+export interface WikiPageContentUpdateWithWhereUniqueWithoutPageInput {
+  where: WikiPageContentWhereUniqueInput;
+  data: WikiPageContentUpdateWithoutPageDataInput;
 }
 
 export interface PersonUpsertWithWhereUniqueWithoutGroupsInput {
@@ -455,21 +463,15 @@ export interface PersonUpsertWithWhereUniqueWithoutGroupsInput {
   create: PersonCreateWithoutGroupsInput;
 }
 
-export interface WikiPageContentSubscriptionWhereInput {
+export interface WikiPageSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
   updatedFields_contains_every?: String[] | String;
   updatedFields_contains_some?: String[] | String;
-  node?: WikiPageContentWhereInput;
-  AND?:
-    | WikiPageContentSubscriptionWhereInput[]
-    | WikiPageContentSubscriptionWhereInput;
-  OR?:
-    | WikiPageContentSubscriptionWhereInput[]
-    | WikiPageContentSubscriptionWhereInput;
-  NOT?:
-    | WikiPageContentSubscriptionWhereInput[]
-    | WikiPageContentSubscriptionWhereInput;
+  node?: WikiPageWhereInput;
+  AND?: WikiPageSubscriptionWhereInput[] | WikiPageSubscriptionWhereInput;
+  OR?: WikiPageSubscriptionWhereInput[] | WikiPageSubscriptionWhereInput;
+  NOT?: WikiPageSubscriptionWhereInput[] | WikiPageSubscriptionWhereInput;
 }
 
 export interface PersonScalarWhereInput {
@@ -542,530 +544,6 @@ export interface PersonScalarWhereInput {
   NOT?: PersonScalarWhereInput[] | PersonScalarWhereInput;
 }
 
-export interface WikiPageSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: WikiPageWhereInput;
-  AND?: WikiPageSubscriptionWhereInput[] | WikiPageSubscriptionWhereInput;
-  OR?: WikiPageSubscriptionWhereInput[] | WikiPageSubscriptionWhereInput;
-  NOT?: WikiPageSubscriptionWhereInput[] | WikiPageSubscriptionWhereInput;
-}
-
-export interface PersonUpdateManyWithWhereNestedInput {
-  where: PersonScalarWhereInput;
-  data: PersonUpdateManyDataInput;
-}
-
-export interface PostSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: PostWhereInput;
-  AND?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
-  OR?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
-  NOT?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
-}
-
-export interface PersonUpdateManyDataInput {
-  email?: String;
-  password?: String;
-  name?: String;
-}
-
-export interface GroupSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: GroupWhereInput;
-  AND?: GroupSubscriptionWhereInput[] | GroupSubscriptionWhereInput;
-  OR?: GroupSubscriptionWhereInput[] | GroupSubscriptionWhereInput;
-  NOT?: GroupSubscriptionWhereInput[] | GroupSubscriptionWhereInput;
-}
-
-export interface ThreadUpdateManyWithoutGroupInput {
-  create?: ThreadCreateWithoutGroupInput[] | ThreadCreateWithoutGroupInput;
-  delete?: ThreadWhereUniqueInput[] | ThreadWhereUniqueInput;
-  connect?: ThreadWhereUniqueInput[] | ThreadWhereUniqueInput;
-  set?: ThreadWhereUniqueInput[] | ThreadWhereUniqueInput;
-  disconnect?: ThreadWhereUniqueInput[] | ThreadWhereUniqueInput;
-  update?:
-    | ThreadUpdateWithWhereUniqueWithoutGroupInput[]
-    | ThreadUpdateWithWhereUniqueWithoutGroupInput;
-  upsert?:
-    | ThreadUpsertWithWhereUniqueWithoutGroupInput[]
-    | ThreadUpsertWithWhereUniqueWithoutGroupInput;
-  deleteMany?: ThreadScalarWhereInput[] | ThreadScalarWhereInput;
-  updateMany?:
-    | ThreadUpdateManyWithWhereNestedInput[]
-    | ThreadUpdateManyWithWhereNestedInput;
-}
-
-export type PersonWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-  email?: String;
-}>;
-
-export interface ThreadUpdateWithWhereUniqueWithoutGroupInput {
-  where: ThreadWhereUniqueInput;
-  data: ThreadUpdateWithoutGroupDataInput;
-}
-
-export interface WikiPageUpdateWithoutContentDataInput {
-  group?: GroupUpdateOneRequiredInput;
-}
-
-export interface ThreadUpdateWithoutGroupDataInput {
-  title?: String;
-  posts?: PostUpdateManyWithoutThreadInput;
-}
-
-export type PostWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
-
-export interface PostUpdateManyWithoutThreadInput {
-  create?: PostCreateWithoutThreadInput[] | PostCreateWithoutThreadInput;
-  delete?: PostWhereUniqueInput[] | PostWhereUniqueInput;
-  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
-  set?: PostWhereUniqueInput[] | PostWhereUniqueInput;
-  disconnect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
-  update?:
-    | PostUpdateWithWhereUniqueWithoutThreadInput[]
-    | PostUpdateWithWhereUniqueWithoutThreadInput;
-  upsert?:
-    | PostUpsertWithWhereUniqueWithoutThreadInput[]
-    | PostUpsertWithWhereUniqueWithoutThreadInput;
-  deleteMany?: PostScalarWhereInput[] | PostScalarWhereInput;
-  updateMany?:
-    | PostUpdateManyWithWhereNestedInput[]
-    | PostUpdateManyWithWhereNestedInput;
-}
-
-export interface WikiPageCreateWithoutContentInput {
-  group: GroupCreateOneInput;
-}
-
-export interface PostUpdateWithWhereUniqueWithoutThreadInput {
-  where: PostWhereUniqueInput;
-  data: PostUpdateWithoutThreadDataInput;
-}
-
-export type ThreadWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
-
-export interface PostUpdateWithoutThreadDataInput {
-  author?: PersonUpdateOneRequiredInput;
-  content?: String;
-}
-
-export interface GroupUpsertNestedInput {
-  update: GroupUpdateDataInput;
-  create: GroupCreateInput;
-}
-
-export interface PersonUpdateOneRequiredInput {
-  create?: PersonCreateInput;
-  update?: PersonUpdateDataInput;
-  upsert?: PersonUpsertNestedInput;
-  connect?: PersonWhereUniqueInput;
-}
-
-export type WikiPageWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
-
-export interface PersonUpdateDataInput {
-  email?: String;
-  password?: String;
-  name?: String;
-  groups?: GroupUpdateManyWithoutMembersInput;
-}
-
-export interface WikiPageContentWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  createdAt?: DateTimeInput;
-  createdAt_not?: DateTimeInput;
-  createdAt_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_lt?: DateTimeInput;
-  createdAt_lte?: DateTimeInput;
-  createdAt_gt?: DateTimeInput;
-  createdAt_gte?: DateTimeInput;
-  page?: WikiPageWhereInput;
-  title?: String;
-  title_not?: String;
-  title_in?: String[] | String;
-  title_not_in?: String[] | String;
-  title_lt?: String;
-  title_lte?: String;
-  title_gt?: String;
-  title_gte?: String;
-  title_contains?: String;
-  title_not_contains?: String;
-  title_starts_with?: String;
-  title_not_starts_with?: String;
-  title_ends_with?: String;
-  title_not_ends_with?: String;
-  content?: String;
-  content_not?: String;
-  content_in?: String[] | String;
-  content_not_in?: String[] | String;
-  content_lt?: String;
-  content_lte?: String;
-  content_gt?: String;
-  content_gte?: String;
-  content_contains?: String;
-  content_not_contains?: String;
-  content_starts_with?: String;
-  content_not_starts_with?: String;
-  content_ends_with?: String;
-  content_not_ends_with?: String;
-  author?: PersonWhereInput;
-  deleted?: Boolean;
-  deleted_not?: Boolean;
-  AND?: WikiPageContentWhereInput[] | WikiPageContentWhereInput;
-  OR?: WikiPageContentWhereInput[] | WikiPageContentWhereInput;
-  NOT?: WikiPageContentWhereInput[] | WikiPageContentWhereInput;
-}
-
-export interface GroupUpdateManyWithoutMembersInput {
-  create?: GroupCreateWithoutMembersInput[] | GroupCreateWithoutMembersInput;
-  delete?: GroupWhereUniqueInput[] | GroupWhereUniqueInput;
-  connect?: GroupWhereUniqueInput[] | GroupWhereUniqueInput;
-  set?: GroupWhereUniqueInput[] | GroupWhereUniqueInput;
-  disconnect?: GroupWhereUniqueInput[] | GroupWhereUniqueInput;
-  update?:
-    | GroupUpdateWithWhereUniqueWithoutMembersInput[]
-    | GroupUpdateWithWhereUniqueWithoutMembersInput;
-  upsert?:
-    | GroupUpsertWithWhereUniqueWithoutMembersInput[]
-    | GroupUpsertWithWhereUniqueWithoutMembersInput;
-  deleteMany?: GroupScalarWhereInput[] | GroupScalarWhereInput;
-  updateMany?:
-    | GroupUpdateManyWithWhereNestedInput[]
-    | GroupUpdateManyWithWhereNestedInput;
-}
-
-export interface WikiPageContentUpdateManyDataInput {
-  title?: String;
-  content?: String;
-  deleted?: Boolean;
-}
-
-export interface WikiPageContentCreateWithoutPageInput {
-  title: String;
-  content: String;
-  author: PersonCreateOneInput;
-  deleted: Boolean;
-}
-
-export interface WikiPageContentScalarWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  createdAt?: DateTimeInput;
-  createdAt_not?: DateTimeInput;
-  createdAt_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_lt?: DateTimeInput;
-  createdAt_lte?: DateTimeInput;
-  createdAt_gt?: DateTimeInput;
-  createdAt_gte?: DateTimeInput;
-  title?: String;
-  title_not?: String;
-  title_in?: String[] | String;
-  title_not_in?: String[] | String;
-  title_lt?: String;
-  title_lte?: String;
-  title_gt?: String;
-  title_gte?: String;
-  title_contains?: String;
-  title_not_contains?: String;
-  title_starts_with?: String;
-  title_not_starts_with?: String;
-  title_ends_with?: String;
-  title_not_ends_with?: String;
-  content?: String;
-  content_not?: String;
-  content_in?: String[] | String;
-  content_not_in?: String[] | String;
-  content_lt?: String;
-  content_lte?: String;
-  content_gt?: String;
-  content_gte?: String;
-  content_contains?: String;
-  content_not_contains?: String;
-  content_starts_with?: String;
-  content_not_starts_with?: String;
-  content_ends_with?: String;
-  content_not_ends_with?: String;
-  deleted?: Boolean;
-  deleted_not?: Boolean;
-  AND?: WikiPageContentScalarWhereInput[] | WikiPageContentScalarWhereInput;
-  OR?: WikiPageContentScalarWhereInput[] | WikiPageContentScalarWhereInput;
-  NOT?: WikiPageContentScalarWhereInput[] | WikiPageContentScalarWhereInput;
-}
-
-export interface GroupUpdateWithoutMembersDataInput {
-  name?: String;
-  description?: String;
-  threads?: ThreadUpdateManyWithoutGroupInput;
-}
-
-export interface WikiPageContentUpdateWithoutPageDataInput {
-  title?: String;
-  content?: String;
-  author?: PersonUpdateOneRequiredInput;
-  deleted?: Boolean;
-}
-
-export interface GroupUpsertWithWhereUniqueWithoutMembersInput {
-  where: GroupWhereUniqueInput;
-  update: GroupUpdateWithoutMembersDataInput;
-  create: GroupCreateWithoutMembersInput;
-}
-
-export type WikiPageContentWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
-
-export interface GroupScalarWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  name?: String;
-  name_not?: String;
-  name_in?: String[] | String;
-  name_not_in?: String[] | String;
-  name_lt?: String;
-  name_lte?: String;
-  name_gt?: String;
-  name_gte?: String;
-  name_contains?: String;
-  name_not_contains?: String;
-  name_starts_with?: String;
-  name_not_starts_with?: String;
-  name_ends_with?: String;
-  name_not_ends_with?: String;
-  createdAt?: DateTimeInput;
-  createdAt_not?: DateTimeInput;
-  createdAt_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_lt?: DateTimeInput;
-  createdAt_lte?: DateTimeInput;
-  createdAt_gt?: DateTimeInput;
-  createdAt_gte?: DateTimeInput;
-  description?: String;
-  description_not?: String;
-  description_in?: String[] | String;
-  description_not_in?: String[] | String;
-  description_lt?: String;
-  description_lte?: String;
-  description_gt?: String;
-  description_gte?: String;
-  description_contains?: String;
-  description_not_contains?: String;
-  description_starts_with?: String;
-  description_not_starts_with?: String;
-  description_ends_with?: String;
-  description_not_ends_with?: String;
-  AND?: GroupScalarWhereInput[] | GroupScalarWhereInput;
-  OR?: GroupScalarWhereInput[] | GroupScalarWhereInput;
-  NOT?: GroupScalarWhereInput[] | GroupScalarWhereInput;
-}
-
-export interface WikiPageUpdateInput {
-  content?: WikiPageContentUpdateManyWithoutPageInput;
-  group?: GroupUpdateOneRequiredInput;
-}
-
-export interface GroupUpdateManyWithWhereNestedInput {
-  where: GroupScalarWhereInput;
-  data: GroupUpdateManyDataInput;
-}
-
-export interface PersonCreateManyWithoutGroupsInput {
-  create?: PersonCreateWithoutGroupsInput[] | PersonCreateWithoutGroupsInput;
-  connect?: PersonWhereUniqueInput[] | PersonWhereUniqueInput;
-}
-
-export interface WikiPageContentCreateManyWithoutPageInput {
-  create?:
-    | WikiPageContentCreateWithoutPageInput[]
-    | WikiPageContentCreateWithoutPageInput;
-  connect?: WikiPageContentWhereUniqueInput[] | WikiPageContentWhereUniqueInput;
-}
-
-export interface ThreadCreateManyWithoutGroupInput {
-  create?: ThreadCreateWithoutGroupInput[] | ThreadCreateWithoutGroupInput;
-  connect?: ThreadWhereUniqueInput[] | ThreadWhereUniqueInput;
-}
-
-export interface ThreadWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  createdAt?: DateTimeInput;
-  createdAt_not?: DateTimeInput;
-  createdAt_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_lt?: DateTimeInput;
-  createdAt_lte?: DateTimeInput;
-  createdAt_gt?: DateTimeInput;
-  createdAt_gte?: DateTimeInput;
-  title?: String;
-  title_not?: String;
-  title_in?: String[] | String;
-  title_not_in?: String[] | String;
-  title_lt?: String;
-  title_lte?: String;
-  title_gt?: String;
-  title_gte?: String;
-  title_contains?: String;
-  title_not_contains?: String;
-  title_starts_with?: String;
-  title_not_starts_with?: String;
-  title_ends_with?: String;
-  title_not_ends_with?: String;
-  posts_every?: PostWhereInput;
-  posts_some?: PostWhereInput;
-  posts_none?: PostWhereInput;
-  group?: GroupWhereInput;
-  AND?: ThreadWhereInput[] | ThreadWhereInput;
-  OR?: ThreadWhereInput[] | ThreadWhereInput;
-  NOT?: ThreadWhereInput[] | ThreadWhereInput;
-}
-
-export interface PostCreateManyWithoutThreadInput {
-  create?: PostCreateWithoutThreadInput[] | PostCreateWithoutThreadInput;
-  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
-}
-
-export interface PostUpsertWithWhereUniqueWithoutThreadInput {
-  where: PostWhereUniqueInput;
-  update: PostUpdateWithoutThreadDataInput;
-  create: PostCreateWithoutThreadInput;
-}
-
-export interface PersonCreateOneInput {
-  create?: PersonCreateInput;
-  connect?: PersonWhereUniqueInput;
-}
-
-export interface PostScalarWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  createdAt?: DateTimeInput;
-  createdAt_not?: DateTimeInput;
-  createdAt_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_lt?: DateTimeInput;
-  createdAt_lte?: DateTimeInput;
-  createdAt_gt?: DateTimeInput;
-  createdAt_gte?: DateTimeInput;
-  content?: String;
-  content_not?: String;
-  content_in?: String[] | String;
-  content_not_in?: String[] | String;
-  content_lt?: String;
-  content_lte?: String;
-  content_gt?: String;
-  content_gte?: String;
-  content_contains?: String;
-  content_not_contains?: String;
-  content_starts_with?: String;
-  content_not_starts_with?: String;
-  content_ends_with?: String;
-  content_not_ends_with?: String;
-  AND?: PostScalarWhereInput[] | PostScalarWhereInput;
-  OR?: PostScalarWhereInput[] | PostScalarWhereInput;
-  NOT?: PostScalarWhereInput[] | PostScalarWhereInput;
-}
-
-export interface GroupCreateManyWithoutMembersInput {
-  create?: GroupCreateWithoutMembersInput[] | GroupCreateWithoutMembersInput;
-  connect?: GroupWhereUniqueInput[] | GroupWhereUniqueInput;
-}
-
-export interface PostUpdateManyWithWhereNestedInput {
-  where: PostScalarWhereInput;
-  data: PostUpdateManyDataInput;
-}
-
-export interface GroupUpdateInput {
-  name?: String;
-  description?: String;
-  members?: PersonUpdateManyWithoutGroupsInput;
-  threads?: ThreadUpdateManyWithoutGroupInput;
-}
-
-export interface PostUpdateManyDataInput {
-  content?: String;
-}
-
 export interface GroupWhereInput {
   id?: ID_Input;
   id_not?: ID_Input;
@@ -1123,362 +601,17 @@ export interface GroupWhereInput {
   threads_every?: ThreadWhereInput;
   threads_some?: ThreadWhereInput;
   threads_none?: ThreadWhereInput;
+  wikiPages_every?: WikiPageWhereInput;
+  wikiPages_some?: WikiPageWhereInput;
+  wikiPages_none?: WikiPageWhereInput;
   AND?: GroupWhereInput[] | GroupWhereInput;
   OR?: GroupWhereInput[] | GroupWhereInput;
   NOT?: GroupWhereInput[] | GroupWhereInput;
 }
 
-export interface ThreadUpsertWithWhereUniqueWithoutGroupInput {
-  where: ThreadWhereUniqueInput;
-  update: ThreadUpdateWithoutGroupDataInput;
-  create: ThreadCreateWithoutGroupInput;
-}
-
-export interface ThreadSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: ThreadWhereInput;
-  AND?: ThreadSubscriptionWhereInput[] | ThreadSubscriptionWhereInput;
-  OR?: ThreadSubscriptionWhereInput[] | ThreadSubscriptionWhereInput;
-  NOT?: ThreadSubscriptionWhereInput[] | ThreadSubscriptionWhereInput;
-}
-
-export interface ThreadScalarWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  createdAt?: DateTimeInput;
-  createdAt_not?: DateTimeInput;
-  createdAt_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_lt?: DateTimeInput;
-  createdAt_lte?: DateTimeInput;
-  createdAt_gt?: DateTimeInput;
-  createdAt_gte?: DateTimeInput;
-  title?: String;
-  title_not?: String;
-  title_in?: String[] | String;
-  title_not_in?: String[] | String;
-  title_lt?: String;
-  title_lte?: String;
-  title_gt?: String;
-  title_gte?: String;
-  title_contains?: String;
-  title_not_contains?: String;
-  title_starts_with?: String;
-  title_not_starts_with?: String;
-  title_ends_with?: String;
-  title_not_ends_with?: String;
-  AND?: ThreadScalarWhereInput[] | ThreadScalarWhereInput;
-  OR?: ThreadScalarWhereInput[] | ThreadScalarWhereInput;
-  NOT?: ThreadScalarWhereInput[] | ThreadScalarWhereInput;
-}
-
-export interface WikiPageContentUpdateManyMutationInput {
-  title?: String;
-  content?: String;
-  deleted?: Boolean;
-}
-
-export interface ThreadUpdateManyWithWhereNestedInput {
-  where: ThreadScalarWhereInput;
-  data: ThreadUpdateManyDataInput;
-}
-
-export interface WikiPageUpdateOneRequiredWithoutContentInput {
-  create?: WikiPageCreateWithoutContentInput;
-  update?: WikiPageUpdateWithoutContentDataInput;
-  upsert?: WikiPageUpsertWithoutContentInput;
-  connect?: WikiPageWhereUniqueInput;
-}
-
-export interface ThreadUpdateManyDataInput {
-  title?: String;
-}
-
-export interface WikiPageCreateOneWithoutContentInput {
-  create?: WikiPageCreateWithoutContentInput;
-  connect?: WikiPageWhereUniqueInput;
-}
-
-export interface GroupUpdateManyMutationInput {
-  name?: String;
-  description?: String;
-}
-
-export interface GroupUpdateDataInput {
-  name?: String;
-  description?: String;
-  members?: PersonUpdateManyWithoutGroupsInput;
-  threads?: ThreadUpdateManyWithoutGroupInput;
-}
-
-export interface WikiPageCreateInput {
-  content?: WikiPageContentCreateManyWithoutPageInput;
-  group: GroupCreateOneInput;
-}
-
-export interface WikiPageWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  createdAt?: DateTimeInput;
-  createdAt_not?: DateTimeInput;
-  createdAt_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_lt?: DateTimeInput;
-  createdAt_lte?: DateTimeInput;
-  createdAt_gt?: DateTimeInput;
-  createdAt_gte?: DateTimeInput;
-  content_every?: WikiPageContentWhereInput;
-  content_some?: WikiPageContentWhereInput;
-  content_none?: WikiPageContentWhereInput;
-  group?: GroupWhereInput;
-  AND?: WikiPageWhereInput[] | WikiPageWhereInput;
-  OR?: WikiPageWhereInput[] | WikiPageWhereInput;
-  NOT?: WikiPageWhereInput[] | WikiPageWhereInput;
-}
-
-export interface ThreadUpdateManyMutationInput {
-  title?: String;
-}
-
-export interface WikiPageContentUpsertWithWhereUniqueWithoutPageInput {
-  where: WikiPageContentWhereUniqueInput;
-  update: WikiPageContentUpdateWithoutPageDataInput;
-  create: WikiPageContentCreateWithoutPageInput;
-}
-
-export interface PersonUpdateInput {
-  email?: String;
-  password?: String;
-  name?: String;
-  groups?: GroupUpdateManyWithoutMembersInput;
-}
-
-export interface WikiPageContentUpdateManyWithoutPageInput {
-  create?:
-    | WikiPageContentCreateWithoutPageInput[]
-    | WikiPageContentCreateWithoutPageInput;
-  delete?: WikiPageContentWhereUniqueInput[] | WikiPageContentWhereUniqueInput;
-  connect?: WikiPageContentWhereUniqueInput[] | WikiPageContentWhereUniqueInput;
-  set?: WikiPageContentWhereUniqueInput[] | WikiPageContentWhereUniqueInput;
-  disconnect?:
-    | WikiPageContentWhereUniqueInput[]
-    | WikiPageContentWhereUniqueInput;
-  update?:
-    | WikiPageContentUpdateWithWhereUniqueWithoutPageInput[]
-    | WikiPageContentUpdateWithWhereUniqueWithoutPageInput;
-  upsert?:
-    | WikiPageContentUpsertWithWhereUniqueWithoutPageInput[]
-    | WikiPageContentUpsertWithWhereUniqueWithoutPageInput;
-  deleteMany?:
-    | WikiPageContentScalarWhereInput[]
-    | WikiPageContentScalarWhereInput;
-  updateMany?:
-    | WikiPageContentUpdateManyWithWhereNestedInput[]
-    | WikiPageContentUpdateManyWithWhereNestedInput;
-}
-
-export interface PersonUpdateManyMutationInput {
-  email?: String;
-  password?: String;
-  name?: String;
-}
-
-export interface GroupCreateInput {
-  name: String;
-  description?: String;
-  members?: PersonCreateManyWithoutGroupsInput;
-  threads?: ThreadCreateManyWithoutGroupInput;
-}
-
-export interface PostCreateInput {
-  author: PersonCreateOneInput;
-  content: String;
-  thread: ThreadCreateOneWithoutPostsInput;
-}
-
-export interface ThreadCreateWithoutGroupInput {
-  title: String;
-  posts?: PostCreateManyWithoutThreadInput;
-}
-
-export interface ThreadCreateOneWithoutPostsInput {
-  create?: ThreadCreateWithoutPostsInput;
-  connect?: ThreadWhereUniqueInput;
-}
-
-export interface PersonCreateInput {
-  email: String;
-  password: String;
-  name: String;
-  groups?: GroupCreateManyWithoutMembersInput;
-}
-
-export interface ThreadCreateWithoutPostsInput {
-  title: String;
-  group: GroupCreateOneWithoutThreadsInput;
-}
-
-export interface PersonUpdateManyWithoutGroupsInput {
-  create?: PersonCreateWithoutGroupsInput[] | PersonCreateWithoutGroupsInput;
-  delete?: PersonWhereUniqueInput[] | PersonWhereUniqueInput;
-  connect?: PersonWhereUniqueInput[] | PersonWhereUniqueInput;
-  set?: PersonWhereUniqueInput[] | PersonWhereUniqueInput;
-  disconnect?: PersonWhereUniqueInput[] | PersonWhereUniqueInput;
-  update?:
-    | PersonUpdateWithWhereUniqueWithoutGroupsInput[]
-    | PersonUpdateWithWhereUniqueWithoutGroupsInput;
-  upsert?:
-    | PersonUpsertWithWhereUniqueWithoutGroupsInput[]
-    | PersonUpsertWithWhereUniqueWithoutGroupsInput;
-  deleteMany?: PersonScalarWhereInput[] | PersonScalarWhereInput;
-  updateMany?:
-    | PersonUpdateManyWithWhereNestedInput[]
-    | PersonUpdateManyWithWhereNestedInput;
-}
-
-export interface GroupCreateOneWithoutThreadsInput {
-  create?: GroupCreateWithoutThreadsInput;
-  connect?: GroupWhereUniqueInput;
-}
-
-export interface PersonSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: PersonWhereInput;
-  AND?: PersonSubscriptionWhereInput[] | PersonSubscriptionWhereInput;
-  OR?: PersonSubscriptionWhereInput[] | PersonSubscriptionWhereInput;
-  NOT?: PersonSubscriptionWhereInput[] | PersonSubscriptionWhereInput;
-}
-
-export interface GroupCreateWithoutThreadsInput {
-  name: String;
-  description?: String;
-  members?: PersonCreateManyWithoutGroupsInput;
-}
-
-export interface WikiPageContentUpdateInput {
-  page?: WikiPageUpdateOneRequiredWithoutContentInput;
-  title?: String;
-  content?: String;
-  author?: PersonUpdateOneRequiredInput;
-  deleted?: Boolean;
-}
-
-export interface PostUpdateInput {
-  author?: PersonUpdateOneRequiredInput;
-  content?: String;
-  thread?: ThreadUpdateOneRequiredWithoutPostsInput;
-}
-
-export interface GroupUpdateOneRequiredInput {
-  create?: GroupCreateInput;
-  update?: GroupUpdateDataInput;
-  upsert?: GroupUpsertNestedInput;
-  connect?: GroupWhereUniqueInput;
-}
-
-export interface ThreadUpdateOneRequiredWithoutPostsInput {
-  create?: ThreadCreateWithoutPostsInput;
-  update?: ThreadUpdateWithoutPostsDataInput;
-  upsert?: ThreadUpsertWithoutPostsInput;
-  connect?: ThreadWhereUniqueInput;
-}
-
-export interface WikiPageContentUpdateWithWhereUniqueWithoutPageInput {
-  where: WikiPageContentWhereUniqueInput;
-  data: WikiPageContentUpdateWithoutPageDataInput;
-}
-
-export interface ThreadUpdateWithoutPostsDataInput {
-  title?: String;
-  group?: GroupUpdateOneRequiredWithoutThreadsInput;
-}
-
-export interface PersonCreateWithoutGroupsInput {
-  email: String;
-  password: String;
-  name: String;
-}
-
-export interface GroupUpdateOneRequiredWithoutThreadsInput {
-  create?: GroupCreateWithoutThreadsInput;
-  update?: GroupUpdateWithoutThreadsDataInput;
-  upsert?: GroupUpsertWithoutThreadsInput;
-  connect?: GroupWhereUniqueInput;
-}
-
-export interface GroupCreateWithoutMembersInput {
-  name: String;
-  description?: String;
-  threads?: ThreadCreateManyWithoutGroupInput;
-}
-
-export interface GroupUpdateWithoutThreadsDataInput {
-  name?: String;
-  description?: String;
-  members?: PersonUpdateManyWithoutGroupsInput;
-}
-
-export interface WikiPageUpsertWithoutContentInput {
-  update: WikiPageUpdateWithoutContentDataInput;
-  create: WikiPageCreateWithoutContentInput;
-}
-
-export interface ThreadCreateInput {
-  title: String;
-  posts?: PostCreateManyWithoutThreadInput;
-  group: GroupCreateOneWithoutThreadsInput;
-}
-
-export interface PostUpdateManyMutationInput {
-  content?: String;
-}
-
-export interface ThreadUpsertWithoutPostsInput {
-  update: ThreadUpdateWithoutPostsDataInput;
-  create: ThreadCreateWithoutPostsInput;
-}
-
-export interface GroupUpsertWithoutThreadsInput {
-  update: GroupUpdateWithoutThreadsDataInput;
-  create: GroupCreateWithoutThreadsInput;
-}
-
-export interface WikiPageContentCreateInput {
-  page: WikiPageCreateOneWithoutContentInput;
-  title: String;
-  content: String;
-  author: PersonCreateOneInput;
-  deleted: Boolean;
+export interface PersonUpdateManyWithWhereNestedInput {
+  where: PersonScalarWhereInput;
+  data: PersonUpdateManyDataInput;
 }
 
 export interface PersonWhereInput {
@@ -1554,19 +687,969 @@ export interface PersonWhereInput {
   NOT?: PersonWhereInput[] | PersonWhereInput;
 }
 
-export interface PostCreateWithoutThreadInput {
-  author: PersonCreateOneInput;
-  content: String;
+export interface PersonUpdateManyDataInput {
+  email?: String;
+  password?: String;
+  name?: String;
 }
 
-export interface GroupCreateOneInput {
-  create?: GroupCreateInput;
+export interface PersonSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: PersonWhereInput;
+  AND?: PersonSubscriptionWhereInput[] | PersonSubscriptionWhereInput;
+  OR?: PersonSubscriptionWhereInput[] | PersonSubscriptionWhereInput;
+  NOT?: PersonSubscriptionWhereInput[] | PersonSubscriptionWhereInput;
+}
+
+export interface ThreadUpdateManyWithoutGroupInput {
+  create?: ThreadCreateWithoutGroupInput[] | ThreadCreateWithoutGroupInput;
+  delete?: ThreadWhereUniqueInput[] | ThreadWhereUniqueInput;
+  connect?: ThreadWhereUniqueInput[] | ThreadWhereUniqueInput;
+  set?: ThreadWhereUniqueInput[] | ThreadWhereUniqueInput;
+  disconnect?: ThreadWhereUniqueInput[] | ThreadWhereUniqueInput;
+  update?:
+    | ThreadUpdateWithWhereUniqueWithoutGroupInput[]
+    | ThreadUpdateWithWhereUniqueWithoutGroupInput;
+  upsert?:
+    | ThreadUpsertWithWhereUniqueWithoutGroupInput[]
+    | ThreadUpsertWithWhereUniqueWithoutGroupInput;
+  deleteMany?: ThreadScalarWhereInput[] | ThreadScalarWhereInput;
+  updateMany?:
+    | ThreadUpdateManyWithWhereNestedInput[]
+    | ThreadUpdateManyWithWhereNestedInput;
+}
+
+export interface WikiPageContentUpdateManyMutationInput {
+  title?: String;
+  content?: String;
+  deleted?: Boolean;
+}
+
+export interface ThreadUpdateWithWhereUniqueWithoutGroupInput {
+  where: ThreadWhereUniqueInput;
+  data: ThreadUpdateWithoutGroupDataInput;
+}
+
+export interface WikiPageUpdateWithoutContentDataInput {
+  group?: GroupUpdateOneRequiredWithoutWikiPagesInput;
+}
+
+export interface ThreadUpdateWithoutGroupDataInput {
+  title?: String;
+  posts?: PostUpdateManyWithoutThreadInput;
+}
+
+export interface WikiPageContentUpdateInput {
+  page?: WikiPageUpdateOneRequiredWithoutContentInput;
+  title?: String;
+  content?: String;
+  author?: PersonUpdateOneRequiredInput;
+  deleted?: Boolean;
+}
+
+export interface PostUpdateManyWithoutThreadInput {
+  create?: PostCreateWithoutThreadInput[] | PostCreateWithoutThreadInput;
+  delete?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+  set?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+  disconnect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+  update?:
+    | PostUpdateWithWhereUniqueWithoutThreadInput[]
+    | PostUpdateWithWhereUniqueWithoutThreadInput;
+  upsert?:
+    | PostUpsertWithWhereUniqueWithoutThreadInput[]
+    | PostUpsertWithWhereUniqueWithoutThreadInput;
+  deleteMany?: PostScalarWhereInput[] | PostScalarWhereInput;
+  updateMany?:
+    | PostUpdateManyWithWhereNestedInput[]
+    | PostUpdateManyWithWhereNestedInput;
+}
+
+export type PersonWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+  email?: String;
+}>;
+
+export interface PostUpdateWithWhereUniqueWithoutThreadInput {
+  where: PostWhereUniqueInput;
+  data: PostUpdateWithoutThreadDataInput;
+}
+
+export interface WikiPageContentCreateInput {
+  page: WikiPageCreateOneWithoutContentInput;
+  title: String;
+  content: String;
+  author: PersonCreateOneInput;
+  deleted: Boolean;
+}
+
+export interface PostUpdateWithoutThreadDataInput {
+  author?: PersonUpdateOneRequiredInput;
+  content?: String;
+}
+
+export type PostWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface PersonUpdateOneRequiredInput {
+  create?: PersonCreateInput;
+  update?: PersonUpdateDataInput;
+  upsert?: PersonUpsertNestedInput;
+  connect?: PersonWhereUniqueInput;
+}
+
+export interface GroupUpdateOneRequiredWithoutWikiPagesInput {
+  create?: GroupCreateWithoutWikiPagesInput;
+  update?: GroupUpdateWithoutWikiPagesDataInput;
+  upsert?: GroupUpsertWithoutWikiPagesInput;
   connect?: GroupWhereUniqueInput;
+}
+
+export interface PersonUpdateDataInput {
+  email?: String;
+  password?: String;
+  name?: String;
+  groups?: GroupUpdateManyWithoutMembersInput;
+}
+
+export type ThreadWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface GroupUpdateManyWithoutMembersInput {
+  create?: GroupCreateWithoutMembersInput[] | GroupCreateWithoutMembersInput;
+  delete?: GroupWhereUniqueInput[] | GroupWhereUniqueInput;
+  connect?: GroupWhereUniqueInput[] | GroupWhereUniqueInput;
+  set?: GroupWhereUniqueInput[] | GroupWhereUniqueInput;
+  disconnect?: GroupWhereUniqueInput[] | GroupWhereUniqueInput;
+  update?:
+    | GroupUpdateWithWhereUniqueWithoutMembersInput[]
+    | GroupUpdateWithWhereUniqueWithoutMembersInput;
+  upsert?:
+    | GroupUpsertWithWhereUniqueWithoutMembersInput[]
+    | GroupUpsertWithWhereUniqueWithoutMembersInput;
+  deleteMany?: GroupScalarWhereInput[] | GroupScalarWhereInput;
+  updateMany?:
+    | GroupUpdateManyWithWhereNestedInput[]
+    | GroupUpdateManyWithWhereNestedInput;
+}
+
+export interface GroupCreateOneWithoutWikiPagesInput {
+  create?: GroupCreateWithoutWikiPagesInput;
+  connect?: GroupWhereUniqueInput;
+}
+
+export interface GroupUpdateWithoutThreadsDataInput {
+  name?: String;
+  description?: String;
+  members?: PersonUpdateManyWithoutGroupsInput;
+  wikiPages?: WikiPageUpdateManyWithoutGroupInput;
+}
+
+export type WikiPageWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface GroupUpdateWithoutMembersDataInput {
+  name?: String;
+  description?: String;
+  threads?: ThreadUpdateManyWithoutGroupInput;
+  wikiPages?: WikiPageUpdateManyWithoutGroupInput;
+}
+
+export interface ThreadUpdateInput {
+  title?: String;
+  posts?: PostUpdateManyWithoutThreadInput;
+  group?: GroupUpdateOneRequiredWithoutThreadsInput;
+}
+
+export interface WikiPageUpdateManyWithoutGroupInput {
+  create?: WikiPageCreateWithoutGroupInput[] | WikiPageCreateWithoutGroupInput;
+  delete?: WikiPageWhereUniqueInput[] | WikiPageWhereUniqueInput;
+  connect?: WikiPageWhereUniqueInput[] | WikiPageWhereUniqueInput;
+  set?: WikiPageWhereUniqueInput[] | WikiPageWhereUniqueInput;
+  disconnect?: WikiPageWhereUniqueInput[] | WikiPageWhereUniqueInput;
+  update?:
+    | WikiPageUpdateWithWhereUniqueWithoutGroupInput[]
+    | WikiPageUpdateWithWhereUniqueWithoutGroupInput;
+  upsert?:
+    | WikiPageUpsertWithWhereUniqueWithoutGroupInput[]
+    | WikiPageUpsertWithWhereUniqueWithoutGroupInput;
+  deleteMany?: WikiPageScalarWhereInput[] | WikiPageScalarWhereInput;
+}
+
+export type WikiPageContentWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface WikiPageUpdateWithWhereUniqueWithoutGroupInput {
+  where: WikiPageWhereUniqueInput;
+  data: WikiPageUpdateWithoutGroupDataInput;
+}
+
+export interface ThreadUpsertWithoutPostsInput {
+  update: ThreadUpdateWithoutPostsDataInput;
+  create: ThreadCreateWithoutPostsInput;
+}
+
+export interface WikiPageUpdateWithoutGroupDataInput {
+  content?: WikiPageContentUpdateManyWithoutPageInput;
+}
+
+export interface PersonCreateManyWithoutGroupsInput {
+  create?: PersonCreateWithoutGroupsInput[] | PersonCreateWithoutGroupsInput;
+  connect?: PersonWhereUniqueInput[] | PersonWhereUniqueInput;
+}
+
+export interface WikiPageContentWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  page?: WikiPageWhereInput;
+  title?: String;
+  title_not?: String;
+  title_in?: String[] | String;
+  title_not_in?: String[] | String;
+  title_lt?: String;
+  title_lte?: String;
+  title_gt?: String;
+  title_gte?: String;
+  title_contains?: String;
+  title_not_contains?: String;
+  title_starts_with?: String;
+  title_not_starts_with?: String;
+  title_ends_with?: String;
+  title_not_ends_with?: String;
+  content?: String;
+  content_not?: String;
+  content_in?: String[] | String;
+  content_not_in?: String[] | String;
+  content_lt?: String;
+  content_lte?: String;
+  content_gt?: String;
+  content_gte?: String;
+  content_contains?: String;
+  content_not_contains?: String;
+  content_starts_with?: String;
+  content_not_starts_with?: String;
+  content_ends_with?: String;
+  content_not_ends_with?: String;
+  author?: PersonWhereInput;
+  deleted?: Boolean;
+  deleted_not?: Boolean;
+  AND?: WikiPageContentWhereInput[] | WikiPageContentWhereInput;
+  OR?: WikiPageContentWhereInput[] | WikiPageContentWhereInput;
+  NOT?: WikiPageContentWhereInput[] | WikiPageContentWhereInput;
+}
+
+export interface ThreadCreateManyWithoutGroupInput {
+  create?: ThreadCreateWithoutGroupInput[] | ThreadCreateWithoutGroupInput;
+  connect?: ThreadWhereUniqueInput[] | ThreadWhereUniqueInput;
+}
+
+export interface PostWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  author?: PersonWhereInput;
+  content?: String;
+  content_not?: String;
+  content_in?: String[] | String;
+  content_not_in?: String[] | String;
+  content_lt?: String;
+  content_lte?: String;
+  content_gt?: String;
+  content_gte?: String;
+  content_contains?: String;
+  content_not_contains?: String;
+  content_starts_with?: String;
+  content_not_starts_with?: String;
+  content_ends_with?: String;
+  content_not_ends_with?: String;
+  thread?: ThreadWhereInput;
+  AND?: PostWhereInput[] | PostWhereInput;
+  OR?: PostWhereInput[] | PostWhereInput;
+  NOT?: PostWhereInput[] | PostWhereInput;
+}
+
+export interface PostCreateManyWithoutThreadInput {
+  create?: PostCreateWithoutThreadInput[] | PostCreateWithoutThreadInput;
+  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+}
+
+export interface WikiPageContentUpdateWithoutPageDataInput {
+  title?: String;
+  content?: String;
+  author?: PersonUpdateOneRequiredInput;
+  deleted?: Boolean;
+}
+
+export interface PersonCreateOneInput {
+  create?: PersonCreateInput;
+  connect?: PersonWhereUniqueInput;
+}
+
+export interface WikiPageContentUpsertWithWhereUniqueWithoutPageInput {
+  where: WikiPageContentWhereUniqueInput;
+  update: WikiPageContentUpdateWithoutPageDataInput;
+  create: WikiPageContentCreateWithoutPageInput;
+}
+
+export interface GroupCreateManyWithoutMembersInput {
+  create?: GroupCreateWithoutMembersInput[] | GroupCreateWithoutMembersInput;
+  connect?: GroupWhereUniqueInput[] | GroupWhereUniqueInput;
+}
+
+export interface WikiPageContentScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  title?: String;
+  title_not?: String;
+  title_in?: String[] | String;
+  title_not_in?: String[] | String;
+  title_lt?: String;
+  title_lte?: String;
+  title_gt?: String;
+  title_gte?: String;
+  title_contains?: String;
+  title_not_contains?: String;
+  title_starts_with?: String;
+  title_not_starts_with?: String;
+  title_ends_with?: String;
+  title_not_ends_with?: String;
+  content?: String;
+  content_not?: String;
+  content_in?: String[] | String;
+  content_not_in?: String[] | String;
+  content_lt?: String;
+  content_lte?: String;
+  content_gt?: String;
+  content_gte?: String;
+  content_contains?: String;
+  content_not_contains?: String;
+  content_starts_with?: String;
+  content_not_starts_with?: String;
+  content_ends_with?: String;
+  content_not_ends_with?: String;
+  deleted?: Boolean;
+  deleted_not?: Boolean;
+  AND?: WikiPageContentScalarWhereInput[] | WikiPageContentScalarWhereInput;
+  OR?: WikiPageContentScalarWhereInput[] | WikiPageContentScalarWhereInput;
+  NOT?: WikiPageContentScalarWhereInput[] | WikiPageContentScalarWhereInput;
+}
+
+export interface WikiPageCreateManyWithoutGroupInput {
+  create?: WikiPageCreateWithoutGroupInput[] | WikiPageCreateWithoutGroupInput;
+  connect?: WikiPageWhereUniqueInput[] | WikiPageWhereUniqueInput;
 }
 
 export interface WikiPageContentUpdateManyWithWhereNestedInput {
   where: WikiPageContentScalarWhereInput;
   data: WikiPageContentUpdateManyDataInput;
+}
+
+export interface WikiPageContentCreateManyWithoutPageInput {
+  create?:
+    | WikiPageContentCreateWithoutPageInput[]
+    | WikiPageContentCreateWithoutPageInput;
+  connect?: WikiPageContentWhereUniqueInput[] | WikiPageContentWhereUniqueInput;
+}
+
+export interface WikiPageContentUpdateManyDataInput {
+  title?: String;
+  content?: String;
+  deleted?: Boolean;
+}
+
+export interface GroupUpdateInput {
+  name?: String;
+  description?: String;
+  members?: PersonUpdateManyWithoutGroupsInput;
+  threads?: ThreadUpdateManyWithoutGroupInput;
+  wikiPages?: WikiPageUpdateManyWithoutGroupInput;
+}
+
+export interface WikiPageUpsertWithWhereUniqueWithoutGroupInput {
+  where: WikiPageWhereUniqueInput;
+  update: WikiPageUpdateWithoutGroupDataInput;
+  create: WikiPageCreateWithoutGroupInput;
+}
+
+export interface WikiPageContentSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: WikiPageContentWhereInput;
+  AND?:
+    | WikiPageContentSubscriptionWhereInput[]
+    | WikiPageContentSubscriptionWhereInput;
+  OR?:
+    | WikiPageContentSubscriptionWhereInput[]
+    | WikiPageContentSubscriptionWhereInput;
+  NOT?:
+    | WikiPageContentSubscriptionWhereInput[]
+    | WikiPageContentSubscriptionWhereInput;
+}
+
+export interface WikiPageScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  AND?: WikiPageScalarWhereInput[] | WikiPageScalarWhereInput;
+  OR?: WikiPageScalarWhereInput[] | WikiPageScalarWhereInput;
+  NOT?: WikiPageScalarWhereInput[] | WikiPageScalarWhereInput;
+}
+
+export interface ThreadSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: ThreadWhereInput;
+  AND?: ThreadSubscriptionWhereInput[] | ThreadSubscriptionWhereInput;
+  OR?: ThreadSubscriptionWhereInput[] | ThreadSubscriptionWhereInput;
+  NOT?: ThreadSubscriptionWhereInput[] | ThreadSubscriptionWhereInput;
+}
+
+export interface GroupUpsertWithWhereUniqueWithoutMembersInput {
+  where: GroupWhereUniqueInput;
+  update: GroupUpdateWithoutMembersDataInput;
+  create: GroupCreateWithoutMembersInput;
+}
+
+export interface GroupSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: GroupWhereInput;
+  AND?: GroupSubscriptionWhereInput[] | GroupSubscriptionWhereInput;
+  OR?: GroupSubscriptionWhereInput[] | GroupSubscriptionWhereInput;
+  NOT?: GroupSubscriptionWhereInput[] | GroupSubscriptionWhereInput;
+}
+
+export interface GroupScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  description?: String;
+  description_not?: String;
+  description_in?: String[] | String;
+  description_not_in?: String[] | String;
+  description_lt?: String;
+  description_lte?: String;
+  description_gt?: String;
+  description_gte?: String;
+  description_contains?: String;
+  description_not_contains?: String;
+  description_starts_with?: String;
+  description_not_starts_with?: String;
+  description_ends_with?: String;
+  description_not_ends_with?: String;
+  AND?: GroupScalarWhereInput[] | GroupScalarWhereInput;
+  OR?: GroupScalarWhereInput[] | GroupScalarWhereInput;
+  NOT?: GroupScalarWhereInput[] | GroupScalarWhereInput;
+}
+
+export interface WikiPageUpdateOneRequiredWithoutContentInput {
+  create?: WikiPageCreateWithoutContentInput;
+  update?: WikiPageUpdateWithoutContentDataInput;
+  upsert?: WikiPageUpsertWithoutContentInput;
+  connect?: WikiPageWhereUniqueInput;
+}
+
+export interface GroupUpdateManyWithWhereNestedInput {
+  where: GroupScalarWhereInput;
+  data: GroupUpdateManyDataInput;
+}
+
+export interface WikiPageCreateOneWithoutContentInput {
+  create?: WikiPageCreateWithoutContentInput;
+  connect?: WikiPageWhereUniqueInput;
+}
+
+export interface GroupUpdateManyDataInput {
+  name?: String;
+  description?: String;
+}
+
+export interface GroupUpdateWithoutWikiPagesDataInput {
+  name?: String;
+  description?: String;
+  members?: PersonUpdateManyWithoutGroupsInput;
+  threads?: ThreadUpdateManyWithoutGroupInput;
+}
+
+export interface PersonUpsertNestedInput {
+  update: PersonUpdateDataInput;
+  create: PersonCreateInput;
+}
+
+export interface GroupCreateWithoutWikiPagesInput {
+  name: String;
+  description?: String;
+  members?: PersonCreateManyWithoutGroupsInput;
+  threads?: ThreadCreateManyWithoutGroupInput;
+}
+
+export interface PostUpsertWithWhereUniqueWithoutThreadInput {
+  where: PostWhereUniqueInput;
+  update: PostUpdateWithoutThreadDataInput;
+  create: PostCreateWithoutThreadInput;
+}
+
+export interface ThreadUpdateManyMutationInput {
+  title?: String;
+}
+
+export interface PostScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  content?: String;
+  content_not?: String;
+  content_in?: String[] | String;
+  content_not_in?: String[] | String;
+  content_lt?: String;
+  content_lte?: String;
+  content_gt?: String;
+  content_gte?: String;
+  content_contains?: String;
+  content_not_contains?: String;
+  content_starts_with?: String;
+  content_not_starts_with?: String;
+  content_ends_with?: String;
+  content_not_ends_with?: String;
+  AND?: PostScalarWhereInput[] | PostScalarWhereInput;
+  OR?: PostScalarWhereInput[] | PostScalarWhereInput;
+  NOT?: PostScalarWhereInput[] | PostScalarWhereInput;
+}
+
+export interface PostUpdateManyMutationInput {
+  content?: String;
+}
+
+export interface PostUpdateManyWithWhereNestedInput {
+  where: PostScalarWhereInput;
+  data: PostUpdateManyDataInput;
+}
+
+export interface GroupCreateInput {
+  name: String;
+  description?: String;
+  members?: PersonCreateManyWithoutGroupsInput;
+  threads?: ThreadCreateManyWithoutGroupInput;
+  wikiPages?: WikiPageCreateManyWithoutGroupInput;
+}
+
+export interface PostUpdateManyDataInput {
+  content?: String;
+}
+
+export interface ThreadCreateWithoutGroupInput {
+  title: String;
+  posts?: PostCreateManyWithoutThreadInput;
+}
+
+export interface ThreadUpsertWithWhereUniqueWithoutGroupInput {
+  where: ThreadWhereUniqueInput;
+  update: ThreadUpdateWithoutGroupDataInput;
+  create: ThreadCreateWithoutGroupInput;
+}
+
+export interface PersonCreateInput {
+  email: String;
+  password: String;
+  name: String;
+  groups?: GroupCreateManyWithoutMembersInput;
+}
+
+export interface ThreadScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  title?: String;
+  title_not?: String;
+  title_in?: String[] | String;
+  title_not_in?: String[] | String;
+  title_lt?: String;
+  title_lte?: String;
+  title_gt?: String;
+  title_gte?: String;
+  title_contains?: String;
+  title_not_contains?: String;
+  title_starts_with?: String;
+  title_not_starts_with?: String;
+  title_ends_with?: String;
+  title_not_ends_with?: String;
+  AND?: ThreadScalarWhereInput[] | ThreadScalarWhereInput;
+  OR?: ThreadScalarWhereInput[] | ThreadScalarWhereInput;
+  NOT?: ThreadScalarWhereInput[] | ThreadScalarWhereInput;
+}
+
+export interface WikiPageCreateWithoutGroupInput {
+  content?: WikiPageContentCreateManyWithoutPageInput;
+}
+
+export interface ThreadUpdateManyWithWhereNestedInput {
+  where: ThreadScalarWhereInput;
+  data: ThreadUpdateManyDataInput;
+}
+
+export interface PersonUpdateManyWithoutGroupsInput {
+  create?: PersonCreateWithoutGroupsInput[] | PersonCreateWithoutGroupsInput;
+  delete?: PersonWhereUniqueInput[] | PersonWhereUniqueInput;
+  connect?: PersonWhereUniqueInput[] | PersonWhereUniqueInput;
+  set?: PersonWhereUniqueInput[] | PersonWhereUniqueInput;
+  disconnect?: PersonWhereUniqueInput[] | PersonWhereUniqueInput;
+  update?:
+    | PersonUpdateWithWhereUniqueWithoutGroupsInput[]
+    | PersonUpdateWithWhereUniqueWithoutGroupsInput;
+  upsert?:
+    | PersonUpsertWithWhereUniqueWithoutGroupsInput[]
+    | PersonUpsertWithWhereUniqueWithoutGroupsInput;
+  deleteMany?: PersonScalarWhereInput[] | PersonScalarWhereInput;
+  updateMany?:
+    | PersonUpdateManyWithWhereNestedInput[]
+    | PersonUpdateManyWithWhereNestedInput;
+}
+
+export interface ThreadUpdateManyDataInput {
+  title?: String;
+}
+
+export interface PostSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: PostWhereInput;
+  AND?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
+  OR?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
+  NOT?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
+}
+
+export interface GroupUpdateManyMutationInput {
+  name?: String;
+  description?: String;
+}
+
+export interface WikiPageCreateWithoutContentInput {
+  group: GroupCreateOneWithoutWikiPagesInput;
+}
+
+export interface GroupUpdateOneRequiredWithoutThreadsInput {
+  create?: GroupCreateWithoutThreadsInput;
+  update?: GroupUpdateWithoutThreadsDataInput;
+  upsert?: GroupUpsertWithoutThreadsInput;
+  connect?: GroupWhereUniqueInput;
+}
+
+export interface WikiPageUpdateInput {
+  content?: WikiPageContentUpdateManyWithoutPageInput;
+  group?: GroupUpdateOneRequiredWithoutWikiPagesInput;
+}
+
+export interface ThreadUpdateWithoutPostsDataInput {
+  title?: String;
+  group?: GroupUpdateOneRequiredWithoutThreadsInput;
+}
+
+export interface ThreadCreateInput {
+  title: String;
+  posts?: PostCreateManyWithoutThreadInput;
+  group: GroupCreateOneWithoutThreadsInput;
+}
+
+export interface PersonUpdateInput {
+  email?: String;
+  password?: String;
+  name?: String;
+  groups?: GroupUpdateManyWithoutMembersInput;
+}
+
+export interface PersonCreateWithoutGroupsInput {
+  email: String;
+  password: String;
+  name: String;
+}
+
+export interface PersonUpdateManyMutationInput {
+  email?: String;
+  password?: String;
+  name?: String;
+}
+
+export interface GroupCreateWithoutMembersInput {
+  name: String;
+  description?: String;
+  threads?: ThreadCreateManyWithoutGroupInput;
+  wikiPages?: WikiPageCreateManyWithoutGroupInput;
+}
+
+export interface PostCreateInput {
+  author: PersonCreateOneInput;
+  content: String;
+  thread: ThreadCreateOneWithoutPostsInput;
+}
+
+export interface ThreadWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  title?: String;
+  title_not?: String;
+  title_in?: String[] | String;
+  title_not_in?: String[] | String;
+  title_lt?: String;
+  title_lte?: String;
+  title_gt?: String;
+  title_gte?: String;
+  title_contains?: String;
+  title_not_contains?: String;
+  title_starts_with?: String;
+  title_not_starts_with?: String;
+  title_ends_with?: String;
+  title_not_ends_with?: String;
+  posts_every?: PostWhereInput;
+  posts_some?: PostWhereInput;
+  posts_none?: PostWhereInput;
+  group?: GroupWhereInput;
+  AND?: ThreadWhereInput[] | ThreadWhereInput;
+  OR?: ThreadWhereInput[] | ThreadWhereInput;
+  NOT?: ThreadWhereInput[] | ThreadWhereInput;
+}
+
+export interface ThreadCreateOneWithoutPostsInput {
+  create?: ThreadCreateWithoutPostsInput;
+  connect?: ThreadWhereUniqueInput;
+}
+
+export interface GroupUpsertWithoutWikiPagesInput {
+  update: GroupUpdateWithoutWikiPagesDataInput;
+  create: GroupCreateWithoutWikiPagesInput;
+}
+
+export interface PostUpdateInput {
+  author?: PersonUpdateOneRequiredInput;
+  content?: String;
+  thread?: ThreadUpdateOneRequiredWithoutPostsInput;
+}
+
+export interface GroupCreateWithoutThreadsInput {
+  name: String;
+  description?: String;
+  members?: PersonCreateManyWithoutGroupsInput;
+  wikiPages?: WikiPageCreateManyWithoutGroupInput;
+}
+
+export interface GroupCreateOneWithoutThreadsInput {
+  create?: GroupCreateWithoutThreadsInput;
+  connect?: GroupWhereUniqueInput;
+}
+
+export interface ThreadCreateWithoutPostsInput {
+  title: String;
+  group: GroupCreateOneWithoutThreadsInput;
+}
+
+export interface WikiPageCreateInput {
+  content?: WikiPageContentCreateManyWithoutPageInput;
+  group: GroupCreateOneWithoutWikiPagesInput;
+}
+
+export interface WikiPageUpsertWithoutContentInput {
+  update: WikiPageUpdateWithoutContentDataInput;
+  create: WikiPageCreateWithoutContentInput;
+}
+
+export interface WikiPageContentCreateWithoutPageInput {
+  title: String;
+  content: String;
+  author: PersonCreateOneInput;
+  deleted: Boolean;
+}
+
+export interface PostCreateWithoutThreadInput {
+  author: PersonCreateOneInput;
+  content: String;
+}
+
+export interface GroupUpsertWithoutThreadsInput {
+  update: GroupUpdateWithoutThreadsDataInput;
+  create: GroupCreateWithoutThreadsInput;
 }
 
 export interface NodeNode {
@@ -1601,20 +1684,20 @@ export interface WikiPageContentPreviousValuesSubscription
   deleted: () => Promise<AsyncIterator<Boolean>>;
 }
 
-export interface PersonEdge {
-  node: Person;
+export interface GroupEdge {
+  node: Group;
   cursor: String;
 }
 
-export interface PersonEdgePromise extends Promise<PersonEdge>, Fragmentable {
-  node: <T = PersonPromise>() => T;
+export interface GroupEdgePromise extends Promise<GroupEdge>, Fragmentable {
+  node: <T = GroupPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface PersonEdgeSubscription
-  extends Promise<AsyncIterator<PersonEdge>>,
+export interface GroupEdgeSubscription
+  extends Promise<AsyncIterator<GroupEdge>>,
     Fragmentable {
-  node: <T = PersonSubscription>() => T;
+  node: <T = GroupSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
@@ -1662,44 +1745,48 @@ export interface PersonSubscription
   }) => T;
 }
 
-export interface AggregatePerson {
-  count: Int;
+export interface PageInfo {
+  hasNextPage: Boolean;
+  hasPreviousPage: Boolean;
+  startCursor?: String;
+  endCursor?: String;
 }
 
-export interface AggregatePersonPromise
-  extends Promise<AggregatePerson>,
+export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
+  hasNextPage: () => Promise<Boolean>;
+  hasPreviousPage: () => Promise<Boolean>;
+  startCursor: () => Promise<String>;
+  endCursor: () => Promise<String>;
+}
+
+export interface PageInfoSubscription
+  extends Promise<AsyncIterator<PageInfo>>,
     Fragmentable {
-  count: () => Promise<Int>;
+  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
+  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
+  startCursor: () => Promise<AsyncIterator<String>>;
+  endCursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregatePersonSubscription
-  extends Promise<AsyncIterator<AggregatePerson>>,
+export interface GroupConnection {
+  pageInfo: PageInfo;
+  edges: GroupEdge[];
+}
+
+export interface GroupConnectionPromise
+  extends Promise<GroupConnection>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<GroupEdge>>() => T;
+  aggregate: <T = AggregateGroupPromise>() => T;
 }
 
-export interface Post {
-  id: ID_Output;
-  createdAt: DateTimeOutput;
-  content: String;
-}
-
-export interface PostPromise extends Promise<Post>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  author: <T = PersonPromise>() => T;
-  content: () => Promise<String>;
-  thread: <T = ThreadPromise>() => T;
-}
-
-export interface PostSubscription
-  extends Promise<AsyncIterator<Post>>,
+export interface GroupConnectionSubscription
+  extends Promise<AsyncIterator<GroupConnection>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  author: <T = PersonSubscription>() => T;
-  content: () => Promise<AsyncIterator<String>>;
-  thread: <T = ThreadSubscription>() => T;
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<GroupEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateGroupSubscription>() => T;
 }
 
 export interface BatchPayload {
@@ -1718,173 +1805,20 @@ export interface BatchPayloadSubscription
   count: () => Promise<AsyncIterator<Long>>;
 }
 
-export interface PersonConnection {
-  pageInfo: PageInfo;
-  edges: PersonEdge[];
-}
-
-export interface PersonConnectionPromise
-  extends Promise<PersonConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<PersonEdge>>() => T;
-  aggregate: <T = AggregatePersonPromise>() => T;
-}
-
-export interface PersonConnectionSubscription
-  extends Promise<AsyncIterator<PersonConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<PersonEdgeSubscription>>>() => T;
-  aggregate: <T = AggregatePersonSubscription>() => T;
-}
-
-export interface Thread {
-  id: ID_Output;
-  createdAt: DateTimeOutput;
-  title: String;
-}
-
-export interface ThreadPromise extends Promise<Thread>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  title: () => Promise<String>;
-  posts: <T = FragmentableArray<Post>>(args?: {
-    where?: PostWhereInput;
-    orderBy?: PostOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  group: <T = GroupPromise>() => T;
-}
-
-export interface ThreadSubscription
-  extends Promise<AsyncIterator<Thread>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  title: () => Promise<AsyncIterator<String>>;
-  posts: <T = Promise<AsyncIterator<PostSubscription>>>(args?: {
-    where?: PostWhereInput;
-    orderBy?: PostOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  group: <T = GroupSubscription>() => T;
-}
-
-export interface WikiPageContentEdge {
-  node: WikiPageContent;
-  cursor: String;
-}
-
-export interface WikiPageContentEdgePromise
-  extends Promise<WikiPageContentEdge>,
-    Fragmentable {
-  node: <T = WikiPageContentPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface WikiPageContentEdgeSubscription
-  extends Promise<AsyncIterator<WikiPageContentEdge>>,
-    Fragmentable {
-  node: <T = WikiPageContentSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregateGroup {
+export interface AggregateWikiPageContent {
   count: Int;
 }
 
-export interface AggregateGroupPromise
-  extends Promise<AggregateGroup>,
+export interface AggregateWikiPageContentPromise
+  extends Promise<AggregateWikiPageContent>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateGroupSubscription
-  extends Promise<AsyncIterator<AggregateGroup>>,
+export interface AggregateWikiPageContentSubscription
+  extends Promise<AsyncIterator<AggregateWikiPageContent>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface AggregateWikiPage {
-  count: Int;
-}
-
-export interface AggregateWikiPagePromise
-  extends Promise<AggregateWikiPage>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateWikiPageSubscription
-  extends Promise<AsyncIterator<AggregateWikiPage>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface GroupEdge {
-  node: Group;
-  cursor: String;
-}
-
-export interface GroupEdgePromise extends Promise<GroupEdge>, Fragmentable {
-  node: <T = GroupPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface GroupEdgeSubscription
-  extends Promise<AsyncIterator<GroupEdge>>,
-    Fragmentable {
-  node: <T = GroupSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface WikiPageConnection {
-  pageInfo: PageInfo;
-  edges: WikiPageEdge[];
-}
-
-export interface WikiPageConnectionPromise
-  extends Promise<WikiPageConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<WikiPageEdge>>() => T;
-  aggregate: <T = AggregateWikiPagePromise>() => T;
-}
-
-export interface WikiPageConnectionSubscription
-  extends Promise<AsyncIterator<WikiPageConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<WikiPageEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateWikiPageSubscription>() => T;
-}
-
-export interface WikiPagePreviousValues {
-  id: ID_Output;
-  createdAt: DateTimeOutput;
-}
-
-export interface WikiPagePreviousValuesPromise
-  extends Promise<WikiPagePreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-}
-
-export interface WikiPagePreviousValuesSubscription
-  extends Promise<AsyncIterator<WikiPagePreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface WikiPageContent {
@@ -1919,29 +1853,121 @@ export interface WikiPageContentSubscription
   deleted: () => Promise<AsyncIterator<Boolean>>;
 }
 
-export interface GroupSubscriptionPayload {
-  mutation: MutationType;
-  node: Group;
-  updatedFields: String[];
-  previousValues: GroupPreviousValues;
+export interface WikiPageContentConnection {
+  pageInfo: PageInfo;
+  edges: WikiPageContentEdge[];
 }
 
-export interface GroupSubscriptionPayloadPromise
-  extends Promise<GroupSubscriptionPayload>,
+export interface WikiPageContentConnectionPromise
+  extends Promise<WikiPageContentConnection>,
     Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = GroupPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = GroupPreviousValuesPromise>() => T;
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<WikiPageContentEdge>>() => T;
+  aggregate: <T = AggregateWikiPageContentPromise>() => T;
 }
 
-export interface GroupSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<GroupSubscriptionPayload>>,
+export interface WikiPageContentConnectionSubscription
+  extends Promise<AsyncIterator<WikiPageContentConnection>>,
     Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = GroupSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = GroupPreviousValuesSubscription>() => T;
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<WikiPageContentEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateWikiPageContentSubscription>() => T;
+}
+
+export interface Group {
+  id: ID_Output;
+  name: String;
+  createdAt: DateTimeOutput;
+  description?: String;
+}
+
+export interface GroupPromise extends Promise<Group>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  description: () => Promise<String>;
+  members: <T = FragmentableArray<Person>>(args?: {
+    where?: PersonWhereInput;
+    orderBy?: PersonOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  threads: <T = FragmentableArray<Thread>>(args?: {
+    where?: ThreadWhereInput;
+    orderBy?: ThreadOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  wikiPages: <T = FragmentableArray<WikiPage>>(args?: {
+    where?: WikiPageWhereInput;
+    orderBy?: WikiPageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface GroupSubscription
+  extends Promise<AsyncIterator<Group>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  description: () => Promise<AsyncIterator<String>>;
+  members: <T = Promise<AsyncIterator<PersonSubscription>>>(args?: {
+    where?: PersonWhereInput;
+    orderBy?: PersonOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  threads: <T = Promise<AsyncIterator<ThreadSubscription>>>(args?: {
+    where?: ThreadWhereInput;
+    orderBy?: ThreadOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  wikiPages: <T = Promise<AsyncIterator<WikiPageSubscription>>>(args?: {
+    where?: WikiPageWhereInput;
+    orderBy?: WikiPageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface WikiPageEdge {
+  node: WikiPage;
+  cursor: String;
+}
+
+export interface WikiPageEdgePromise
+  extends Promise<WikiPageEdge>,
+    Fragmentable {
+  node: <T = WikiPagePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface WikiPageEdgeSubscription
+  extends Promise<AsyncIterator<WikiPageEdge>>,
+    Fragmentable {
+  node: <T = WikiPageSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface WikiPage {
@@ -1981,6 +2007,104 @@ export interface WikiPageSubscription
   group: <T = GroupSubscription>() => T;
 }
 
+export interface AggregateThread {
+  count: Int;
+}
+
+export interface AggregateThreadPromise
+  extends Promise<AggregateThread>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateThreadSubscription
+  extends Promise<AsyncIterator<AggregateThread>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface WikiPagePreviousValues {
+  id: ID_Output;
+  createdAt: DateTimeOutput;
+}
+
+export interface WikiPagePreviousValuesPromise
+  extends Promise<WikiPagePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface WikiPagePreviousValuesSubscription
+  extends Promise<AsyncIterator<WikiPagePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface ThreadConnection {
+  pageInfo: PageInfo;
+  edges: ThreadEdge[];
+}
+
+export interface ThreadConnectionPromise
+  extends Promise<ThreadConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ThreadEdge>>() => T;
+  aggregate: <T = AggregateThreadPromise>() => T;
+}
+
+export interface ThreadConnectionSubscription
+  extends Promise<AsyncIterator<ThreadConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ThreadEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateThreadSubscription>() => T;
+}
+
+export interface GroupSubscriptionPayload {
+  mutation: MutationType;
+  node: Group;
+  updatedFields: String[];
+  previousValues: GroupPreviousValues;
+}
+
+export interface GroupSubscriptionPayloadPromise
+  extends Promise<GroupSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = GroupPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = GroupPreviousValuesPromise>() => T;
+}
+
+export interface GroupSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<GroupSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = GroupSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = GroupPreviousValuesSubscription>() => T;
+}
+
+export interface PostEdge {
+  node: Post;
+  cursor: String;
+}
+
+export interface PostEdgePromise extends Promise<PostEdge>, Fragmentable {
+  node: <T = PostPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface PostEdgeSubscription
+  extends Promise<AsyncIterator<PostEdge>>,
+    Fragmentable {
+  node: <T = PostSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
 export interface GroupPreviousValues {
   id: ID_Output;
   name: String;
@@ -2006,21 +2130,20 @@ export interface GroupPreviousValuesSubscription
   description: () => Promise<AsyncIterator<String>>;
 }
 
-export interface ThreadEdge {
-  node: Thread;
-  cursor: String;
+export interface AggregatePerson {
+  count: Int;
 }
 
-export interface ThreadEdgePromise extends Promise<ThreadEdge>, Fragmentable {
-  node: <T = ThreadPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface ThreadEdgeSubscription
-  extends Promise<AsyncIterator<ThreadEdge>>,
+export interface AggregatePersonPromise
+  extends Promise<AggregatePerson>,
     Fragmentable {
-  node: <T = ThreadSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  count: () => Promise<Int>;
+}
+
+export interface AggregatePersonSubscription
+  extends Promise<AsyncIterator<AggregatePerson>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface WikiPageSubscriptionPayload {
@@ -2048,20 +2171,25 @@ export interface WikiPageSubscriptionPayloadSubscription
   previousValues: <T = WikiPagePreviousValuesSubscription>() => T;
 }
 
-export interface AggregatePost {
-  count: Int;
+export interface PersonConnection {
+  pageInfo: PageInfo;
+  edges: PersonEdge[];
 }
 
-export interface AggregatePostPromise
-  extends Promise<AggregatePost>,
+export interface PersonConnectionPromise
+  extends Promise<PersonConnection>,
     Fragmentable {
-  count: () => Promise<Int>;
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<PersonEdge>>() => T;
+  aggregate: <T = AggregatePersonPromise>() => T;
 }
 
-export interface AggregatePostSubscription
-  extends Promise<AsyncIterator<AggregatePost>>,
+export interface PersonConnectionSubscription
+  extends Promise<AsyncIterator<PersonConnection>>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PersonEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePersonSubscription>() => T;
 }
 
 export interface PersonSubscriptionPayload {
@@ -2089,25 +2217,29 @@ export interface PersonSubscriptionPayloadSubscription
   previousValues: <T = PersonPreviousValuesSubscription>() => T;
 }
 
-export interface PostConnection {
-  pageInfo: PageInfo;
-  edges: PostEdge[];
+export interface WikiPageContentSubscriptionPayload {
+  mutation: MutationType;
+  node: WikiPageContent;
+  updatedFields: String[];
+  previousValues: WikiPageContentPreviousValues;
 }
 
-export interface PostConnectionPromise
-  extends Promise<PostConnection>,
+export interface WikiPageContentSubscriptionPayloadPromise
+  extends Promise<WikiPageContentSubscriptionPayload>,
     Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<PostEdge>>() => T;
-  aggregate: <T = AggregatePostPromise>() => T;
+  mutation: () => Promise<MutationType>;
+  node: <T = WikiPageContentPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = WikiPageContentPreviousValuesPromise>() => T;
 }
 
-export interface PostConnectionSubscription
-  extends Promise<AsyncIterator<PostConnection>>,
+export interface WikiPageContentSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<WikiPageContentSubscriptionPayload>>,
     Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<PostEdgeSubscription>>>() => T;
-  aggregate: <T = AggregatePostSubscription>() => T;
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = WikiPageContentSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = WikiPageContentPreviousValuesSubscription>() => T;
 }
 
 export interface PersonPreviousValues {
@@ -2138,107 +2270,61 @@ export interface PersonPreviousValuesSubscription
   name: () => Promise<AsyncIterator<String>>;
 }
 
-export interface WikiPageContentConnection {
-  pageInfo: PageInfo;
-  edges: WikiPageContentEdge[];
+export interface AggregateWikiPage {
+  count: Int;
 }
 
-export interface WikiPageContentConnectionPromise
-  extends Promise<WikiPageContentConnection>,
+export interface AggregateWikiPagePromise
+  extends Promise<AggregateWikiPage>,
     Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<WikiPageContentEdge>>() => T;
-  aggregate: <T = AggregateWikiPageContentPromise>() => T;
+  count: () => Promise<Int>;
 }
 
-export interface WikiPageContentConnectionSubscription
-  extends Promise<AsyncIterator<WikiPageContentConnection>>,
+export interface AggregateWikiPageSubscription
+  extends Promise<AsyncIterator<AggregateWikiPage>>,
     Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<WikiPageContentEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateWikiPageContentSubscription>() => T;
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface PageInfo {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
-}
-
-export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
-  hasNextPage: () => Promise<Boolean>;
-  hasPreviousPage: () => Promise<Boolean>;
-  startCursor: () => Promise<String>;
-  endCursor: () => Promise<String>;
-}
-
-export interface PageInfoSubscription
-  extends Promise<AsyncIterator<PageInfo>>,
-    Fragmentable {
-  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
-  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
-  startCursor: () => Promise<AsyncIterator<String>>;
-  endCursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface Group {
+export interface Post {
   id: ID_Output;
-  name: String;
   createdAt: DateTimeOutput;
-  description?: String;
+  content: String;
 }
 
-export interface GroupPromise extends Promise<Group>, Fragmentable {
+export interface PostPromise extends Promise<Post>, Fragmentable {
   id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
-  description: () => Promise<String>;
-  members: <T = FragmentableArray<Person>>(args?: {
-    where?: PersonWhereInput;
-    orderBy?: PersonOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  threads: <T = FragmentableArray<Thread>>(args?: {
-    where?: ThreadWhereInput;
-    orderBy?: ThreadOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  author: <T = PersonPromise>() => T;
+  content: () => Promise<String>;
+  thread: <T = ThreadPromise>() => T;
 }
 
-export interface GroupSubscription
-  extends Promise<AsyncIterator<Group>>,
+export interface PostSubscription
+  extends Promise<AsyncIterator<Post>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  description: () => Promise<AsyncIterator<String>>;
-  members: <T = Promise<AsyncIterator<PersonSubscription>>>(args?: {
-    where?: PersonWhereInput;
-    orderBy?: PersonOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  threads: <T = Promise<AsyncIterator<ThreadSubscription>>>(args?: {
-    where?: ThreadWhereInput;
-    orderBy?: ThreadOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  author: <T = PersonSubscription>() => T;
+  content: () => Promise<AsyncIterator<String>>;
+  thread: <T = ThreadSubscription>() => T;
+}
+
+export interface ThreadEdge {
+  node: Thread;
+  cursor: String;
+}
+
+export interface ThreadEdgePromise extends Promise<ThreadEdge>, Fragmentable {
+  node: <T = ThreadPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ThreadEdgeSubscription
+  extends Promise<AsyncIterator<ThreadEdge>>,
+    Fragmentable {
+  node: <T = ThreadSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface PostSubscriptionPayload {
@@ -2266,37 +2352,41 @@ export interface PostSubscriptionPayloadSubscription
   previousValues: <T = PostPreviousValuesSubscription>() => T;
 }
 
-export interface AggregateThread {
+export interface PostConnection {
+  pageInfo: PageInfo;
+  edges: PostEdge[];
+}
+
+export interface PostConnectionPromise
+  extends Promise<PostConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<PostEdge>>() => T;
+  aggregate: <T = AggregatePostPromise>() => T;
+}
+
+export interface PostConnectionSubscription
+  extends Promise<AsyncIterator<PostConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PostEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePostSubscription>() => T;
+}
+
+export interface AggregateGroup {
   count: Int;
 }
 
-export interface AggregateThreadPromise
-  extends Promise<AggregateThread>,
+export interface AggregateGroupPromise
+  extends Promise<AggregateGroup>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateThreadSubscription
-  extends Promise<AsyncIterator<AggregateThread>>,
+export interface AggregateGroupSubscription
+  extends Promise<AsyncIterator<AggregateGroup>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface PostEdge {
-  node: Post;
-  cursor: String;
-}
-
-export interface PostEdgePromise extends Promise<PostEdge>, Fragmentable {
-  node: <T = PostPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface PostEdgeSubscription
-  extends Promise<AsyncIterator<PostEdge>>,
-    Fragmentable {
-  node: <T = PostSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ThreadPreviousValues {
@@ -2346,25 +2436,44 @@ export interface ThreadSubscriptionPayloadSubscription
   previousValues: <T = ThreadPreviousValuesSubscription>() => T;
 }
 
-export interface GroupConnection {
-  pageInfo: PageInfo;
-  edges: GroupEdge[];
+export interface Thread {
+  id: ID_Output;
+  createdAt: DateTimeOutput;
+  title: String;
 }
 
-export interface GroupConnectionPromise
-  extends Promise<GroupConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<GroupEdge>>() => T;
-  aggregate: <T = AggregateGroupPromise>() => T;
+export interface ThreadPromise extends Promise<Thread>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
+  title: () => Promise<String>;
+  posts: <T = FragmentableArray<Post>>(args?: {
+    where?: PostWhereInput;
+    orderBy?: PostOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  group: <T = GroupPromise>() => T;
 }
 
-export interface GroupConnectionSubscription
-  extends Promise<AsyncIterator<GroupConnection>>,
+export interface ThreadSubscription
+  extends Promise<AsyncIterator<Thread>>,
     Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<GroupEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateGroupSubscription>() => T;
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  title: () => Promise<AsyncIterator<String>>;
+  posts: <T = Promise<AsyncIterator<PostSubscription>>>(args?: {
+    where?: PostWhereInput;
+    orderBy?: PostOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  group: <T = GroupSubscription>() => T;
 }
 
 export interface PostPreviousValues {
@@ -2389,93 +2498,101 @@ export interface PostPreviousValuesSubscription
   content: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregateWikiPageContent {
+export interface WikiPageContentEdge {
+  node: WikiPageContent;
+  cursor: String;
+}
+
+export interface WikiPageContentEdgePromise
+  extends Promise<WikiPageContentEdge>,
+    Fragmentable {
+  node: <T = WikiPageContentPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface WikiPageContentEdgeSubscription
+  extends Promise<AsyncIterator<WikiPageContentEdge>>,
+    Fragmentable {
+  node: <T = WikiPageContentSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface PersonEdge {
+  node: Person;
+  cursor: String;
+}
+
+export interface PersonEdgePromise extends Promise<PersonEdge>, Fragmentable {
+  node: <T = PersonPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface PersonEdgeSubscription
+  extends Promise<AsyncIterator<PersonEdge>>,
+    Fragmentable {
+  node: <T = PersonSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregatePost {
   count: Int;
 }
 
-export interface AggregateWikiPageContentPromise
-  extends Promise<AggregateWikiPageContent>,
+export interface AggregatePostPromise
+  extends Promise<AggregatePost>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateWikiPageContentSubscription
-  extends Promise<AsyncIterator<AggregateWikiPageContent>>,
+export interface AggregatePostSubscription
+  extends Promise<AsyncIterator<AggregatePost>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface ThreadConnection {
+export interface WikiPageConnection {
   pageInfo: PageInfo;
-  edges: ThreadEdge[];
+  edges: WikiPageEdge[];
 }
 
-export interface ThreadConnectionPromise
-  extends Promise<ThreadConnection>,
+export interface WikiPageConnectionPromise
+  extends Promise<WikiPageConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<ThreadEdge>>() => T;
-  aggregate: <T = AggregateThreadPromise>() => T;
+  edges: <T = FragmentableArray<WikiPageEdge>>() => T;
+  aggregate: <T = AggregateWikiPagePromise>() => T;
 }
 
-export interface ThreadConnectionSubscription
-  extends Promise<AsyncIterator<ThreadConnection>>,
+export interface WikiPageConnectionSubscription
+  extends Promise<AsyncIterator<WikiPageConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<ThreadEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateThreadSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<WikiPageEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateWikiPageSubscription>() => T;
 }
 
-export interface WikiPageContentSubscriptionPayload {
-  mutation: MutationType;
-  node: WikiPageContent;
-  updatedFields: String[];
-  previousValues: WikiPageContentPreviousValues;
-}
-
-export interface WikiPageContentSubscriptionPayloadPromise
-  extends Promise<WikiPageContentSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = WikiPageContentPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = WikiPageContentPreviousValuesPromise>() => T;
-}
-
-export interface WikiPageContentSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<WikiPageContentSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = WikiPageContentSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = WikiPageContentPreviousValuesSubscription>() => T;
-}
-
-export interface WikiPageEdge {
-  node: WikiPage;
-  cursor: String;
-}
-
-export interface WikiPageEdgePromise
-  extends Promise<WikiPageEdge>,
-    Fragmentable {
-  node: <T = WikiPagePromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface WikiPageEdgeSubscription
-  extends Promise<AsyncIterator<WikiPageEdge>>,
-    Fragmentable {
-  node: <T = WikiPageSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
+/*
+The `Boolean` scalar type represents `true` or `false`.
+*/
+export type Boolean = boolean;
 
 export type Long = string;
+
+/*
+The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
+*/
+export type ID_Input = string | number;
+export type ID_Output = string;
 
 /*
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
 */
 export type Int = number;
+
+/*
+The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+*/
+export type String = string;
 
 /*
 DateTime scalar input type, allowing Date
@@ -2486,22 +2603,6 @@ export type DateTimeInput = Date | string;
 DateTime scalar output type, which is always a string
 */
 export type DateTimeOutput = string;
-
-/*
-The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
-*/
-export type ID_Input = string | number;
-export type ID_Output = string;
-
-/*
-The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-*/
-export type String = string;
-
-/*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
 
 /**
  * Model Metadata

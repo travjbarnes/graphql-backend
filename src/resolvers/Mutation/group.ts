@@ -13,21 +13,6 @@ export const group: Pick<
       throw new Error("A group with that name already exists");
     }
 
-    const dummyAuthor = await ctx.prisma.upsertPerson({
-      where: {
-        email: "wobbly@wobbly.app"
-      },
-      update: {
-        name: "Wobbly",
-        email: "wobbly@wobbly.app",
-        password: "x"
-      },
-      create: {
-        name: "Wobbly",
-        email: "wobbly@wobbly.app",
-        password: "x"
-      }
-    });
     return ctx.prisma.createGroup({
       name,
       description: description as string | undefined,
@@ -43,9 +28,26 @@ export const group: Pick<
                 "Welcome to your new group! Use this thread to introduce yourself.",
               author: {
                 connect: {
-                  id: dummyAuthor.id
+                  email: "wobbly@wobbly.app"
                 }
               }
+            }
+          }
+        }
+      },
+      wikiPages: {
+        create: {
+          content: {
+            create: {
+              title: "Main page",
+              content:
+                "This is your wiki. Any group member can create new pages or edit existing ones.",
+              author: {
+                connect: {
+                  email: "wobbly@wobbly.app"
+                }
+              },
+              deleted: false
             }
           }
         }

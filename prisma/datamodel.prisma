@@ -14,6 +14,7 @@ type Group {
     description: String
     members: [Person!]
     threads: [Thread!]
+    wikiPages: [WikiPage!]
 }
 
 type Thread {

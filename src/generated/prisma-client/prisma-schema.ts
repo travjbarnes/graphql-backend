@@ -35,6 +35,7 @@ type Group {
   description: String
   members(where: PersonWhereInput, orderBy: PersonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Person!]
   threads(where: ThreadWhereInput, orderBy: ThreadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Thread!]
+  wikiPages(where: WikiPageWhereInput, orderBy: WikiPageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [WikiPage!]
 }
 
 type GroupConnection {
@@ -48,6 +49,7 @@ input GroupCreateInput {
   description: String
   members: PersonCreateManyWithoutGroupsInput
   threads: ThreadCreateManyWithoutGroupInput
+  wikiPages: WikiPageCreateManyWithoutGroupInput
 }
 
 input GroupCreateManyWithoutMembersInput {
@@ -55,13 +57,13 @@ input GroupCreateManyWithoutMembersInput {
   connect: [GroupWhereUniqueInput!]
 }
 
-input GroupCreateOneInput {
-  create: GroupCreateInput
+input GroupCreateOneWithoutThreadsInput {
+  create: GroupCreateWithoutThreadsInput
   connect: GroupWhereUniqueInput
 }
 
-input GroupCreateOneWithoutThreadsInput {
-  create: GroupCreateWithoutThreadsInput
+input GroupCreateOneWithoutWikiPagesInput {
+  create: GroupCreateWithoutWikiPagesInput
   connect: GroupWhereUniqueInput
 }
 
@@ -69,12 +71,21 @@ input GroupCreateWithoutMembersInput {
   name: String!
   description: String
   threads: ThreadCreateManyWithoutGroupInput
+  wikiPages: WikiPageCreateManyWithoutGroupInput
 }
 
 input GroupCreateWithoutThreadsInput {
   name: String!
   description: String
   members: PersonCreateManyWithoutGroupsInput
+  wikiPages: WikiPageCreateManyWithoutGroupInput
+}
+
+input GroupCreateWithoutWikiPagesInput {
+  name: String!
+  description: String
+  members: PersonCreateManyWithoutGroupsInput
+  threads: ThreadCreateManyWithoutGroupInput
 }
 
 type GroupEdge {
@@ -176,18 +187,12 @@ input GroupSubscriptionWhereInput {
   NOT: [GroupSubscriptionWhereInput!]
 }
 
-input GroupUpdateDataInput {
-  name: String
-  description: String
-  members: PersonUpdateManyWithoutGroupsInput
-  threads: ThreadUpdateManyWithoutGroupInput
-}
-
 input GroupUpdateInput {
   name: String
   description: String
   members: PersonUpdateManyWithoutGroupsInput
   threads: ThreadUpdateManyWithoutGroupInput
+  wikiPages: WikiPageUpdateManyWithoutGroupInput
 }
 
 input GroupUpdateManyDataInput {
@@ -217,13 +222,6 @@ input GroupUpdateManyWithWhereNestedInput {
   data: GroupUpdateManyDataInput!
 }
 
-input GroupUpdateOneRequiredInput {
-  create: GroupCreateInput
-  update: GroupUpdateDataInput
-  upsert: GroupUpsertNestedInput
-  connect: GroupWhereUniqueInput
-}
-
 input GroupUpdateOneRequiredWithoutThreadsInput {
   create: GroupCreateWithoutThreadsInput
   update: GroupUpdateWithoutThreadsDataInput
@@ -231,16 +229,32 @@ input GroupUpdateOneRequiredWithoutThreadsInput {
   connect: GroupWhereUniqueInput
 }
 
+input GroupUpdateOneRequiredWithoutWikiPagesInput {
+  create: GroupCreateWithoutWikiPagesInput
+  update: GroupUpdateWithoutWikiPagesDataInput
+  upsert: GroupUpsertWithoutWikiPagesInput
+  connect: GroupWhereUniqueInput
+}
+
 input GroupUpdateWithoutMembersDataInput {
   name: String
   description: String
   threads: ThreadUpdateManyWithoutGroupInput
+  wikiPages: WikiPageUpdateManyWithoutGroupInput
 }
 
 input GroupUpdateWithoutThreadsDataInput {
   name: String
   description: String
   members: PersonUpdateManyWithoutGroupsInput
+  wikiPages: WikiPageUpdateManyWithoutGroupInput
+}
+
+input GroupUpdateWithoutWikiPagesDataInput {
+  name: String
+  description: String
+  members: PersonUpdateManyWithoutGroupsInput
+  threads: ThreadUpdateManyWithoutGroupInput
 }
 
 input GroupUpdateWithWhereUniqueWithoutMembersInput {
@@ -248,14 +262,14 @@ input GroupUpdateWithWhereUniqueWithoutMembersInput {
   data: GroupUpdateWithoutMembersDataInput!
 }
 
-input GroupUpsertNestedInput {
-  update: GroupUpdateDataInput!
-  create: GroupCreateInput!
-}
-
 input GroupUpsertWithoutThreadsInput {
   update: GroupUpdateWithoutThreadsDataInput!
   create: GroupCreateWithoutThreadsInput!
+}
+
+input GroupUpsertWithoutWikiPagesInput {
+  update: GroupUpdateWithoutWikiPagesDataInput!
+  create: GroupCreateWithoutWikiPagesInput!
 }
 
 input GroupUpsertWithWhereUniqueWithoutMembersInput {
@@ -321,6 +335,9 @@ input GroupWhereInput {
   threads_every: ThreadWhereInput
   threads_some: ThreadWhereInput
   threads_none: ThreadWhereInput
+  wikiPages_every: WikiPageWhereInput
+  wikiPages_some: WikiPageWhereInput
+  wikiPages_none: WikiPageWhereInput
   AND: [GroupWhereInput!]
   OR: [GroupWhereInput!]
   NOT: [GroupWhereInput!]
@@ -1440,7 +1457,12 @@ input WikiPageContentWhereUniqueInput {
 
 input WikiPageCreateInput {
   content: WikiPageContentCreateManyWithoutPageInput
-  group: GroupCreateOneInput!
+  group: GroupCreateOneWithoutWikiPagesInput!
+}
+
+input WikiPageCreateManyWithoutGroupInput {
+  create: [WikiPageCreateWithoutGroupInput!]
+  connect: [WikiPageWhereUniqueInput!]
 }
 
 input WikiPageCreateOneWithoutContentInput {
@@ -1449,7 +1471,11 @@ input WikiPageCreateOneWithoutContentInput {
 }
 
 input WikiPageCreateWithoutContentInput {
-  group: GroupCreateOneInput!
+  group: GroupCreateOneWithoutWikiPagesInput!
+}
+
+input WikiPageCreateWithoutGroupInput {
+  content: WikiPageContentCreateManyWithoutPageInput
 }
 
 type WikiPageEdge {
@@ -1469,6 +1495,34 @@ enum WikiPageOrderByInput {
 type WikiPagePreviousValues {
   id: ID!
   createdAt: DateTime!
+}
+
+input WikiPageScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  AND: [WikiPageScalarWhereInput!]
+  OR: [WikiPageScalarWhereInput!]
+  NOT: [WikiPageScalarWhereInput!]
 }
 
 type WikiPageSubscriptionPayload {
@@ -1491,7 +1545,18 @@ input WikiPageSubscriptionWhereInput {
 
 input WikiPageUpdateInput {
   content: WikiPageContentUpdateManyWithoutPageInput
-  group: GroupUpdateOneRequiredInput
+  group: GroupUpdateOneRequiredWithoutWikiPagesInput
+}
+
+input WikiPageUpdateManyWithoutGroupInput {
+  create: [WikiPageCreateWithoutGroupInput!]
+  delete: [WikiPageWhereUniqueInput!]
+  connect: [WikiPageWhereUniqueInput!]
+  set: [WikiPageWhereUniqueInput!]
+  disconnect: [WikiPageWhereUniqueInput!]
+  update: [WikiPageUpdateWithWhereUniqueWithoutGroupInput!]
+  upsert: [WikiPageUpsertWithWhereUniqueWithoutGroupInput!]
+  deleteMany: [WikiPageScalarWhereInput!]
 }
 
 input WikiPageUpdateOneRequiredWithoutContentInput {
@@ -1502,12 +1567,27 @@ input WikiPageUpdateOneRequiredWithoutContentInput {
 }
 
 input WikiPageUpdateWithoutContentDataInput {
-  group: GroupUpdateOneRequiredInput
+  group: GroupUpdateOneRequiredWithoutWikiPagesInput
+}
+
+input WikiPageUpdateWithoutGroupDataInput {
+  content: WikiPageContentUpdateManyWithoutPageInput
+}
+
+input WikiPageUpdateWithWhereUniqueWithoutGroupInput {
+  where: WikiPageWhereUniqueInput!
+  data: WikiPageUpdateWithoutGroupDataInput!
 }
 
 input WikiPageUpsertWithoutContentInput {
   update: WikiPageUpdateWithoutContentDataInput!
   create: WikiPageCreateWithoutContentInput!
+}
+
+input WikiPageUpsertWithWhereUniqueWithoutGroupInput {
+  where: WikiPageWhereUniqueInput!
+  update: WikiPageUpdateWithoutGroupDataInput!
+  create: WikiPageCreateWithoutGroupInput!
 }
 
 input WikiPageWhereInput {

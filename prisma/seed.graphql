@@ -26,4 +26,13 @@ mutation {
   }) {
     id
   }
+
+  # The dummy user that creates the first thread and wiki page in new groups
+  dummyUser: createPerson(data: {
+    email: "wobbly@wobbly.app"
+    name: "Wobbly"
+    password: ""  # not a valid hash, i.e. noone can log in as this user
+  }) {
+    id
+  }
 }
