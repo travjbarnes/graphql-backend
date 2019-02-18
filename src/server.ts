@@ -57,5 +57,5 @@ export const startServer = async () => {
 };
 
 export const stopServer = async () => {
-  httpServer.close();
+  await httpServer.close();
 };

@@ -13,18 +13,18 @@ beforeAll(async () => {
   await startServer();
 
   // Users defined in prisma/seed.graphql
-  const aliceToken = ((await request(
+  const aliceToken = await request(
     HOST,
     getLoginMutation("alice@wobbly.app", "secret42")
-  )) as any).login.token;
+  ).then((response: any) => response.login.token);
   aliceClient = new GraphQLClient(HOST, {
     headers: { Authorization: `Bearer ${aliceToken}` }
   });
 
-  const bobToken = ((await request(
+  const bobToken = await request(
     HOST,
     getLoginMutation("bob@wobbly.app", "secret43")
-  )) as any).login.token;
+  ).then((response: any) => response.login.token);
   bobClient = new GraphQLClient(HOST, {
     headers: { Authorization: `Bearer ${bobToken}` }
   });
@@ -36,11 +36,15 @@ beforeAll(async () => {
       }
     }
   `;
-  aliceGroupId = ((await aliceClient.request(groupsQuery)) as any).groups[0].id;
-  bobGroupId = ((await bobClient.request(groupsQuery)) as any).groups[0].id;
+  aliceGroupId = await aliceClient
+    .request(groupsQuery)
+    .then((response: any) => response.groups[0].id);
+  bobGroupId = await bobClient
+    .request(groupsQuery)
+    .then((response: any) => response.groups[0].id);
 });
 
-describe("wiki pages", () => {
+describe("wiki pages", async () => {
   test("create page", async () => {
     const createWikiPageMutation = `
       mutation {
@@ -49,9 +53,15 @@ describe("wiki pages", () => {
         }
       }
     `;
-    const pageId = ((await aliceClient.request(createWikiPageMutation)) as any)
-      .createWikiPage.id;
-    expect(pageId).toBeTruthy();
+    const pageId = aliceClient
+      .request(createWikiPageMutation)
+      .then((response: any) => response.createWikiPage.id);
+    expect(pageId).resolves.toBeTruthy();
+
+    // const unauthorizedCreatePage = async () => {
+    //   const response = await bobClient.request(createWikiPageMutation)
+    // }
+    // expect(await unauthorizedCreatePage()).rejects.toThrow()
   });
 
   test("list pages", async () => {
@@ -62,9 +72,15 @@ describe("wiki pages", () => {
         }
       }
     `;
-    const pageId = ((await aliceClient.request(pagesQuery)) as any).wikiPages[0]
-      .id;
-    expect(pageId).toBeTruthy();
+    const pageId = aliceClient
+      .request(pagesQuery)
+      .then((response: any) => response.wikiPages[0].id);
+    expect(pageId).resolves.toBeTruthy();
+
+    // const unauthorizedQuery = async () => {
+    //   return await bobClient.request(pagesQuery);
+    // };
+    // expect(await unauthorizedQuery()).rejects.toThrow();
   });
 
   test("edit page", async () => {
@@ -75,8 +91,9 @@ describe("wiki pages", () => {
         }
       }
     `;
-    const pageId = ((await aliceClient.request(pagesQuery)) as any).wikiPages[0]
-      .id;
+    const pageId = await aliceClient
+      .request(pagesQuery)
+      .then((response: any) => response.wikiPages[0].id);
 
     const editPageMutation = `
       mutation {
@@ -87,10 +104,16 @@ describe("wiki pages", () => {
         }
       }
     `;
-    const updatedPage = ((await aliceClient.request(editPageMutation)) as any)
-      .editWikiPage;
+    const updatedPage = await aliceClient
+      .request(editPageMutation)
+      .then((response: any) => response.editWikiPage);
     expect(updatedPage.title).toEqual("Test wiki page - new title");
     expect(updatedPage.content).toEqual("Lorem ipsum 2");
+
+    // const unauthorizedEdit = async () => {
+    //   return await bobClient.request(editPageMutation)
+    // }
+    // expect(await unauthorizedEdit()).rejects.toThrow()
   });
 
   test("soft delete page", async () => {
@@ -101,8 +124,9 @@ describe("wiki pages", () => {
         }
       }
     `;
-    const pageId = ((await aliceClient.request(pagesQuery)) as any).wikiPages[0]
-      .id;
+    const pageId = await aliceClient
+      .request(pagesQuery)
+      .then((response: any) => response.wikiPages[0].id);
 
     const deletePageMutation = `
       mutation {
@@ -111,9 +135,15 @@ describe("wiki pages", () => {
         }
       }
     `;
-    const success = ((await aliceClient.request(deletePageMutation)) as any)
-      .deleteWikiPage.success;
+    const success = await aliceClient
+      .request(deletePageMutation)
+      .then((response: any) => response.deleteWikiPage.success);
     expect(success).toBeTruthy();
+
+    // const unauthorizedDelete = async () => {
+    //   return await bobClient.request(deletePageMutation)
+    // }
+    // expect(await unauthorizedDelete()).rejects.toThrow()
   });
 });
 

@@ -5,9 +5,9 @@ export const wikiPage: Pick<
   MutationResolvers.Type,
   "createWikiPage" | "editWikiPage" | "deleteWikiPage"
 > = {
-  createWikiPage: (parent, { groupId, title, content }, ctx) => {
+  createWikiPage: async (parent, { groupId, title, content }, ctx) => {
     const personId = getPersonId(ctx);
-    checkGroupMembership(ctx, groupId);
+    await checkGroupMembership(ctx, groupId);
     return ctx.prisma.createWikiPage({
       group: {
         connect: {
@@ -34,7 +34,7 @@ export const wikiPage: Pick<
       .wikiPage({ id: pageId })
       .group()
       .id();
-    checkGroupMembership(ctx, groupId);
+    await checkGroupMembership(ctx, groupId);
     return ctx.prisma.updateWikiPage({
       where: {
         id: pageId
@@ -61,7 +61,7 @@ export const wikiPage: Pick<
       .wikiPage({ id: pageId })
       .group()
       .id();
-    checkGroupMembership(ctx, groupId);
+    await checkGroupMembership(ctx, groupId);
     const prevPage = await ctx.prisma
       .wikiPage({ id: pageId })
       .content({ orderBy: "createdAt_DESC", first: 1 })

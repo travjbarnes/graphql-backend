@@ -69,7 +69,7 @@ export const group: Pick<
 
   leaveGroup: async (parent, { groupId }, ctx, info) => {
     const personId = getPersonId(ctx);
-    checkGroupMembership(ctx, groupId);
+    await checkGroupMembership(ctx, groupId);
 
     const leftGroup = await ctx.prisma.updateGroup({
       where: { id: groupId },

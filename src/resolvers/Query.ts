@@ -1,5 +1,5 @@
 import { QueryResolvers } from "../generated/graphqlgen";
-import { checkPersonExists, getPersonId } from "../utils";
+import { checkGroupMembership, checkPersonExists, getPersonId } from "../utils";
 
 export const Query: QueryResolvers.Type = {
   ...QueryResolvers.defaultResolvers,
@@ -22,30 +22,40 @@ export const Query: QueryResolvers.Type = {
   },
   // One day it'd be nice to order these by most recent thread.
   // It's not supported by Prisma at the moment so we do it client-side.
-  threads: (parent, { groupId }, ctx) =>
-    ctx.prisma.threads({
+  threads: async (parent, { groupId }, ctx) => {
+    await checkGroupMembership(ctx, groupId);
+    return ctx.prisma.threads({
       where: {
         group: {
           id: groupId
         }
       },
       orderBy: "createdAt_DESC"
-    }),
-  posts: (parent, { threadId }, ctx) =>
-    ctx.prisma.posts({
+    });
+  },
+  posts: async (parent, { threadId }, ctx) => {
+    const groupId = await ctx.prisma
+      .thread({ id: threadId })
+      .group()
+      .id();
+    await checkGroupMembership(ctx, groupId);
+    return ctx.prisma.posts({
       where: {
         thread: {
           id: threadId
         }
       },
       orderBy: "createdAt_DESC"
-    }),
-  wikiPages: (parent, { groupId }, ctx) =>
-    ctx.prisma.wikiPages({
+    });
+  },
+  wikiPages: async (parent, { groupId }, ctx) => {
+    await checkGroupMembership(ctx, groupId);
+    return ctx.prisma.wikiPages({
       where: {
         group: {
           id: groupId
         }
       }
-    })
+    });
+  }
 };
