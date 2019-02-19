@@ -1,6 +1,6 @@
 type Query {
   groups: [Group!]
-  searchGroups(searchQuery: String!): [Group!]
+  searchGroups(searchQuery: String!): [GroupSearchResponse!]
   group(id: ID!): Group
   threads(groupId: ID!): [Thread!]
   posts(threadId: ID!): [Post!]!
@@ -64,6 +64,12 @@ type DeletionResponse {
   id: ID!
   success: Boolean!
   message: String
+}
+
+type GroupSearchResponse {
+  id: ID!
+  name: String!
+  description: String
 }
 
 type AuthPayload {

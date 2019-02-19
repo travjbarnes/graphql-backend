@@ -1,23 +1,9 @@
 import { request } from "graphql-request";
 
 import { port, startServer, stopServer } from "../server";
+import { getSignupMutation } from "../testutils";
 
 const HOST = `http://localhost:${port}`;
-
-const getSignupMutation = (
-  mutationEmail: string,
-  mutationName: string,
-  mutationPass: string
-) => `
-  mutation {
-      signup(email: "${mutationEmail}", password: "${mutationPass}", name: "${mutationName}") {
-          token
-          person {
-              id
-          }
-      }
-  }
-`;
 
 beforeAll(async () => {
   await startServer();
@@ -27,7 +13,7 @@ let email = "demo@demo";
 const name = "demo user";
 let password = "demopassword";
 
-describe("authentication", () => {
+describe("authentication", async () => {
   test("invalidEmail", async () => {
     email = "demo@demo";
     // jest can't handle `toThrow` in promises normally, hence the odd structure of this check
@@ -38,7 +24,7 @@ describe("authentication", () => {
     expect(check()).rejects.toThrow();
   });
 
-  test("shortPassword", () => {
+  test("shortPassword", async () => {
     password = "123456789";
     const check = async () => {
       return await request(HOST, getSignupMutation(email, name, password));

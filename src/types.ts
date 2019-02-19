@@ -17,3 +17,8 @@ export interface DeletionResponse {
   success: boolean;
   message: string | null;
 }
+export interface GroupSearchResponse {
+  id: string;
+  name: string;
+  description: string | null;
+}

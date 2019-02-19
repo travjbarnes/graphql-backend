@@ -13,21 +13,6 @@ export const group: Pick<
       throw new Error("A group with that name already exists");
     }
 
-    const dummyAuthor = await ctx.prisma.upsertPerson({
-      where: {
-        email: "wobbly@wobbly.app"
-      },
-      update: {
-        name: "Wobbly",
-        email: "wobbly@wobbly.app",
-        password: "x"
-      },
-      create: {
-        name: "Wobbly",
-        email: "wobbly@wobbly.app",
-        password: "x"
-      }
-    });
     return ctx.prisma.createGroup({
       name,
       description: description as string | undefined,
@@ -43,7 +28,7 @@ export const group: Pick<
                 "Welcome to your new group! Use this thread to introduce yourself.",
               author: {
                 connect: {
-                  id: dummyAuthor.id
+                  email: "wobbly@wobbly.app"
                 }
               }
             }
@@ -69,7 +54,7 @@ export const group: Pick<
 
   leaveGroup: async (parent, { groupId }, ctx, info) => {
     const personId = getPersonId(ctx);
-    checkGroupMembership(ctx, groupId);
+    await checkGroupMembership(ctx, groupId);
 
     const leftGroup = await ctx.prisma.updateGroup({
       where: { id: groupId },

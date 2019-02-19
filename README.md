@@ -58,6 +58,14 @@ The Prisma server and our backend server can live on different machines, or the 
 - Write your resolvers.
 - If you've set the `ENGINE_API_KEY` environment variable, run `apollo service:push --endpoint=http://localhost:4000` to push the new schema to Apollo Engine (while the local server is running).
 
+## Deployment workflows
+
+- Merging into `master` automatically deploys to Heroku.
+- When setting up a new stack, be sure to create an index on the Group table to enable fast full-text search:
+  - Something like `CREATE INDEX group_idx ON default$default."Group" USING GIN (to_tsvector('english', name || ' ' || description));`
+  - Make sure that `to_tsvector` has the same number of arguments as in our resolver, otherwise the index won't work. (i.e. if you explicitly specify `'english'`
+    in one, you should also do it in the other).
+
 ## Documentation
 
 ### Commands

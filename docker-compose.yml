@@ -17,6 +17,7 @@ services:
             user: ${DB_USER}
             password: ${DB_PASSWORD}
             migrations: true
+            rawAccess: true
   postgres-db:
     image: postgres:10.5
     restart: always

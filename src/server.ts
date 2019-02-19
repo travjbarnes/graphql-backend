@@ -22,7 +22,8 @@ export const port =
 const playground = process.env.NODE_ENV === "dev" ? "/" : false;
 
 export const startServer = async () => {
-  if (process.env.ENGINE_API_KEY && process.env.NODE_ENV === "production") {
+  // This environment variable is set both in Travis and in production
+  if (process.env.ENGINE_API_KEY) {
     const engine = new ApolloEngine({
       apiKey: process.env.ENGINE_API_KEY
     });
@@ -57,5 +58,7 @@ export const startServer = async () => {
 };
 
 export const stopServer = async () => {
-  httpServer.close();
+  return new Promise(resolve => {
+    httpServer.close(resolve);
+  });
 };

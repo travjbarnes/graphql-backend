@@ -7,12 +7,13 @@
     "start": "node dist/index.js",
     "dev": "dotenv -- nodemon -e ts,graphql -x ts-node src/index.ts",
     "build": "rimraf dist && tsc",
-    "test": "NODE_ENV=test dotenv -- jest",
+    "test": "NODE_ENV=test dotenv -- jest --runInBand",
     "pretty": "prettier --write \"src/**/*.{ts,tsx}\"",
     "lint": "tslint -p tsconfig.json -c tslint.json \"src/**/*.{ts,tsx}\"",
     "lint:fix": "tslint -p tsconfig.json -c tslint.json --fix \"src/**/*.{ts,tsx}\"",
     "codegen": "yarn prisma generate && yarn gg",
-    "heroku-postbuild": "yarn run build"
+    "heroku-prebuild": "yarn codegen",
+    "heroku-postbuild": "yarn prisma deploy"
   },
   "codegen": {
     "src/generated/**/*.{ts,tsx}": [

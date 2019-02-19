@@ -5,9 +5,9 @@ export const thread: Pick<
   MutationResolvers.Type,
   "createThread" | "editThread" | "deleteThread"
 > = {
-  createThread: (parent, { groupId, title, content }, ctx, info) => {
+  createThread: async (parent, { groupId, title, content }, ctx, info) => {
     const personId = getPersonId(ctx);
-    checkGroupMembership(ctx, groupId);
+    await checkGroupMembership(ctx, groupId);
 
     return ctx.prisma.createThread({
       title,
@@ -36,7 +36,7 @@ export const thread: Pick<
       })
       .group()
       .id();
-    checkGroupMembership(ctx, groupId);
+    await checkGroupMembership(ctx, groupId);
     return await ctx.prisma.updateThread({
       where: {
         id: threadId
@@ -54,7 +54,7 @@ export const thread: Pick<
       })
       .group()
       .id();
-    checkGroupMembership(ctx, groupId);
+    await checkGroupMembership(ctx, groupId);
     await ctx.prisma.deleteThread({
       id: threadId
     });

@@ -21,7 +21,7 @@ export function getPersonId(ctx: IContext) {
 
 export async function checkPersonExists(ctx: IContext) {
   const personId = getPersonId(ctx);
-  const personExists = ctx.prisma.$exists.person({
+  const personExists = await ctx.prisma.$exists.person({
     id: personId
   });
   if (!personExists) {
