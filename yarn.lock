@@ -381,6 +381,13 @@
   version "10.12.12"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.12.tgz#e15a9d034d9210f00320ef718a50c4a799417c47"
 
+"@types/nodemailer@^4.6.6":
+  version "4.6.6"
+  resolved "https://registry.yarnpkg.com/@types/nodemailer/-/nodemailer-4.6.6.tgz#2ce2bde5dd5bb4546e11390e1babd80ba35e2154"
+  integrity sha512-N2czhXs7fbQhvoquEGzmHAWttnxLfrM3+cWMRFX4hTQq4GE3VyaSE3MOOse4VoNgvtti/H5ow/Hq9KXu/UMWqA==
+  dependencies:
+    "@types/node" "*"
+
 "@types/prettier@^1.13.2":
   version "1.15.2"
   resolved "https://registry.yarnpkg.com/@types/prettier/-/prettier-1.15.2.tgz#91594ea7cb6f3b1f7ea69f32621246654c7cc231"
@@ -4227,6 +4234,11 @@ node-pre-gyp@^0.10.0:
     rimraf "^2.6.1"
     semver "^5.3.0"
     tar "^4"
+
+nodemailer@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-5.1.1.tgz#0c48d1ecab02e86d9ff6c620ee75ed944b763505"
+  integrity sha512-hKGCoeNdFL2W7S76J/Oucbw0/qRlfG815tENdhzcqTpSjKgAN91mFOqU2lQUflRRxFM7iZvCyaFcAR9noc/CqQ==
 
 nodemon@1.18.10:
   version "1.18.10"

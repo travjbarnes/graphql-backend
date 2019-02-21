@@ -10,6 +10,7 @@ type Query {
 type Mutation {
   signup(email: String!, password: String!, name: String!): AuthPayload!
   login(email: String!, password: String!): AuthPayload!
+  confirmEmail(confirmationCode: String): Person!
 
   updatePerson(email: String, password: String, name: String): Person!
 
@@ -31,6 +32,7 @@ type Person {
   createdAt: DateTime!
   name: String!
   email: String!
+  emailConfirmed: Boolean!
   groups: [Group!]
 }
 
