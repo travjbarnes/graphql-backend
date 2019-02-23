@@ -68,7 +68,7 @@
     "tslint": "^5.12.1",
     "tslint-config-prettier": "^1.18.0",
     "tslint-eslint-rules": "^5.4.0",
-    "typescript": "3.3.3"
+    "typescript": "3.3.3333"
   },
   "heroku-run-build-script": true
 }
