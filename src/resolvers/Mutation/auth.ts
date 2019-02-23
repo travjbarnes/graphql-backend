@@ -38,7 +38,9 @@ export const auth: Pick<
     });
 
     const token = jwt.sign({ personId: person.id }, process.env.APP_SECRET);
-    sendConfirmationEmail(email, confirmationCode);
+    if (process.env.NODE_ENV !== "dev") {
+      sendConfirmationEmail(email, confirmationCode);
+    }
 
     return {
       token,
