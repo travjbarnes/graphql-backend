@@ -9,6 +9,7 @@ mutation {
         description: "This is Alice's group for testing purposes. Word for search tests: supernova."
       }
     }
+    emailConfirmed: true
   }) {
     id
   }
@@ -23,6 +24,7 @@ mutation {
         description: "This is Bob's group for testing purposes"
       }
     }
+    emailConfirmed: true
   }) {
     id
   }
@@ -32,6 +34,7 @@ mutation {
     email: "wobbly@wobbly.app"
     name: "Wobbly"
     password: ""  # not a valid hash, i.e. no-one can log in as this user
+    emailConfirmed: true
   }) {
     id
   }

@@ -2,7 +2,7 @@ import { Person, Prisma } from "./generated/prisma-client";
 
 export interface IContext {
   prisma: Prisma;
-  request: any;
+  req: any;
 }
 
 /* Types for GraphQLgen */

@@ -1,10 +1,9 @@
 # Wobbly backend [![Build Status](https://travis-ci.com/Wobbly-App/graphql-backend.svg?branch=develop)](https://travis-ci.com/Wobbly-App/graphql-backend) [![codecov](https://codecov.io/gh/Wobbly-App/graphql-backend/branch/develop/graph/badge.svg)](https://codecov.io/gh/Wobbly-App/graphql-backend) [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=Wobbly-App/graphql-backend)](https://dependabot.com)
 
-The GraphQL backend server for [Wobbly](https://wobbly.app), written in TypeScript and based on graphql-yoga.
+The GraphQL backend server for [Wobbly](https://wobbly.app), written in TypeScript and based on Apollo Server.
 
 ## Features
 
-- **Scalable GraphQL server:** The server uses [`graphql-yoga`](https://github.com/prisma/graphql-yoga) which is based on Apollo Server & Express
 - **Static type generation**: TypeScript types for GraphQL queries & mutations are generated in a build step
 - **GraphQL database:** Includes GraphQL database binding to [Prisma](https://www.prismagraphql.com) (running on Postgres)
 - **Tooling**: Out-of-the-box support for [GraphQL Playground](https://github.com/prisma/graphql-playground) & [query performance tracing](https://github.com/apollographql/apollo-tracing)
@@ -17,7 +16,7 @@ The GraphQL backend server for [Wobbly](https://wobbly.app), written in TypeScri
 
 [Prisma](https://www.prisma.io/) is a GraphQL ORM ([object-relational mapping](https://en.wikipedia.org/wiki/Object-relational_mapping)). It gives us a way to interact with the raw data in our database through GraphQL -- but note that this is not the same GraphQL API that is exposed to front-end clients. Our prisma code lives in the [`prisma/` directory](./prisma/). The [Prisma datamodel](./prisma/datamodel.prisma) defines the tables in our database.
 
-Instead, we use [`graphql-yoga`](https://github.com/prisma/graphql-yoga) as our "main" backend server. This is where we implement the resolvers for our own GraphQL API. The code for this lives in the [`src/` directory](./src/). This is also where you'll find the [schema](./src/schema.graphql) for our public API.
+Instead, we use [`Apollo Server`](https://github.com/apollographql/apollo-server) as our "main" backend server. This is where we implement the resolvers for our own GraphQL API. The code for this lives in the [`src/` directory](./src/). This is also where you'll find the [schema](./src/schema.graphql) for our public API.
 
 The Prisma server and our backend server can live on different machines, or the same.
 

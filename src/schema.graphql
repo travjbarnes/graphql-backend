@@ -21,6 +21,7 @@ type Mutation {
   createThread(groupId: ID!, title: String!, content: String!): Thread!
   editThread(threadId: ID!, title: String): Thread!
   deleteThread(threadId: ID!): DeletionResponse!
+  toggleThreadPinning(threadId: ID!): Thread!
 
   createPost(threadId: ID!, content: String!): Post!
   editPost(postId: ID!, content: String!): Post!
@@ -52,6 +53,7 @@ type Thread {
   title: String!
   posts(first: Int, last: Int): [Post!]!
   group: Group!
+  pinned: Boolean!
 }
 
 type Post {

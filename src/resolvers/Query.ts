@@ -39,8 +39,10 @@ export const Query: QueryResolvers.Type = {
       )
       .then((response: any) => response.executeRaw as GroupSearchResponse[]);
   },
-  // One day it'd be nice to order these by most recent thread.
+  // TODO: One day it'd be nice to order these by most recent activity.
   // It's not supported by Prisma at the moment so we do it client-side.
+  // If/when Prisma supports ordering by multiple fields, we can at least return threads
+  // ordered by creation date (after they're ordered by pinned/unpinned) as an approximation of recent activity.
   threads: (parent, { groupId }, ctx) => {
     return ctx.prisma.threads({
       where: {
@@ -48,7 +50,7 @@ export const Query: QueryResolvers.Type = {
           id: groupId
         }
       },
-      orderBy: "createdAt_DESC"
+      orderBy: "pinned_DESC"
     });
   },
   posts: (parent, { threadId }, ctx) => {

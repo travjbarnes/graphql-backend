@@ -7,7 +7,7 @@ import * as jwt from "jsonwebtoken";
 import { IContext } from "./types";
 
 export function getPersonId(ctx: IContext) {
-  const Authorization = ctx.request.get("Authorization");
+  const Authorization = ctx.req.get("Authorization");
   if (Authorization && process.env.APP_SECRET) {
     const token: string = Authorization.replace("Bearer ", "");
     const { personId } = jwt.verify(token, process.env.APP_SECRET) as {

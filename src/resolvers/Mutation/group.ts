@@ -7,7 +7,6 @@ export const group: Pick<
 > = {
   createGroup: async (parent, { name, description }, ctx, info) => {
     const personId = getPersonId(ctx);
-
     const groupExists = await ctx.prisma.$exists.group({ name });
     if (groupExists) {
       throw new Error("A group with that name already exists");
@@ -22,6 +21,7 @@ export const group: Pick<
       threads: {
         create: {
           title: "Welcome!",
+          pinned: true,
           posts: {
             create: {
               content:

@@ -24,6 +24,7 @@ type Thread {
     title: String!
     posts: [Post!]!
     group: Group!
+    pinned: Boolean!
 }
 
 type Post {
