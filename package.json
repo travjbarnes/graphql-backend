@@ -36,7 +36,7 @@
     }
   },
   "dependencies": {
-    "apollo-server": "^2.4.5",
+    "apollo-server": "^2.4.6",
     "bcryptjs": "2.4.3",
     "inflection": "^1.12.0",
     "joi": "^14.3.1",
