@@ -1,4 +1,4 @@
-# Wobbly backend [![Build Status](https://travis-ci.com/Wobbly-App/graphql-backend.svg?branch=develop)](https://travis-ci.com/Wobbly-App/graphql-backend) [![codecov](https://codecov.io/gh/Wobbly-App/graphql-backend/branch/develop/graph/badge.svg)](https://codecov.io/gh/Wobbly-App/graphql-backend) [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=Wobbly-App/graphql-backend)](https://dependabot.com)
+# Wobbly backend [![Build Status](https://travis-ci.com/Wobbly-App/graphql-backend.svg?branch=develop)](https://travis-ci.com/Wobbly-App/graphql-backend) [![codecov](https://codecov.io/gh/Wobbly-App/graphql-backend/branch/develop/graph/badge.svg)](https://codecov.io/gh/Wobbly-App/graphql-backend) [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=Wobbly-App/graphql-backend)](https://dependabot.com) [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
 The GraphQL backend server for [Wobbly](https://wobbly.app), written in TypeScript and based on Apollo Server.
 
