@@ -21,6 +21,7 @@ export const post: Pick<
 
     return ctx.prisma.createPost({
       content,
+      firstPost: false,
       author: {
         connect: {
           id: personId

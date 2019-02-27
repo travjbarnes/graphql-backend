@@ -6,14 +6,26 @@ import * as jwt from "jsonwebtoken";
 
 import { IContext } from "./types";
 
-export function getPersonId(ctx: IContext) {
-  const Authorization = ctx.req.get("Authorization");
-  if (Authorization && process.env.APP_SECRET) {
-    const token: string = Authorization.replace("Bearer ", "");
-    const { personId } = jwt.verify(token, process.env.APP_SECRET) as {
+export function getPersonIdFromToken(token: string) {
+  if (process.env.APP_SECRET) {
+    const { personId } = jwt.verify(
+      token.replace("Bearer ", ""),
+      process.env.APP_SECRET
+    ) as {
       personId: string;
     };
-    return personId;
+    if (personId) {
+      return personId;
+    }
+  }
+
+  throw new AuthError();
+}
+
+export function getPersonId(ctx: IContext) {
+  const token = ctx.req.get("Authorization");
+  if (token) {
+    return getPersonIdFromToken(token);
   }
 
   throw new AuthError();

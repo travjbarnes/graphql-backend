@@ -2,7 +2,7 @@ type Query {
   groups: [Group!]
   searchGroups(searchQuery: String!): [GroupSearchResponse!]
   group(id: ID!): Group
-  threads(groupId: ID!): [Thread!]
+  threads(groupId: ID!): [Thread!]!
   posts(threadId: ID!): [Post!]!
   me: Person
 }
@@ -26,6 +26,11 @@ type Mutation {
   createPost(threadId: ID!, content: String!): Post!
   editPost(postId: ID!, content: String!): Post!
   deletePost(postId: ID!): DeletionResponse!
+}
+
+type Subscription {
+  postAdded: Post!
+  threadAdded: Thread!
 }
 
 type Person {

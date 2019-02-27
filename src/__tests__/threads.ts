@@ -1,10 +1,10 @@
 import request, { GraphQLClient } from "graphql-request";
 
 import { Group, Thread } from "../generated/prisma-client";
-import { port, startServer, stopServer } from "../server";
+import { PORT, startServer, stopServer } from "../server";
 import { getLoginMutation, getSearchQuery } from "../testutils";
 
-const HOST = `http://localhost:${port}`;
+const HOST = `http://localhost:${PORT}`;
 let aliceClient: GraphQLClient;
 let bobClient: GraphQLClient;
 

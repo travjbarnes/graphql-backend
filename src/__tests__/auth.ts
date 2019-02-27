@@ -1,9 +1,9 @@
 import { request } from "graphql-request";
 
-import { port, startServer, stopServer } from "../server";
+import { PORT, startServer, stopServer } from "../server";
 import { getSignupMutation } from "../testutils";
 
-const HOST = `http://localhost:${port}`;
+const HOST = `http://localhost:${PORT}`;
 
 beforeAll(async () => {
   await startServer();

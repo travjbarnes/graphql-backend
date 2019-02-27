@@ -19,7 +19,8 @@ export const thread: Pick<
               id: personId
             }
           },
-          content
+          content,
+          firstPost: true
         }
       },
       group: {

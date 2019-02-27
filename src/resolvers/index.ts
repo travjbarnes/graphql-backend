@@ -8,6 +8,7 @@ import { Mutation } from "./Mutation";
 import { Person } from "./Person";
 import { Post } from "./Post";
 import { Query } from "./Query";
+import { Subscription } from "./Subscription";
 import { Thread } from "./Thread";
 
 const resolvers: Resolvers = {
@@ -19,6 +20,7 @@ const resolvers: Resolvers = {
   Post,
   AuthPayload,
   DeletionResponse,
-  GroupSearchResponse
+  GroupSearchResponse,
+  Subscription
 };
 export default resolvers;

@@ -1,10 +1,10 @@
 import request, { GraphQLClient } from "graphql-request";
 
-import { port, startServer, stopServer } from "../server";
+import { PORT, startServer, stopServer } from "../server";
 import { getLoginMutation, getSearchQuery } from "../testutils";
 import { GroupSearchResponse } from "../types";
 
-const HOST = `http://localhost:${port}`;
+const HOST = `http://localhost:${PORT}`;
 let aliceClient: GraphQLClient;
 
 beforeAll(async () => {

@@ -33,4 +33,5 @@ type Post {
     author: Person!
     content: String!
     thread: Thread!
+    firstPost: Boolean!  # used by subscriptions to distinguish new threads from new posts
 }

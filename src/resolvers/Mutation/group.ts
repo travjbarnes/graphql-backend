@@ -26,6 +26,7 @@ export const group: Pick<
             create: {
               content:
                 "Welcome to your new group! Use this thread to introduce yourself.",
+              firstPost: true,
               author: {
                 connect: {
                   email: "wobbly@wobbly.app"
