@@ -4,7 +4,8 @@ import { ExpoPushMessage } from "expo-server-sdk";
 import {
   expo,
   NOTIFICATION_DELAY_EXP,
-  notificationsQueue
+  notificationsQueue,
+  sendPostNotificationsAsync
 } from "../../communications/notifications";
 import { MutationResolvers } from "../../generated/graphqlgen";
 import { AuthError, getPersonId } from "../../utils";
@@ -52,34 +53,12 @@ export const post: Pick<
       .then(persons =>
         persons.map(person => person.id).filter(id => id !== personId)
       );
-    const tokens = await ctx.prisma.pushTokens({
-      where: {
-        person: {
-          id_in: groupMemberIds
-        }
-      }
-    });
-    const notifications = tokens.map(
-      token =>
-        ({
-          to: token.token,
-          sound: "default",
-          title: `${authorName} in ${threadTitle}`,
-          body: cliTruncate(content, 100),
-          priority: "high"
-        } as ExpoPushMessage)
+    await sendPostNotificationsAsync(
+      groupMemberIds,
+      authorName,
+      threadTitle,
+      content
     );
-    const chunks = expo.chunkPushNotifications(notifications);
-    chunks.forEach(chunk => {
-      notificationsQueue
-        .create("notificationChunk", chunk)
-        .priority("high")
-        .attempts(3)
-        .delay(Math.pow(1000, NOTIFICATION_DELAY_EXP))
-        .backoff({ delay: 30000, type: "fixed" })
-        .ttl(1800000) // 30 mins. if it takes us this long to send notifications something is very wrong anyway
-        .save();
-    });
 
     return newPost;
   },

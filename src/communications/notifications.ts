@@ -1,8 +1,9 @@
+import cliTruncate = require("cli-truncate");
 import Expo, { ExpoPushMessage } from "expo-server-sdk";
 import kue from "kue";
 import { values } from "lodash";
 
-import { prisma } from "../generated/prisma-client";
+import { prisma, Prisma } from "../generated/prisma-client";
 
 // Used if we need to slow down notifications because of rate limiting
 export let NOTIFICATION_DELAY_EXP = 0;
@@ -90,3 +91,46 @@ notificationsQueue.on("error", err => {
   // tslint:disable-next-line:no-console
   console.error(`Error in notificationsQueue: ${err}`);
 });
+
+/**
+ * Add push notifications for a new post to the notification queue
+ * @param groupMemberIds the IDs of everyone who should receive a notification. Make sure to filter out the author.
+ * @param authorName the name of author to be shown
+ * @param threadTitle the thread title to be shown
+ * @param content the post content. This will be truncated to 100 characters.
+ */
+export const sendPostNotificationsAsync = async (
+  groupMemberIds: string[],
+  authorName: string,
+  threadTitle: string,
+  content: string
+) => {
+  const tokens = await prisma.pushTokens({
+    where: {
+      person: {
+        id_in: groupMemberIds
+      }
+    }
+  });
+  const notifications = tokens.map(
+    token =>
+      ({
+        to: token.token,
+        sound: "default",
+        title: `${authorName} in ${threadTitle}`,
+        body: cliTruncate(content, 100),
+        priority: "high"
+      } as ExpoPushMessage)
+  );
+  const chunks = expo.chunkPushNotifications(notifications);
+  chunks.forEach(chunk => {
+    notificationsQueue
+      .create("notificationChunk", chunk)
+      .priority("high")
+      .attempts(3)
+      .delay(Math.pow(1000, NOTIFICATION_DELAY_EXP))
+      .backoff({ delay: 30000, type: "fixed" })
+      .ttl(1800000) // 30 mins. if it takes us this long to send notifications something is very wrong anyway
+      .save();
+  });
+};

@@ -1,3 +1,12 @@
+import cliTruncate = require("cli-truncate");
+import { ExpoPushMessage } from "expo-server-sdk";
+
+import {
+  expo,
+  NOTIFICATION_DELAY_EXP,
+  notificationsQueue,
+  sendPostNotificationsAsync
+} from "../../communications/notifications";
 import { MutationResolvers } from "../../generated/graphqlgen";
 import { checkGroupMembership, getPersonId } from "../../utils";
 
@@ -9,7 +18,7 @@ export const thread: Pick<
     const personId = getPersonId(ctx);
     await checkGroupMembership(ctx, groupId);
 
-    return ctx.prisma.createThread({
+    const newThread = await ctx.prisma.createThread({
       title,
       pinned: false,
       posts: {
@@ -29,6 +38,24 @@ export const thread: Pick<
         }
       }
     });
+
+    // Add notifications for all other group members to queue
+    const authorName = await ctx.prisma.person({ id: personId }).name();
+    const threadTitle = await ctx.prisma.thread({ id: newThread.id }).title();
+    const groupMemberIds = await ctx.prisma
+      .group({ id: groupId })
+      .members()
+      .then(persons =>
+        persons.map(person => person.id).filter(id => id !== personId)
+      );
+    await sendPostNotificationsAsync(
+      groupMemberIds,
+      authorName,
+      threadTitle,
+      content
+    );
+
+    return newThread;
   },
 
   editThread: async (parent, { threadId, title }, ctx, info) => {
