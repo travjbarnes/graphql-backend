@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "esModuleInterop": true,
     "target": "es5",
     "moduleResolution": "node",
     "module": "commonjs",
@@ -10,8 +11,5 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "exclude": [
-    "**/__tests__/**/*.{js,ts,tsx}",
-    "**/*.spec.{js,ts,tsx}"
-  ]
+  "exclude": ["**/__tests__/**/*.{js,ts,tsx}", "**/*.spec.{js,ts,tsx}"]
 }

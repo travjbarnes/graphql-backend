@@ -6,7 +6,10 @@ import {
   validatePersonFields
 } from "../../utils";
 
-export const person: Pick<MutationResolvers.Type, "updatePerson"> = {
+export const person: Pick<
+  MutationResolvers.Type,
+  "updatePerson" | "addPushToken" | "deletePushToken"
+> = {
   updatePerson: async (parent, { email, name, password }, ctx) => {
     if (!email && !name && !password) {
       throw new Error("Did not receive fields to update");
@@ -38,10 +41,52 @@ export const person: Pick<MutationResolvers.Type, "updatePerson"> = {
         id: personId
       },
       data: {
-        email: email as string | undefined,
-        password: hash as string | undefined,
-        name: name as string | undefined
+        email: email || undefined,
+        password: hash || undefined,
+        name: name || undefined
       }
     });
+  },
+
+  addPushToken: async (parent, { token }, ctx) => {
+    const personId = getPersonId(ctx);
+    return ctx.prisma.updatePerson({
+      where: {
+        id: personId
+      },
+      data: {
+        pushTokens: {
+          create: {
+            token
+          }
+        }
+      }
+    });
+  },
+
+  deletePushToken: async (parent, { token }, ctx) => {
+    const personId = getPersonId(ctx);
+    if (
+      !ctx.prisma.$exists.person({
+        id_not: personId,
+        pushTokens_some: { token }
+      })
+    ) {
+      throw new Error(`Token ${token} not affiliated with user.`);
+    }
+    try {
+      await ctx.prisma.deletePushToken({ token });
+    } catch {
+      return {
+        id: token,
+        success: false,
+        message: "Failed to delete token"
+      };
+    }
+    return {
+      id: token,
+      success: true,
+      message: "Push token deleted"
+    };
   }
 };

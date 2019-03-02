@@ -13,6 +13,8 @@ type Mutation {
   confirmEmail(confirmationCode: String): Person!
 
   updatePerson(email: String, password: String, name: String): Person!
+  addPushToken(token: String!): Person!
+  deletePushToken(token: String!): DeletionResponse!
 
   createGroup(name: String!, description: String): Group!
   updateGroup(groupId: ID!, name: String, description: String): Group!

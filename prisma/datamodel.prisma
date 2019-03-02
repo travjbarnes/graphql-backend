@@ -7,6 +7,15 @@ type Person {
     confirmationCode: String
     emailConfirmed: Boolean!
     groups: [Group!]
+    pushTokens: [PushToken!]
+}
+
+# This is a separate model so that we can delete a given push token without needing to know the 
+# person it belongs to. This is useful if e.g. we start getting errors because a given token is no longer valid.
+type PushToken {
+    id: ID! @unique
+    person: Person!
+    token: String! @unique
 }
 
 type Group {

@@ -1,3 +1,11 @@
+import cliTruncate from "cli-truncate";
+import { ExpoPushMessage } from "expo-server-sdk";
+
+import {
+  expo,
+  NOTIFICATION_DELAY_EXP,
+  notificationsQueue
+} from "../../communications/notifications";
 import { MutationResolvers } from "../../generated/graphqlgen";
 import { AuthError, getPersonId } from "../../utils";
 
@@ -19,7 +27,7 @@ export const post: Pick<
       throw new AuthError();
     }
 
-    return ctx.prisma.createPost({
+    const newPost = await ctx.prisma.createPost({
       content,
       firstPost: false,
       author: {
@@ -33,6 +41,47 @@ export const post: Pick<
         }
       }
     });
+
+    // Add notifications for all other group members to queue
+    const authorName = await ctx.prisma.person({ id: personId }).name();
+    const threadTitle = await ctx.prisma.thread({ id: threadId }).title();
+    const groupMemberIds = await ctx.prisma
+      .thread({ id: threadId })
+      .group()
+      .members()
+      .then(persons =>
+        persons.map(person => person.id).filter(id => id !== personId)
+      );
+    const tokens = await ctx.prisma.pushTokens({
+      where: {
+        person: {
+          id_in: groupMemberIds
+        }
+      }
+    });
+    const notifications = tokens.map(
+      token =>
+        ({
+          to: token.token,
+          sound: "default",
+          title: `${authorName} in ${threadTitle}`,
+          body: cliTruncate(content, 100),
+          priority: "high"
+        } as ExpoPushMessage)
+    );
+    const chunks = expo.chunkPushNotifications(notifications);
+    chunks.forEach(chunk => {
+      notificationsQueue
+        .create("notificationChunk", chunk)
+        .priority("high")
+        .attempts(3)
+        .delay(Math.pow(1000, NOTIFICATION_DELAY_EXP))
+        .backoff({ delay: 30000, type: "fixed" })
+        .ttl(1800000) // 30 mins. if it takes us this long to send notifications something is very wrong anyway
+        .save();
+    });
+
+    return newPost;
   },
 
   editPost: async (parent, { postId, content }, ctx, info) => {
