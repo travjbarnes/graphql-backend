@@ -16,7 +16,7 @@ The GraphQL backend server for [Wobbly](https://wobbly.app), written in TypeScri
 
 [Prisma](https://www.prisma.io/) is a GraphQL ORM ([object-relational mapping](https://en.wikipedia.org/wiki/Object-relational_mapping)). It gives us a way to interact with the raw data in our database through GraphQL -- but note that this is not the same GraphQL API that is exposed to front-end clients. Our prisma code lives in the [`prisma/` directory](./prisma/). The [Prisma datamodel](./prisma/datamodel.prisma) defines the tables in our database.
 
-Instead, we use [`Apollo Server`](https://github.com/apollographql/apollo-server) as our "main" backend server. This is where we implement the resolvers for our own GraphQL API. The code for this lives in the [`src/` directory](./src/). This is also where you'll find the [schema](./src/schema.graphql) for our public API.
+Instead, we use [Apollo Server](https://github.com/apollographql/apollo-server) as our "main" backend server. This is where we implement the resolvers for our own GraphQL API. The code for this lives in the [`src/` directory](./src/). This is also where you'll find the [schema](./src/schema.graphql) for our public API.
 
 The Prisma server and our backend server can live on different machines, or the same.
 
@@ -31,15 +31,18 @@ The Prisma server and our backend server can live on different machines, or the 
 ### Steps
 
 - `cp example.env .env`.
-  - `ENGINE_API_KEY` is the API key for [Apollo Engine](https://engine.apollographql.com), the cloud service we use for schema management. Don't worry if you don't have this API key; you don't need it.
+  - `ENGINE_API_KEY` is the API key for [Apollo Engine](https://engine.apollographql.com). Don't worry if you don't have this API key; you don't need it. Apollo Engine gives us statistics on production server performance but you don't need it for development.
   - `PORT` is the port that exposes the public API.
-  - `PRISMA_ENDPOINT` is where the Prisma server lives. It's a URL of the format `http://domain:port/service/stage`. `service` is the name of the service and `stage` is e.g. `dev`, `staging`, `production` or such. If you're running Prisma locally with docker, this should be `http://localhost:4466/wobbly-backend/dev`.
+  - `PRISMA_ENDPOINT` is where the Prisma server lives. It's a URL of the format `http://domain:port/service/stage`. The `service` is the name of the service and `stage` is e.g. `dev`, `staging`, `production` or such. If you're running Prisma locally with docker, this should be `http://localhost:4466/wobbly-backend/dev`.
   - `PRISMA_SECRET` should be a long, secret string for authenticating against Prisma when using the GraphQL playground in the browser.
   - `PRISMA_MANAGEMENT_API_SECRET`
   - `DB_USER` and `DB_PASSWORD` are the credentials to connect to the Postgres database.
   - `APP_SECRET` is the secret we use to sign user [JWTs](https://en.wikipedia.org/wiki/JSON_Web_Token).
 - `yarn codegen` generates a) the typed Prisma client and b) types for the front-facing schema
-- `docker-compose up -d` starts the Prisma server.
+- You have two options for running the Prisma server:
+  - If you want to get started quickly, run `yarn prisma init` to set up a remote Prisma demo server and set it as your `PRISMA_ENDPOINT`.
+  - If you want to run a local Prisma server, e.g. if you're offline:
+    - `docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d` starts a Postgres db and a Prisma server.
 - `yarn prisma deploy` deploys the Prisma datamodel to the Prisma server
 - `yarn dev` runs the backend server locally.
 
@@ -59,7 +62,7 @@ The Prisma server and our backend server can live on different machines, or the 
 
 ## Deployment workflows
 
-- Merging into `master` automatically deploys to Heroku.
+- Merging into `develop` automatically deploys to our dev stack on Heroku.
 - When setting up a new stack, be sure to create an index on the Group table to enable fast full-text search:
   - Something like `CREATE INDEX group_idx ON default$default."Group" USING GIN (to_tsvector('english', name || ' ' || description));`
   - Make sure that `to_tsvector` has the same number of arguments as in our resolver, otherwise the index won't work. (i.e. if you explicitly specify `'english'`
@@ -69,5 +72,5 @@ The Prisma server and our backend server can live on different machines, or the 
 
 ### Commands
 
-- `yarn dev` starts GraphQL server on `http://localhost:4000`
+- `yarn dev` starts a GraphQL server on `http://localhost:4000`
 - `yarn prisma <subcommand>` gives access to local version of Prisma CLI (e.g. `yarn prisma deploy`)
