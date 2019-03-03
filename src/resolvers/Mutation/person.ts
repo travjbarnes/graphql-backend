@@ -1,14 +1,23 @@
+import * as bcrypt from "bcryptjs";
+
+import { sendConfirmationEmail } from "../../communications/email";
 import { MutationResolvers } from "../../generated/graphqlgen";
 import {
   checkForPwnedPassword,
+  getCode,
   getPasswordHash,
   getPersonId,
+  InvalidPasswordError,
   validatePersonFields
 } from "../../utils";
 
 export const person: Pick<MutationResolvers.Type, "updatePerson"> = {
-  updatePerson: async (parent, { email, name, password }, ctx) => {
-    if (!email && !name && !password) {
+  updatePerson: async (
+    parent,
+    { email, name, oldPassword, newPassword, confirmPassword },
+    ctx
+  ) => {
+    if (!email && !name && !newPassword) {
       throw new Error("Did not receive fields to update");
     }
 
@@ -17,20 +26,38 @@ export const person: Pick<MutationResolvers.Type, "updatePerson"> = {
     validatePersonFields(
       email || "dummy@dummy.com",
       name || "dummy name",
-      password || "dummy password"
+      newPassword || "dummy password"
     );
 
     const personId = getPersonId(ctx);
     const currentInfo = await ctx.prisma.person({ id: personId });
 
-    if (email !== currentInfo.email) {
-      // TODO: handle email change (i.e. verify new email)
+    // password block
+    let hash;
+    if (newPassword) {
+      if (newPassword !== confirmPassword) {
+        throw new InvalidPasswordError();
+      }
+      const valid =
+        oldPassword &&
+        (await bcrypt.compare(oldPassword, currentInfo.password));
+      if (!valid) {
+        throw new InvalidPasswordError();
+      }
+      await checkForPwnedPassword(newPassword);
+      hash = await getPasswordHash(newPassword);
     }
 
-    let hash;
-    if (password) {
-      await checkForPwnedPassword(password);
-      hash = await getPasswordHash(password);
+    // email block
+    if (email && email !== currentInfo.email) {
+      if (await ctx.prisma.$exists.person({ email })) {
+        throw new Error("Email unavailable");
+      }
+      const confirmationCode = getCode(6);
+
+      if (process.env.NODE_ENV !== "dev") {
+        sendConfirmationEmail(email, confirmationCode);
+      }
     }
 
     return ctx.prisma.updatePerson({

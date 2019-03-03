@@ -80,6 +80,18 @@ export class InvalidLoginError extends Error {
   }
 }
 
+export class InvalidPasswordError extends Error {
+  constructor() {
+    super("Invalid old password");
+  }
+}
+
+export class PasswordMismatchError extends Error {
+  constructor() {
+    super("Passwords do not match");
+  }
+}
+
 /**
  * Checks Pwned Passwords, a database of passwords that have been exposed in data breaches.
  * Sends the first 5 characters of the SHA-1 hash to a remote server and receives a list of breached

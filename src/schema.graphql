@@ -12,7 +12,7 @@ type Mutation {
   login(email: String!, password: String!): AuthPayload!
   confirmEmail(confirmationCode: String): Person!
 
-  updatePerson(email: String, password: String, name: String): Person!
+  updatePerson(email: String, oldPassword: String, newPassword: String, confirmPassword: String, name: String): Person!
 
   createGroup(name: String!, description: String): Group!
   joinGroup(groupId: ID!): Group!
