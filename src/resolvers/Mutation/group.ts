@@ -3,7 +3,7 @@ import { checkGroupMembership, getPersonId } from "../../utils";
 
 export const group: Pick<
   MutationResolvers.Type,
-  "createGroup" | "joinGroup" | "leaveGroup"
+  "createGroup" | "updateGroup" | "joinGroup" | "leaveGroup"
 > = {
   createGroup: async (parent, { name, description }, ctx, info) => {
     const personId = getPersonId(ctx);
@@ -35,6 +35,25 @@ export const group: Pick<
             }
           }
         }
+      }
+    });
+  },
+
+  updateGroup: async (parent, { groupId, name, description }, ctx) => {
+    const personId = getPersonId(ctx);
+    await checkGroupMembership(ctx, groupId);
+
+    if (!name) {
+      throw new Error("Cannot unset group name.");
+    }
+
+    return ctx.prisma.updateGroup({
+      data: {
+        name,
+        description: description || ""
+      },
+      where: {
+        id: groupId
       }
     });
   },
