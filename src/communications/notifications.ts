@@ -1,9 +1,8 @@
-import cliTruncate = require("cli-truncate");
+import cliTruncate from "cli-truncate";
 import Expo, { ExpoPushMessage } from "expo-server-sdk";
 import kue from "kue";
-import { values } from "lodash";
 
-import { prisma, Prisma } from "../generated/prisma-client";
+import { prisma } from "../generated/prisma-client";
 
 // Used if we need to slow down notifications because of rate limiting
 export let NOTIFICATION_DELAY_EXP = 0;
@@ -132,5 +131,16 @@ export const sendPostNotificationsAsync = async (
       .backoff({ delay: 30000, type: "fixed" })
       .ttl(1800000) // 30 mins. if it takes us this long to send notifications something is very wrong anyway
       .save();
+  });
+};
+
+export const stopNotificationsQueueAsync = async () => {
+  return new Promise((resolve, reject) => {
+    notificationsQueue.shutdown(5000, (err: any) => {
+      if (err) {
+        reject(err);
+      }
+      resolve();
+    });
   });
 };

@@ -2,6 +2,7 @@ import { ApolloServer, gql, PubSub } from "apollo-server";
 import * as fs from "fs";
 import * as path from "path";
 
+import { stopNotificationsQueueAsync } from "./communications/notifications";
 import { prisma } from "./generated/prisma-client";
 import resolvers from "./resolvers";
 import { IWebSocketContext } from "./types";
@@ -67,5 +68,6 @@ export const startServer = async () => {
 };
 
 export const stopServer = async () => {
+  await stopNotificationsQueueAsync();
   await server.stop();
 };
