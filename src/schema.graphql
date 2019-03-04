@@ -15,6 +15,7 @@ type Mutation {
   updatePerson(email: String, oldPassword: String, newPassword: String, confirmPassword: String, name: String): Person!
 
   createGroup(name: String!, description: String): Group!
+  updateGroup(groupId: ID!, name: String, description: String): Group!
   joinGroup(groupId: ID!): Group!
   leaveGroup(groupId: ID!): DeletionResponse!
 
