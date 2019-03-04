@@ -82,13 +82,7 @@ export class InvalidLoginError extends Error {
 
 export class InvalidPasswordError extends Error {
   constructor() {
-    super("Invalid old password");
-  }
-}
-
-export class PasswordMismatchError extends Error {
-  constructor() {
-    super("Passwords do not match");
+    super("Invalid password");
   }
 }
 

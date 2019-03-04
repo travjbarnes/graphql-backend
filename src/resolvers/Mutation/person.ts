@@ -14,9 +14,15 @@ import {
 export const person: Pick<MutationResolvers.Type, "updatePerson"> = {
   updatePerson: async (
     parent,
-    { email, name, oldPassword, newPassword, confirmPassword },
+    { email, name, oldPassword, newPassword },
     ctx
   ) => {
+    let hash;
+    let confirmationCode;
+    let emailConfirmed;
+    const personId = getPersonId(ctx);
+    const currentInfo = await ctx.prisma.person({ id: personId });
+
     if (!email && !name && !newPassword) {
       throw new Error("Did not receive fields to update");
     }
@@ -29,33 +35,25 @@ export const person: Pick<MutationResolvers.Type, "updatePerson"> = {
       newPassword || "dummy password"
     );
 
-    const personId = getPersonId(ctx);
-    const currentInfo = await ctx.prisma.person({ id: personId });
+    const valid =
+      oldPassword && (await bcrypt.compare(oldPassword, currentInfo.password));
+    if (!valid) {
+      throw new InvalidPasswordError();
+    }
 
-    // password block
-    let hash;
     if (newPassword) {
-      if (newPassword !== confirmPassword) {
-        throw new InvalidPasswordError();
-      }
-      const valid =
-        oldPassword &&
-        (await bcrypt.compare(oldPassword, currentInfo.password));
-      if (!valid) {
-        throw new InvalidPasswordError();
-      }
       await checkForPwnedPassword(newPassword);
       hash = await getPasswordHash(newPassword);
     }
 
-    // email block
     if (email && email !== currentInfo.email) {
       if (await ctx.prisma.$exists.person({ email })) {
         throw new Error("Email unavailable");
       }
-      const confirmationCode = getCode(6);
 
-      if (process.env.NODE_ENV !== "dev") {
+      if (process.env.NODE_ENV !== "env") {
+        confirmationCode = getCode(6);
+        emailConfirmed = false;
         sendConfirmationEmail(email, confirmationCode);
       }
     }
@@ -67,7 +65,9 @@ export const person: Pick<MutationResolvers.Type, "updatePerson"> = {
       data: {
         email: email as string | undefined,
         password: hash as string | undefined,
-        name: name as string | undefined
+        name: name as string | undefined,
+        confirmationCode: confirmationCode as string | undefined,
+        emailConfirmed: emailConfirmed as boolean | undefined
       }
     });
   }
