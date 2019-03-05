@@ -37,6 +37,7 @@ const server = new ApolloServer({
     };
   },
   playground,
+  introspection: true,
   subscriptions: {
     path: "/ws",
     onConnect: async (connectionParams: any, _) => {
