@@ -6,12 +6,11 @@ import { getLoginMutation } from "../testutils";
 
 const HOST = `http://localhost:${PORT}`;
 let testClient: GraphQLClient;
-const email = "test1@example.com";
-const name = "test1";
-const password = "supersecurepassword1";
-const otherEmail = "test2@example.com";
-const otherName = "test2";
-const otherPassword = "supersecurepassword2";
+const email = "alice@wobbly.app";
+const name = "alice";
+const password = "secret42";
+const otherEmail = "notalice@wobbly.app";
+const otherName = "notalice";
 
 beforeAll(async () => {
   await startServer();
