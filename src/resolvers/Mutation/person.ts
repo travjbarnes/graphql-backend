@@ -3,6 +3,7 @@ import * as bcrypt from "bcryptjs";
 import { sendConfirmationEmail } from "../../communications/email";
 import { MutationResolvers } from "../../generated/graphqlgen";
 import {
+  AuthError,
   checkForPwnedPassword,
   getCode,
   getPasswordHash,
@@ -11,7 +12,10 @@ import {
   validatePersonFields
 } from "../../utils";
 
-export const person: Pick<MutationResolvers.Type, "updatePerson"> = {
+export const person: Pick<
+  MutationResolvers.Type,
+  "deletePerson" | "updatePerson"
+> = {
   updatePerson: async (
     parent,
     { email, name, oldPassword, newPassword },
@@ -70,5 +74,23 @@ export const person: Pick<MutationResolvers.Type, "updatePerson"> = {
         emailConfirmed: emailConfirmed as boolean | undefined
       }
     });
+  },
+  deletePerson: async (parent, { password }, ctx) => {
+    if (!password) {
+      throw new AuthError();
+    }
+    const personId = getPersonId(ctx);
+    const currentInfo = await ctx.prisma.person({ id: personId });
+    const valid = await bcrypt.compare(password, currentInfo.password);
+    if (!valid) {
+      throw new AuthError();
+    }
+
+    await ctx.prisma.deletePerson({ id: personId });
+    return {
+      id: currentInfo.email,
+      success: true,
+      message: `Successfully deleted post`
+    };
   }
 };
