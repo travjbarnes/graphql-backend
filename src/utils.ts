@@ -8,10 +8,7 @@ import { IContext } from "./types";
 
 export function getPersonIdFromToken(token: string) {
   if (process.env.APP_SECRET) {
-    const { personId } = jwt.verify(
-      token.replace("Bearer ", ""),
-      process.env.APP_SECRET
-    ) as {
+    const { personId } = jwt.verify(token.replace("Bearer ", ""), process.env.APP_SECRET) as {
       personId: string;
     };
     if (personId) {
@@ -45,10 +42,7 @@ export async function checkPersonExists(ctx: IContext) {
  * Verifies that the user is a member of the group with `groupId`.
  * If not, throws an `AuthError`.
  */
-export async function checkGroupMembership(
-  ctx: IContext,
-  groupId: string
-): Promise<void> {
+export async function checkGroupMembership(ctx: IContext, groupId: string): Promise<void> {
   const personId = getPersonId(ctx);
   const isMember = await ctx.prisma.$exists.group({
     id: groupId,
@@ -101,9 +95,7 @@ export async function checkForPwnedPassword(password: string) {
   hasher.update(password);
   const hash = hasher.digest("hex");
 
-  const response = await fetch(
-    `https://api.pwnedpasswords.com/range/${hash.slice(0, 5)}`
-  ).then(r => r.text());
+  const response = await fetch(`https://api.pwnedpasswords.com/range/${hash.slice(0, 5)}`).then(r => r.text());
   const suffixes: { [suffix: string]: number } = {};
   response.split("\n").forEach(line => {
     const split = line.split(":");
@@ -127,11 +119,7 @@ export async function checkForPwnedPassword(password: string) {
 /**
  * Validates the Person fields. If invalid, throws an error.
  */
-export function validatePersonFields(
-  email: string,
-  name: string,
-  password: string
-) {
+export function validatePersonFields(email: string, name: string, password: string) {
   const schema = Joi.object().keys({
     email: Joi.string()
       .email({ minDomainAtoms: 2 })

@@ -8,10 +8,7 @@ import { IWebSocketContext } from "./types";
 import { AuthError, getPersonIdFromToken } from "./utils";
 
 export const pubsub = new PubSub();
-export const PORT =
-  process.env.NODE_ENV === "test"
-    ? 4001
-    : parseInt(process.env.PORT || "4000", 10);
+export const PORT = process.env.NODE_ENV === "test" ? 4001 : parseInt(process.env.PORT || "4000", 10);
 
 const playground = process.env.NODE_ENV === "dev" ? { endpoint: "/" } : false;
 const typeDefs = gql`

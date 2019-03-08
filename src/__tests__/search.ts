@@ -11,16 +11,15 @@ beforeAll(async () => {
   await startServer();
 
   // Users defined in prisma/seed.graphql
-  const aliceToken = await request(
-    HOST,
-    getLoginMutation("alice@wobbly.app", "secret42")
-  ).then((response: any) => response.login.token);
+  const aliceToken = await request(HOST, getLoginMutation("alice@wobbly.app", "secret42")).then(
+    (response: any) => response.login.token
+  );
   aliceClient = new GraphQLClient(HOST, {
     headers: { Authorization: `Bearer ${aliceToken}` }
   });
 });
 
-describe("search", async () => {
+describe("search", () => {
   it("cannot search without auth", async () => {
     const search = async () => {
       return await request(HOST, getSearchQuery("test search"));
