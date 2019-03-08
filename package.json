@@ -53,7 +53,7 @@
     "@types/inflection": "^1.5.28",
     "@types/jest": "^24.0.9",
     "@types/joi": "^14.3.2",
-    "@types/jsonwebtoken": "^8.3.0",
+    "@types/jsonwebtoken": "^8.3.2",
     "@types/node": "^11.10.5",
     "@types/nodemailer": "^4.6.6",
     "copyfiles": "^2.1.0",
