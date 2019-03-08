@@ -7,7 +7,7 @@ import { getLoginMutation } from "../testutils";
 const HOST = `http://localhost:${PORT}`;
 let testClient: GraphQLClient;
 const email = "alice@wobbly.app";
-const name = "alice";
+const name = "Alice";
 const password = "secret42";
 const otherEmail = "notalice@wobbly.app";
 const otherName = "notalice";
