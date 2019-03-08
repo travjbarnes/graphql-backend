@@ -11,10 +11,9 @@ beforeAll(async () => {
   await startServer();
 
   // Users defined in prisma/seed.graphql
-  const aliceToken = await request(
-    HOST,
-    getLoginMutation("alice@wobbly.app", "secret42")
-  ).then((response: any) => response.login.token);
+  const aliceToken = await request(HOST, getLoginMutation("alice@wobbly.app", "secret42")).then(
+    (response: any) => response.login.token
+  );
   aliceClient = new GraphQLClient(HOST, {
     headers: { Authorization: `Bearer ${aliceToken}` }
   });
@@ -41,9 +40,7 @@ describe("groups", () => {
       .request(
         `
       mutation {
-        updateGroup(groupId: "${group.id}", name: "Test name", description: "${
-          group.description
-        }") {
+        updateGroup(groupId: "${group.id}", name: "Test name", description: "${group.description}") {
           id
           name
           description
@@ -59,9 +56,7 @@ describe("groups", () => {
       .request(
         `
       mutation {
-        updateGroup(groupId: "${group.id}", name: "${
-          group.name
-        }", description: "${group.description}") {
+        updateGroup(groupId: "${group.id}", name: "${group.name}", description: "${group.description}") {
           id
           name
           description
@@ -92,9 +87,7 @@ describe("groups", () => {
         .request(
           `
       mutation {
-        updateGroup(groupId: "${group.id}", name: "${
-            group.name
-          }", description: "Test description") {
+        updateGroup(groupId: "${group.id}", name: "${group.name}", description: "Test description") {
           id
           name
           description
@@ -110,9 +103,7 @@ describe("groups", () => {
         .request(
           `
       mutation {
-        updateGroup(groupId: "${group.id}", name: "${
-            group.name
-          }", description: "${group.description}") {
+        updateGroup(groupId: "${group.id}", name: "${group.name}", description: "${group.description}") {
           id
           name
           description

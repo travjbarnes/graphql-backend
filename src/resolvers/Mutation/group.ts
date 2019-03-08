@@ -1,10 +1,7 @@
 import { MutationResolvers } from "../../generated/graphqlgen";
 import { checkGroupMembership, getPersonId } from "../../utils";
 
-export const group: Pick<
-  MutationResolvers.Type,
-  "createGroup" | "updateGroup" | "joinGroup" | "leaveGroup"
-> = {
+export const group: Pick<MutationResolvers.Type, "createGroup" | "updateGroup" | "joinGroup" | "leaveGroup"> = {
   createGroup: async (parent, { name, description }, ctx, info) => {
     const personId = getPersonId(ctx);
     const groupExists = await ctx.prisma.$exists.group({ name });
@@ -24,8 +21,7 @@ export const group: Pick<
           pinned: true,
           posts: {
             create: {
-              content:
-                "Welcome to your new group! Use this thread to introduce yourself.",
+              content: "Welcome to your new group! Use this thread to introduce yourself.",
               firstPost: true,
               author: {
                 connect: {
