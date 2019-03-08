@@ -13,7 +13,7 @@ let email = "demo@demo";
 const name = "demo user";
 let password = "demopassword";
 
-describe("authentication", async () => {
+describe("authentication", () => {
   test("invalidEmail", async () => {
     email = "demo@demo";
     // jest can't handle `toThrow` in promises normally, hence the odd structure of this check

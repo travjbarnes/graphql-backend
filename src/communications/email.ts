@@ -11,6 +11,9 @@ const transporter = nodemailer.createTransport({
 });
 
 export const sendConfirmationEmail = (email: string, code: string) => {
+  if (process.env.NODE_ENV === "test" || process.env.NODE_ENV === "dev") {
+    return;
+  }
   const mailOptions = {
     to: email,
     from: "no-reply@wobbly.app",

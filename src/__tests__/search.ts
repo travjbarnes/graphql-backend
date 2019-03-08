@@ -19,7 +19,7 @@ beforeAll(async () => {
   });
 });
 
-describe("search", async () => {
+describe("search", () => {
   it("cannot search without auth", async () => {
     const search = async () => {
       return await request(HOST, getSearchQuery("test search"));
