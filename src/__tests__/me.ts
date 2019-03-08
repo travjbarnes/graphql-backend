@@ -76,11 +76,12 @@ describe("me", () => {
       )
       .then((r: any) => r.updatePerson.name);
     expect(newName).toEqual(me.name);
-  }),
-    it("can edit own email", async () => {
-      const me = await testClient
-        .request(
-          `
+  });
+
+  it("can edit own email", async () => {
+    const me = await testClient
+      .request(
+        `
       query {
         me {
           id
@@ -89,13 +90,13 @@ describe("me", () => {
         }
       }
     `
-        )
-        .then((r: any) => r.me as Person);
+      )
+      .then((r: any) => r.me as Person);
 
-      // Edit the email
-      let newEmail = await testClient
-        .request(
-          `
+    // Edit the email
+    let newEmail = await testClient
+      .request(
+        `
         mutation {
           updatePerson(
             oldPassword: "${password}",
@@ -107,14 +108,14 @@ describe("me", () => {
           }
         }
       `
-        )
-        .then((r: any) => r.updatePerson.email);
-      expect(newEmail).toEqual(otherEmail);
+      )
+      .then((r: any) => r.updatePerson.email);
+    expect(newEmail).toEqual(otherEmail);
 
-      // Edit it back
-      newEmail = await testClient
-        .request(
-          `
+    // Edit it back
+    newEmail = await testClient
+      .request(
+        `
         mutation {
           updatePerson(
             oldPassword: "${password}",
@@ -126,10 +127,10 @@ describe("me", () => {
           }
         }
       `
-        )
-        .then((r: any) => r.updatePerson.email);
-      expect(newEmail).toEqual(me.email);
-    });
+      )
+      .then((r: any) => r.updatePerson.email);
+    expect(newEmail).toEqual(me.email);
+  });
 });
 
 afterAll(async () => {

@@ -26,7 +26,7 @@ beforeAll(async () => {
   });
 });
 
-describe("threads", async () => {
+describe("threads", () => {
   it("can create a thread", async () => {
     const threadTitle = "Test thread";
     const threadContent = "Test content";
