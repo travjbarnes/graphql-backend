@@ -1,10 +1,7 @@
 import { MutationResolvers } from "../../generated/graphqlgen";
 import { AuthError, getPersonId } from "../../utils";
 
-export const post: Pick<
-  MutationResolvers.Type,
-  "createPost" | "editPost" | "deletePost"
-> = {
+export const post: Pick<MutationResolvers.Type, "createPost" | "editPost" | "deletePost"> = {
   createPost: async (parent, { threadId, content }, ctx, info) => {
     const personId = getPersonId(ctx);
     const isGroupMember = await ctx.prisma.$exists.group({

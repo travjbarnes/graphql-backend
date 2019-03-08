@@ -34,6 +34,10 @@
       "post-merge": "yarn install"
     }
   },
+  "prettier": {
+    "printWidth": 120,
+    "parser": "typescript"
+  },
   "dependencies": {
     "apollo-server": "^2.4.8",
     "bcryptjs": "2.4.3",

@@ -1,8 +1,4 @@
-export const getSignupMutation = (
-  email: string,
-  name: string,
-  password: string
-) => `
+export const getSignupMutation = (email: string, name: string, password: string) => `
 mutation {
     signup(email: "${email}", password: "${password}", name: "${name}") {
         token

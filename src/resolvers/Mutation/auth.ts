@@ -12,10 +12,7 @@ import {
   validatePersonFields
 } from "../../utils";
 
-export const auth: Pick<
-  MutationResolvers.Type,
-  "signup" | "login" | "confirmEmail"
-> = {
+export const auth: Pick<MutationResolvers.Type, "signup" | "login" | "confirmEmail"> = {
   signup: async (parent, { email, name, password }, ctx) => {
     if (!process.env.APP_SECRET) {
       throw new Error("Server authentication error");

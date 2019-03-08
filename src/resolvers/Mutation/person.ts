@@ -1,10 +1,5 @@
 import { MutationResolvers } from "../../generated/graphqlgen";
-import {
-  checkForPwnedPassword,
-  getPasswordHash,
-  getPersonId,
-  validatePersonFields
-} from "../../utils";
+import { checkForPwnedPassword, getPasswordHash, getPersonId, validatePersonFields } from "../../utils";
 
 export const person: Pick<MutationResolvers.Type, "updatePerson"> = {
   updatePerson: async (parent, { email, name, password }, ctx) => {
@@ -14,11 +9,7 @@ export const person: Pick<MutationResolvers.Type, "updatePerson"> = {
 
     // in case we did not receive a field to validate, pass a dummy value that will pass validation.
     // this is so we can use the same validator in the login and signup resolvers.
-    validatePersonFields(
-      email || "dummy@dummy.com",
-      name || "dummy name",
-      password || "dummy password"
-    );
+    validatePersonFields(email || "dummy@dummy.com", name || "dummy name", password || "dummy password");
 
     const personId = getPersonId(ctx);
     const currentInfo = await ctx.prisma.person({ id: personId });
