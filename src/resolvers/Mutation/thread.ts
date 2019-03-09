@@ -45,15 +45,8 @@ export const thread: Pick<
     const groupMemberIds = await ctx.prisma
       .group({ id: groupId })
       .members()
-      .then(persons =>
-        persons.map(person => person.id).filter(id => id !== personId)
-      );
-    await sendPostNotificationsAsync(
-      groupMemberIds,
-      authorName,
-      threadTitle,
-      content
-    );
+      .then(persons => persons.map(person => person.id).filter(id => id !== personId));
+    await sendPostNotificationsAsync(groupMemberIds, authorName, threadTitle, content);
 
     return newThread;
   },

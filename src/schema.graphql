@@ -12,7 +12,8 @@ type Mutation {
   login(email: String!, password: String!): AuthPayload!
   confirmEmail(confirmationCode: String): Person!
 
-  updatePerson(email: String, password: String, name: String): Person!
+  updatePerson(email: String, oldPassword: String, newPassword: String, name: String): Person!
+  deletePerson(password: String): DeletionResponse!
   addPushToken(token: String!): Person!
   deletePushToken(token: String!): DeletionResponse!
 

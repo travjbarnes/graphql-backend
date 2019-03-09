@@ -10,10 +10,7 @@ import {
 import { MutationResolvers } from "../../generated/graphqlgen";
 import { AuthError, getPersonId } from "../../utils";
 
-export const post: Pick<
-  MutationResolvers.Type,
-  "createPost" | "editPost" | "deletePost"
-> = {
+export const post: Pick<MutationResolvers.Type, "createPost" | "editPost" | "deletePost"> = {
   createPost: async (parent, { threadId, content }, ctx, info) => {
     const personId = getPersonId(ctx);
     const isGroupMember = await ctx.prisma.$exists.group({
@@ -50,15 +47,8 @@ export const post: Pick<
       .thread({ id: threadId })
       .group()
       .members()
-      .then(persons =>
-        persons.map(person => person.id).filter(id => id !== personId)
-      );
-    await sendPostNotificationsAsync(
-      groupMemberIds,
-      authorName,
-      threadTitle,
-      content
-    );
+      .then(persons => persons.map(person => person.id).filter(id => id !== personId));
+    await sendPostNotificationsAsync(groupMemberIds, authorName, threadTitle, content);
 
     return newPost;
   },
