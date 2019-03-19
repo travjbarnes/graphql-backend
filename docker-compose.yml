@@ -31,7 +31,7 @@ services:
             rawAccess: true
   redis:
     image: redis:5.0.3-alpine
-    command: redis-server --requirepass ${REDIS_PASSWORD}
+    command: redis-server
     ports:
       - "6379:6379"
 volumes:
