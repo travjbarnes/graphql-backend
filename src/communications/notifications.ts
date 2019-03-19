@@ -9,11 +9,7 @@ export let NOTIFICATION_DELAY_EXP = 0;
 
 export const expo = new Expo();
 export const notificationsQueue = kue.createQueue({
-  redis: {
-    host: process.env.REDIS_HOST,
-    port: process.env.REDIS_PORT,
-    auth: process.env.REDIS_PASSWORD
-  }
+  redis: process.env.REDIS_URL
 });
 // https://github.com/Automattic/kue#unstable-redis-connections
 notificationsQueue.watchStuckJobs(5000);
