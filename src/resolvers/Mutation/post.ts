@@ -1,12 +1,4 @@
-import cliTruncate from "cli-truncate";
-import { ExpoPushMessage } from "expo-server-sdk";
-
-import {
-  expo,
-  NOTIFICATION_DELAY_EXP,
-  notificationsQueue,
-  sendPostNotificationsAsync
-} from "../../communications/notifications";
+import { sendPostNotificationsAsync } from "../../communications/notifications";
 import { MutationResolvers } from "../../generated/graphqlgen";
 import { AuthError, getPersonId } from "../../utils";
 
