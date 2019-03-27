@@ -16,6 +16,7 @@ notificationsQueue.process("notificationChunk", async (job, done) => {
   await expoClient.sendNotifications(job.data).then(tickets => {
     // Delay the ticket 5 minutes -- it can take Expo a while to deliver push notifications when the servers are busy
     // (up to 30 mins)
+    const delay = process.env.NODE_ENV === "PRODUCTION" ? 300000 : 5000;
     notificationsQueue
       .create("ticketChunk", tickets)
       .delay(300000)

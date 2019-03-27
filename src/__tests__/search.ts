@@ -31,14 +31,14 @@ describe("search", () => {
     const groups = await aliceClient
       .request(getSearchQuery("group"))
       .then((r: any) => r.searchGroups as GroupSearchResponse[]);
-    expect(groups.length).toEqual(2); // both groups from seed data
+    expect(groups.length).toEqual(3); // all groups from seed data
   });
 
   it("can search simple substrings in descriptions", async () => {
     const groups = await aliceClient
       .request(getSearchQuery("testing"))
       .then((r: any) => r.searchGroups as GroupSearchResponse[]);
-    expect(groups.length).toEqual(2);
+    expect(groups.length).toEqual(3);
   });
 
   it("can normalize lexemes", async () => {
@@ -51,7 +51,7 @@ describe("search", () => {
 
   it("removes stop words", async () => {
     const groups = await aliceClient
-      .request(getSearchQuery("the"))
+      .request(getSearchQuery("is"))
       .then((r: any) => r.searchGroups as GroupSearchResponse[]);
     expect(groups.length).toEqual(0);
   });
