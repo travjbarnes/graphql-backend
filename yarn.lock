@@ -609,20 +609,20 @@
   dependencies:
     "@types/node" "*"
 
-"@types/node@*", "@types/node@^11.11.4":
-  version "11.11.4"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-11.11.4.tgz#8808bd5a82bbf6f5d412eff1c228d178e7c24bb3"
-  integrity sha512-02tIL+QIi/RW4E5xILdoAMjeJ9kYq5t5S2vciUdFPXv/ikFTb0zK8q9vXkg4+WAJuYXGiVT1H28AkD2C+IkXVw==
+"@types/node@*", "@types/node@^11.12.0":
+  version "11.12.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-11.12.0.tgz#ec5594728811dc2797e42396cfcdf786f2052c12"
+  integrity sha512-Lg00egj78gM+4aE0Erw05cuDbvX9sLJbaaPwwRtdCdAMnIudqrQZ0oZX98Ek0yiSK/A2nubHgJfvII/rTT2Dwg==
 
 "@types/node@^10.1.0", "@types/node@^10.12.0":
   version "10.12.26"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.26.tgz#2dec19f1f7981c95cb54bab8f618ecb5dc983d0e"
   integrity sha512-nMRqS+mL1TOnIJrL6LKJcNZPB8V3eTfRo9FQA2b5gDvrHurC8XbSA86KNe0dShlEL7ReWJv/OU9NL7Z0dnqWTg==
 
-"@types/nodemailer@^4.6.6":
-  version "4.6.6"
-  resolved "https://registry.yarnpkg.com/@types/nodemailer/-/nodemailer-4.6.6.tgz#2ce2bde5dd5bb4546e11390e1babd80ba35e2154"
-  integrity sha512-N2czhXs7fbQhvoquEGzmHAWttnxLfrM3+cWMRFX4hTQq4GE3VyaSE3MOOse4VoNgvtti/H5ow/Hq9KXu/UMWqA==
+"@types/nodemailer@^4.6.7":
+  version "4.6.7"
+  resolved "https://registry.yarnpkg.com/@types/nodemailer/-/nodemailer-4.6.7.tgz#ac3c594fac6daf7f71eb4d31c9e4c88b62dbcb87"
+  integrity sha512-slR1wz8I8O20CHNBNhYhObRZ8zeG5FnfFUWLZKk1f0UDYaLZOsBjUfCC9VEFi7oSRCC886DfKmq1JncPDMOrng==
   dependencies:
     "@types/node" "*"
 
@@ -5164,10 +5164,10 @@ node-redis-warlock@~0.2.0:
     node-redis-scripty "0.0.5"
     uuid "^2.0.1"
 
-nodemailer@^5.1.1:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-5.1.1.tgz#0c48d1ecab02e86d9ff6c620ee75ed944b763505"
-  integrity sha512-hKGCoeNdFL2W7S76J/Oucbw0/qRlfG815tENdhzcqTpSjKgAN91mFOqU2lQUflRRxFM7iZvCyaFcAR9noc/CqQ==
+nodemailer@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.0.0.tgz#d9761128771739dc87c1fdd747f569b7f135cb02"
+  integrity sha512-PMQJyLhoNAMoBU1hEh5aaUkpa/tcDNwzS7s7zow/myKfoEoZewMxUuWZqQ5yjYsAnvE484KSkYH5s6iPvcjhCg==
 
 nodemon@1.18.10:
   version "1.18.10"
