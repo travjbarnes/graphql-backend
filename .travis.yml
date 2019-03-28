@@ -13,4 +13,12 @@ after_success:
   - codecov
 cache:
   yarn: true
-
+env:
+  APP_SECRET=app-secret-for-testing
+  DB_USER=prisma
+  DB_PASSWORD=prisma
+  NODE_ENV=test
+  PRISMA_ENDPOINT=http://localhost:4466/wobbly
+  PRISMA_MANAGEMENT_API_SECRET=prisma-management-secret-for-testing
+  PRISMA_SECRET=prisma-secret-for-testing
+  REDIS_URL=redis://localhost:6379
