@@ -12,7 +12,10 @@ import {
   validatePersonFields
 } from "../../utils";
 
-export const person: Pick<MutationResolvers.Type, "deletePerson" | "updatePerson"> = {
+export const person: Pick<
+  MutationResolvers.Type,
+  "deletePerson" | "updatePerson" | "addPushToken" | "deletePushToken"
+> = {
   updatePerson: async (parent, { email, name, oldPassword, newPassword }, ctx) => {
     let hash;
     let confirmationCode;
@@ -63,6 +66,7 @@ export const person: Pick<MutationResolvers.Type, "deletePerson" | "updatePerson
       }
     });
   },
+
   deletePerson: async (parent, { password }, ctx) => {
     if (!password) {
       throw new AuthError();
@@ -79,6 +83,48 @@ export const person: Pick<MutationResolvers.Type, "deletePerson" | "updatePerson
       id: currentInfo.email,
       success: true,
       message: `Successfully deleted post`
+    };
+  },
+
+  addPushToken: async (parent, { token }, ctx) => {
+    const personId = getPersonId(ctx);
+    return ctx.prisma.updatePerson({
+      where: {
+        id: personId
+      },
+      data: {
+        pushTokens: {
+          create: {
+            token
+          }
+        }
+      }
+    });
+  },
+
+  deletePushToken: async (parent, { token }, ctx) => {
+    const personId = getPersonId(ctx);
+    if (
+      !ctx.prisma.$exists.person({
+        id_not: personId,
+        pushTokens_some: { token }
+      })
+    ) {
+      throw new Error(`Token ${token} not affiliated with user.`);
+    }
+    try {
+      await ctx.prisma.deletePushToken({ token });
+    } catch {
+      return {
+        id: token,
+        success: false,
+        message: "Failed to delete token"
+      };
+    }
+    return {
+      id: token,
+      success: true,
+      message: "Push token deleted"
     };
   }
 };

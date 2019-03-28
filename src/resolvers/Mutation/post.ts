@@ -1,3 +1,4 @@
+import { sendPostNotificationsAsync } from "../../communications/notifications";
 import { MutationResolvers } from "../../generated/graphqlgen";
 import { AuthError, getPersonId } from "../../utils";
 
@@ -16,7 +17,7 @@ export const post: Pick<MutationResolvers.Type, "createPost" | "editPost" | "del
       throw new AuthError();
     }
 
-    return ctx.prisma.createPost({
+    const newPost = await ctx.prisma.createPost({
       content,
       firstPost: false,
       author: {
@@ -30,6 +31,18 @@ export const post: Pick<MutationResolvers.Type, "createPost" | "editPost" | "del
         }
       }
     });
+
+    // Add notifications for all other group members to queue
+    const authorName = await ctx.prisma.person({ id: personId }).name();
+    const threadTitle = await ctx.prisma.thread({ id: threadId }).title();
+    const groupMemberIds = await ctx.prisma
+      .thread({ id: threadId })
+      .group()
+      .members()
+      .then(persons => persons.map(person => person.id).filter(id => id !== personId));
+    await sendPostNotificationsAsync(groupMemberIds, authorName, threadTitle, content);
+
+    return newPost;
   },
 
   editPost: async (parent, { postId, content }, ctx, info) => {
