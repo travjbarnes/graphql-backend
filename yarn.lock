@@ -523,11 +523,6 @@
   resolved "https://registry.yarnpkg.com/@types/inflection/-/inflection-1.5.28.tgz#43d55e0d72cf333a2dffd9c4ec0407455a1b0931"
   integrity sha1-Q9VeDXLPMzot/9nE7AQHRVobCTE=
 
-"@types/invariant@^2.2.29":
-  version "2.2.29"
-  resolved "https://registry.yarnpkg.com/@types/invariant/-/invariant-2.2.29.tgz#aa845204cd0a289f65d47e0de63a6a815e30cc66"
-  integrity sha512-lRVw09gOvgviOfeUrKc/pmTiRZ7g7oDOU6OAutyuSHpm1/o2RaBQvRhgK8QEdu+FFuw/wnWb29A/iuxv9i8OpQ==
-
 "@types/istanbul-lib-coverage@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@types/istanbul-lib-coverage/-/istanbul-lib-coverage-1.1.0.tgz#2cc2ca41051498382b43157c8227fea60363f94a"
@@ -599,13 +594,6 @@
   version "2.15.5"
   resolved "https://registry.yarnpkg.com/@types/mysql/-/mysql-2.15.5.tgz#6d75afb5cc018c9d66b2f37a046924e397f85430"
   integrity sha512-4QAISTUGZbcFh7bqdndo08xRdES5OTU+JODy8VCZbe1yiXyGjqw1H83G43XjQ3IbC10wn9xlGd44A5RXJwNh0Q==
-  dependencies:
-    "@types/node" "*"
-
-"@types/node-fetch@^2.1.4":
-  version "2.1.6"
-  resolved "https://registry.yarnpkg.com/@types/node-fetch/-/node-fetch-2.1.6.tgz#4326288b49f352a142f03c63526ebce0f4c50877"
-  integrity sha512-Hv1jgh3pfpUEl2F2mqUd1AfLSk1YbUCeBJFaP36t7esAO617dErqdxWb5cdG2NfJGOofkmBW36fdx0dVewxDRg==
   dependencies:
     "@types/node" "*"
 
@@ -2492,13 +2480,11 @@ expect@^24.5.0:
     jest-message-util "^24.5.0"
     jest-regex-util "^24.3.0"
 
-expo-server-sdk@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/expo-server-sdk/-/expo-server-sdk-3.1.0.tgz#fc3196e42f8af4125203ab9478224639e63f4917"
-  integrity sha512-mMVPu0JJp8zcmeMDt1Rt+mDdNcJCnt6Nsf3CbRajxikJDCQ5F7kx94mqXgcmtdI/ww6fa4ndTPonPEPV9n/4fg==
+expo-server-sdk@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/expo-server-sdk/-/expo-server-sdk-3.2.0.tgz#f35cffb2b32b3961db6c7f974b18330cfbb47d16"
+  integrity sha512-T5qs+0YVmFGvPA9kDCyc6R9gV3Y1EuGSXFVgBKIlRi0Ri0yNqo58KGe529G423aeR6XsV/T7iubQQOZiMfdIww==
   dependencies:
-    "@types/invariant" "^2.2.29"
-    "@types/node-fetch" "^2.1.4"
     node-fetch "^2.3.0"
     promise-limit "^2.7.0"
 
