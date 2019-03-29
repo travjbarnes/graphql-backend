@@ -31,9 +31,10 @@ The Prisma server and our backend server can live on different machines, or the 
 ### Steps
 
 - `cp example.env .env`.
+  - `NODE_ENV` is the node environment (e.g. `dev`, `production`, etc.). It's also the [stage](https://www.prisma.io/forum/t/what-is-the-purpose-of-prisma-service-and-stage-in-the-prisma-yml/4699) on the Prisma server.
   - `ENGINE_API_KEY` is the API key for [Apollo Engine](https://engine.apollographql.com). Don't worry if you don't have this API key; you don't need it. Apollo Engine gives us statistics on production server performance but you don't need it for development.
   - `PORT` is the port that exposes the public API.
-  - `PRISMA_ENDPOINT` is where the Prisma server lives. It's a URL of the format `http://domain:port/service/stage`. The `service` is the name of the service and `stage` is e.g. `dev`, `staging`, `production` or such. If you're running Prisma locally with docker, this should be `http://localhost:4466/wobbly-backend/dev`.
+  - `PRISMA_ENDPOINT` is where the Prisma server lives. It's a URL of the format `http://domain:port/service`. The `service` is the name of the service. If you're running Prisma locally with docker, this should be `http://localhost:4466/wobbly`. **Make sure it does not end in a slash.**
   - `PRISMA_SECRET` should be a long, secret string for authenticating against Prisma when using the GraphQL playground in the browser.
   - `PRISMA_MANAGEMENT_API_SECRET`
   - `DB_USER` and `DB_PASSWORD` are the credentials to connect to the Postgres database.
@@ -52,7 +53,7 @@ The Prisma server and our backend server can live on different machines, or the 
 
 - `yarn prisma generate` takes the Prisma datamodel and generates the code to interact with our DB (i.e. the code that lives in `./src/generated/prisma-client/`).
 - `yarn prisma deploy` deploys the updated datamodel on the Prisma server (and also calls `prisma generate`).
-- You can visit `$PRISMA_ENDPOINT` to interact with the Prisma API through the GraphQL playground. Note that you'll need to run `yarn prisma token` to get an authorization token to access this endpoint. Then set a header like `Authorization: Bearer $TOKEN`.
+- You can visit `$PRISMA_ENDPOINT/$NODE_ENV` to interact with the Prisma API through the GraphQL playground. Note that you'll need to run `yarn prisma token` to get an authorization token to access this endpoint. Then set a header like `Authorization: Bearer $TOKEN`.
 
 ### Updating the public schema
 

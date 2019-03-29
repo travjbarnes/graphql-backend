@@ -19,9 +19,10 @@ export const Query: QueryResolvers.Type = {
     await checkPersonExists(ctx);
     // TODO: handle languages other than english!
     // TODO: paginate, don't limit number of results
+    const stage = process.env.NODE_ENV;
     const sqlQuery = `
       SELECT id, name, description, ts_rank(to_tsvector('english', name || ' ' || description), plainto_tsquery('english', '${searchQuery}')) AS rank
-      FROM "default$default"."Group"
+      FROM "wobbly$${stage}"."Group"
       WHERE to_tsvector('english', name || ' ' || description) @@ plainto_tsquery('english', '${searchQuery}')
       ORDER BY rank DESC
       LIMIT 25
