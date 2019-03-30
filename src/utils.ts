@@ -1,5 +1,6 @@
 import * as bcrypt from "bcryptjs";
 import * as crypto from "crypto";
+import { createRateLimitDirective } from "graphql-rate-limit";
 import { inflect } from "inflection";
 import * as Joi from "joi";
 import * as jwt from "jsonwebtoken";
@@ -71,6 +72,24 @@ export class AuthError extends Error {
 export class InvalidLoginError extends Error {
   constructor() {
     super("Incorrect email or password");
+  }
+}
+
+export class MissingFieldError extends Error {
+  constructor(requiredField: string) {
+    super(`Must have ${requiredField}.`);
+  }
+}
+
+export class NotFoundError extends Error {
+  constructor(recordType: string) {
+    super(`${recordType} not found.`);
+  }
+}
+
+export class MaxAttemptsError extends Error {
+  constructor() {
+    super("Too many attempts.");
   }
 }
 
@@ -153,3 +172,10 @@ export const getCode = (digits: number) => {
   }
   return result;
 };
+
+export const GraphQLRateLimit = createRateLimitDirective({
+  identifyContext: ctx => ctx.prisma.person.id,
+  formatError: ({ fieldName }) => {
+    return `Woah there, you are doing way too much ${fieldName}`;
+  }
+});

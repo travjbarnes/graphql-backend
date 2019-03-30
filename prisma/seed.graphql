@@ -23,6 +23,7 @@ mutation {
         token: "ExponentPushToken[aliceToken]"
       }
     }
+    resetCodeValidUntil: "2019-03-19T04:52:38+00:00"
   }) {
     id
   }
@@ -40,6 +41,8 @@ mutation {
       }
     }
     emailConfirmed: true
+    resetCodeValidUntil: "2019-03-19T04:52:38+00:00"
+    passwordResetCode: "111111"
     pushTokens: {
       create: {
         token: "ExponentPushToken[bobToken]"
@@ -55,7 +58,8 @@ mutation {
     email: "wobbly@wobbly.app"
     name: "Wobbly"
     password: ""  # not a valid hash, i.e. no-one can log in as this user
-    emailConfirmed: true
+    emailConfirmed: true,
+    resetCodeValidUntil: "2019-03-19T04:52:38+00:00",
   }) {
     id
   }

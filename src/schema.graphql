@@ -1,3 +1,10 @@
+directive @rateLimit(
+  max: Int, 
+  window: String,
+  message: String, 
+  identityArgs: [String], 
+) on FIELD_DEFINITION
+
 type Query {
   groups: [Group!]
   searchGroups(searchQuery: String!): [GroupSearchResponse!]
@@ -10,7 +17,11 @@ type Query {
 type Mutation {
   signup(email: String!, password: String!, name: String!): AuthPayload!
   login(email: String!, password: String!): AuthPayload!
+    @rateLimit(max: 5, window: "10m", identityArgs: ["email"], message: "Please wait 10 minutes and try again")
   confirmEmail(confirmationCode: String): Person!
+  sendPasswordReset(email: String): Boolean!
+  resetPassword(newPassword: String!, passwordResetCode: String!, email: String!): AuthPayload!
+    @rateLimit(max: 5, window: "10m", identityArgs: ["email"], message: "Please wait 10 minutes and try again")
 
   updatePerson(email: String, oldPassword: String, newPassword: String, name: String): Person!
   deletePerson(password: String): DeletionResponse!
@@ -41,7 +52,7 @@ type Person {
   id: ID!
   createdAt: DateTime!
   name: String!
-  email: String!
+  email: String! 
   emailConfirmed: Boolean!
   groups: [Group!]
 }

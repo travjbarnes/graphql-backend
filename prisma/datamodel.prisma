@@ -6,6 +6,8 @@ type Person {
     name: String!
     confirmationCode: String
     emailConfirmed: Boolean!
+    passwordResetCode: String
+    resetCodeValidUntil: DateTime!
     groups: [Group!]
     pushTokens: [PushToken!]
 }

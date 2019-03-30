@@ -20,6 +20,24 @@ mutation {
 }
 `;
 
+export const getSendPasswordResetMutation = (email: string) => `
+mutation {
+    sendPasswordReset(email: "${email}")
+}
+`;
+
+export const getResetPasswordMutation = (passwordResetCode: string, newPassword: string, email: string) => `
+mutation {
+    resetPassword(
+        passwordResetCode: "${passwordResetCode}",
+        newPassword: "${newPassword}",
+        email: "${email}"
+    ) {
+        token
+    }
+}
+`;
+
 export const getSearchQuery = (query: string) => `
 query {
     searchGroups(searchQuery: "${query}") {
