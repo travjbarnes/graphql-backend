@@ -72,17 +72,17 @@ export const person: Pick<
       throw new AuthError();
     }
     const personId = getPersonId(ctx);
-    const currentInfo = await ctx.prisma.person({ id: personId });
-    const valid = await bcrypt.compare(password, currentInfo.password);
+    const currentPassword = await ctx.prisma.person({ id: personId }).password();
+    const valid = await bcrypt.compare(password, currentPassword);
     if (!valid) {
       throw new AuthError();
     }
 
     await ctx.prisma.deletePerson({ id: personId });
     return {
-      id: currentInfo.email,
+      id: personId,
       success: true,
-      message: `Successfully deleted post`
+      message: `Successfully deleted person`
     };
   },
 

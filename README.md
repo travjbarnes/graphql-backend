@@ -49,6 +49,14 @@ The Prisma server and our backend server can live on different machines, or the 
 
 ## Development workflows
 
+### Testing
+- `yarn test:deployschema` deploys the current Prisma datamodel to the `test` stage on Prisma.
+- `yarn test:resetdb` resets the `test` stage (i.e. clears its data and re-seeds from `seed.graphql`).
+- `yarn test` runs all tests.
+
+If the `auth` test suite fails, run `yarn test:resetdb` before running tests again. This is because the suite
+creates a temporary test account that it only deletes at the end, and if this test account already exists, tests fail.
+
 ### Updating the datamodel
 
 - `yarn prisma generate` takes the Prisma datamodel and generates the code to interact with our DB (i.e. the code that lives in `./src/generated/prisma-client/`).
@@ -65,8 +73,8 @@ The Prisma server and our backend server can live on different machines, or the 
 
 - Merging into `develop` automatically deploys to our dev stack on Heroku.
 - When setting up a new stack, be sure to create an index on the Group table to enable fast full-text search:
-  - Something like `CREATE INDEX group_idx ON default$default."Group" USING GIN (to_tsvector('english', name || ' ' || description));`
-  - Make sure that `to_tsvector` has the same number of arguments as in our resolver, otherwise the index won't work. (i.e. if you explicitly specify `'english'`
+  - Something like `CREATE INDEX group_idx ON wobbly$production."Group" USING GIN (to_tsvector('english', name || ' ' || description));`
+  - Make sure that `to_tsvector` in this command has the same number of arguments as in our resolver, otherwise the index won't work. (i.e. if you explicitly specify `'english'`
     in one, you should also do it in the other).
 
 ## Documentation

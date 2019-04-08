@@ -8,6 +8,8 @@
     "dev": "dotenv -- nodemon -e ts,graphql -x ts-node src/index.ts",
     "build": "yarn codegen && rimraf dist && tsc && copyfiles -u 1 src/*.graphql dist",
     "test": "NODE_ENV=test dotenv -- jest --runInBand --forceExit",
+    "test:resetdb": "NODE_ENV=test yarn prisma reset --force && NODE_ENV=test yarn prisma seed",
+    "test:deployschema": "NODE_ENV=test yarn prisma deploy --force",
     "pretty": "prettier --write \"src/**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
     "lint": "yarn typecheck && tslint -p tsconfig.json -c tslint.json \"src/**/*.{ts,tsx}\"",

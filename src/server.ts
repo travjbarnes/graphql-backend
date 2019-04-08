@@ -11,7 +11,7 @@ import { AuthError, getPersonIdFromToken, GraphQLRateLimit } from "./utils";
 export const pubsub = new PubSub();
 export const PORT = process.env.NODE_ENV === "test" ? 4001 : parseInt(process.env.PORT || "4000", 10);
 
-const playground = process.env.NODE_ENV === "dev" ? { endpoint: "/" } : false;
+const playground = ["dev", "test"].indexOf(process.env.NODE_ENV || "") > -1 ? { endpoint: "/" } : false;
 const typeDefs = gql`
   ${fs.readFileSync(path.join(__dirname, "schema.graphql"), "utf8").toString()}
 `;

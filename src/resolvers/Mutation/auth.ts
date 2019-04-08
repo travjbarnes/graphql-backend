@@ -4,16 +4,13 @@ import * as jwt from "jsonwebtoken";
 import { sendPasswordReset } from "../../communications/email";
 import { sendConfirmationEmail } from "../../communications/email";
 import { MutationResolvers } from "../../generated/graphqlgen";
-import { DateTimeInput, Int } from "../../generated/prisma-client";
 import {
-  AuthError,
   checkForPwnedPassword,
   getCode,
   getPasswordHash,
   getPersonId,
   InvalidLoginError,
   MissingFieldError,
-  NotFoundError,
   validatePersonFields
 } from "../../utils";
 
@@ -41,8 +38,7 @@ export const auth: Pick<
       confirmationCode,
       email,
       name,
-      password: hashedPassword,
-      resetCodeValidUntil: new Date(0)
+      password: hashedPassword
     });
 
     const token = jwt.sign({ personId: person.id }, process.env.APP_SECRET);
@@ -122,7 +118,9 @@ export const auth: Pick<
       }
     });
 
-    await sendPasswordReset(email, passwordResetCode);
+    if (process.env.NODE_ENV !== "test") {
+      await sendPasswordReset(email, passwordResetCode);
+    }
     return true;
   },
   resetPassword: async (parent, { passwordResetCode, newPassword, email }, ctx) => {
@@ -141,7 +139,7 @@ export const auth: Pick<
     }
 
     const now = new Date();
-    const resetCodeValidUntil = new Date(person.resetCodeValidUntil);
+    const resetCodeValidUntil = new Date(person.resetCodeValidUntil || 0);
 
     if (resetCodeValidUntil < now) {
       throw new Error("Incorrect code");
@@ -159,7 +157,10 @@ export const auth: Pick<
       },
       data: {
         password: hashedPassword,
-        resetCodeValidUntil: new Date(0) // set to invalidate code
+        // @ts-ignore
+        passwordResetCode: null,
+        // @ts-ignore
+        resetCodeValidUntil: null // code can only be used once
       }
     });
 

@@ -7,16 +7,16 @@ type Person {
     confirmationCode: String
     emailConfirmed: Boolean!
     passwordResetCode: String
-    resetCodeValidUntil: DateTime!
+    resetCodeValidUntil: DateTime
     groups: [Group!]
-    pushTokens: [PushToken!]
+    pushTokens: [PushToken!] @relation(name: "PushTokens" onDelete: CASCADE)
 }
 
 # This is a separate model so that we can delete a given push token without needing to know the 
 # person it belongs to. This is useful if e.g. we start getting errors because a given token is no longer valid.
 type PushToken {
     id: ID! @unique
-    person: Person!
+    person: Person! @relation(name: "PushTokens")
     token: String! @unique
 }
 
