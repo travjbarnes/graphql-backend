@@ -9,6 +9,7 @@ before_install:
 before_script:
   - yarn prisma deploy
   - yarn codegen
+  - yarn danger ci
 after_success:
   - codecov
 cache:
