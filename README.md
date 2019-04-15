@@ -2,13 +2,7 @@
 
 The GraphQL backend server for [Wobbly](https://wobbly.app), written in TypeScript and based on Apollo Server.
 
-## Features
-
-- **Static type generation**: TypeScript types for GraphQL queries & mutations are generated in a build step
-- **GraphQL database:** Includes GraphQL database binding to [Prisma](https://www.prismagraphql.com) (running on Postgres)
-- **Tooling**: Out-of-the-box support for [GraphQL Playground](https://github.com/prisma/graphql-playground) & [query performance tracing](https://github.com/apollographql/apollo-tracing)
-- **Extensible**: Simple and flexible [data model](./prisma/datamodel.prisma) – easy to adjust and extend
-- **Realtime updates**: Support for GraphQL subscriptions
+* Please read our [Code of Conduct](https://github.com/Wobbly-App/wobbly-frontend/blob/develop/CODE-OF-CONDUCT.md)
 
 ## Structure
 
