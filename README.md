@@ -69,6 +69,11 @@ creates a temporary test account that it only deletes at the end, and if this te
 - Write your resolvers.
 - If you've set the `ENGINE_API_KEY` environment variable, run `apollo service:push --endpoint=http://localhost:4000` to push the new schema to Apollo Engine (while the local server is running).
 
+### Pull requests
+
+- All CI checks must pass for PRs to be merged.
+- One of these checks makes sure that a new entry was added to `CHANGELOG.md`. If you don't think your PR requires a changelog entry, use the string `#trivial` somewhere in your PR title or body. Then you'll override this check.
+
 ## Deployment workflows
 
 - Merging into `develop` automatically deploys to our dev stack on Heroku.
