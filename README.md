@@ -2,7 +2,8 @@
 
 The GraphQL backend server for [Wobbly](https://wobbly.app), written in TypeScript and based on Apollo Server.
 
-* Please read our [Code of Conduct](https://github.com/Wobbly-App/wobbly-frontend/blob/develop/CODE-OF-CONDUCT.md)
+* [Code of conduct](https://github.com/Wobbly-App/wobbly-frontend/blob/develop/CODE-OF-CONDUCT.md)
+* [Contributing guide](https://github.com/Wobbly-App/wobbly-frontend/blob/develop/CONTRIBUTING.md)
 
 ## Structure
 
